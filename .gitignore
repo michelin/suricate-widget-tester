@@ -1,3 +1,4 @@
-﻿widget-tester-backend/.idea
-widget-tester-backend/target
+﻿.idea
+target
 *.iml
+node_modules
