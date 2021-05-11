@@ -1,17 +1,6 @@
-widget:
-  # Path of the folder containing the widget to test
-  folder: D:\Projets\Suricate\widgets\content\github\widgets\count-issues
-  # List of parameters of the widgets. Parameters of the category should be also included
-  parameters:
-    SURI_GITHUB_ORG: michelin
-    SURI_GITHUB_PROJECT: suricate
-    SURI_ISSUES_STATE: open
-    WIDGET_CONFIG_GITHUB_TOKEN: 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
-  # Mocked previous data of the widget. Only use it if you need to compute something between the current data and the previous data
-  previousData: '{}'
-
-# Execute the widget behind a proxy
-proxy:
-  host:
-  port:
-  noProxyDomains:
+application:
+  cors:
+    allowedHeaders: 'Content-Type, Accept, Authorization, X-Requested-With'
+    allowedMethods: 'GET,POST,OPTIONS,DELETE,PUT'
+    allowedOrigins: '*'
+    maxAge: 3600

@@ -1,11 +1,12 @@
 package io.suricate.widget.tester.controllers;
 
+import io.suricate.widget.tester.model.dto.api.WidgetExecutionRequestDto;
+import io.suricate.widget.tester.model.dto.nashorn.NashornResponse;
+import io.suricate.widget.tester.model.enums.ApiErrorEnum;
 import io.suricate.widget.tester.services.api.WidgetService;
+import io.suricate.widget.tester.utils.exceptions.ApiException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
@@ -34,8 +35,14 @@ public class WidgetController {
     /**
      * Run the widget configured in the application properties
      */
-    @GetMapping(value = "/v1/run")
-    public void runWidget() throws IOException {
-      this.widgetService.runWidget();
+    @PostMapping(value = "/v1/run")
+    public void runWidget(@RequestBody WidgetExecutionRequestDto widgetExecutionRequestDto) throws IOException {
+        NashornResponse nashornResponse = this.widgetService.runWidget(widgetExecutionRequestDto);
+
+        if (nashornResponse.getError() != null) {
+          throw new ApiException(nashornResponse.getLog(), ApiErrorEnum.INTERNAL_SERVER_ERROR);
+        }
+
+
     }
 }

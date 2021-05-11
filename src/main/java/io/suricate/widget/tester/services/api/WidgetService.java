@@ -1,5 +1,6 @@
 package io.suricate.widget.tester.services.api;
 
+import io.suricate.widget.tester.model.dto.api.WidgetExecutionRequestDto;
 import io.suricate.widget.tester.model.dto.nashorn.NashornRequest;
 import io.suricate.widget.tester.model.dto.nashorn.NashornResponse;
 import io.suricate.widget.tester.model.dto.widget.WidgetDto;
@@ -29,55 +30,26 @@ public class WidgetService {
     private static final Logger LOGGER = LoggerFactory.getLogger(WidgetService.class);
 
     /**
-     * Application properties
-     */
-    ApplicationProperties applicationProperties;
-
-    /**
-     * Constructor
-     *
-     * @param applicationProperties The application properties
-     */
-    @Autowired
-    public WidgetService(ApplicationProperties applicationProperties) {
-      this.applicationProperties = applicationProperties;
-    }
-
-    /**
      * Run the widget configured in the application properties
      */
-    public void runWidget() throws IOException {
-        WidgetDto widget = WidgetUtils.getWidget(new File(this.applicationProperties.getFolder()));
+    public NashornResponse runWidget(WidgetExecutionRequestDto widgetExecutionRequestDto) throws IOException {
+        WidgetDto widget = WidgetUtils.getWidget(new File(widgetExecutionRequestDto.getPath()));
 
         StringBuilder propertiesBuilder = new StringBuilder();
 
-        this.applicationProperties.getParameters().forEach((key, value) -> propertiesBuilder
-          .append(key)
+      widgetExecutionRequestDto.getParameters().forEach(parameter -> propertiesBuilder
+          .append(parameter.getName())
           .append("=")
-          .append(value)
+          .append(parameter.getValue())
           .append("\n"));
 
         NashornRequest nashornRequest = new NashornRequest(propertiesBuilder.toString(), widget.getBackendJs(),
-          this.applicationProperties.getPreviousData(), widget.getDelay(), 1L, 1L, new Date()
+            widgetExecutionRequestDto.getPreviousData(), widget.getDelay(), 1L, 1L, new Date()
         );
 
         NashornRequestWidgetExecutionAsyncTask nashornRequestWidgetExecutionAsyncTask = new NashornRequestWidgetExecutionAsyncTask(nashornRequest,
           WidgetUtils.getWidgetParametersForNashorn(widget));
 
-        NashornResponse response = nashornRequestWidgetExecutionAsyncTask.call();
-
-        if (StringUtils.isNotBlank(response.getLog())) {
-            WidgetService.LOGGER.info("----------- START LOG ---------");
-            WidgetService.LOGGER.info(response.getLog());
-            WidgetService.LOGGER.info("----------- END LOG ---------");
-        }
-
-        WidgetService.LOGGER.info("----------- START ERROR ---------");
-        WidgetService.LOGGER.info("{}", response.getError());
-        WidgetService.LOGGER.info("----------- END ERROR ---------");
-
-        WidgetService.LOGGER.info("----------- START ERROR ---------");
-        WidgetService.LOGGER.info("{}", JsonUtils.prettifyJson(response.getData()));
-        WidgetService.LOGGER.info("------------ END RESPONSE --------");
+        return nashornRequestWidgetExecutionAsyncTask.call();
     }
 }

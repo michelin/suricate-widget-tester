@@ -43,18 +43,5 @@ public final class JsonUtils {
 
         return false;
     }
-
-    /**
-     * Prettify JSON
-     *
-     * @param uglyJson The JSON to prettify
-     * @return The prettified JSON
-     */
-    public static String prettifyJson(String uglyJson) {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        JsonParser jsonParser = new JsonParser();
-        JsonElement jsonElement = jsonParser.parse(uglyJson);
-        return gson.toJson(jsonElement);
-    }
 }
 

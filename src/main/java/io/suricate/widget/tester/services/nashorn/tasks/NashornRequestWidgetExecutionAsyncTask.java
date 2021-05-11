@@ -19,6 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.script.*;
+import java.io.InterruptedIOException;
 import java.io.StringWriter;
 import java.net.SocketException;
 import java.net.UnknownHostException;
@@ -119,32 +120,27 @@ public class NashornRequestWidgetExecutionAsyncTask implements Callable<NashornR
                     LOGGER.debug("The JSON response obtained after the execution of the Nashorn request of the widget instance {} is invalid", nashornRequest.getProjectWidgetId());
                     LOGGER.debug("The JSON response is: {}", json);
 
-                    nashornResponse.setLog(sw.toString() + "\nThe JSON response is not valid - " + json);
+                    nashornResponse.setLog(sw + "\nThe JSON response is not valid - " + json);
                     nashornResponse.setError(nashornRequest.isAlreadySuccess() ? NashornErrorTypeEnum.ERROR : NashornErrorTypeEnum.FATAL);
                 }
             }
         } catch (Exception exception) {
-            LOGGER.error("An error has occurred during the Nashorn request execution of the widget instance {}", nashornRequest.getProjectWidgetId(), exception);
-
-            // Check timeout error and remote error
             Throwable rootCause = ExceptionUtils.getRootCause(exception);
 
-            if (isFatalError(exception, rootCause)) {
-                nashornResponse.setError(NashornErrorTypeEnum.FATAL);
+            // Do not set logs during an interruption, as it is caused by a canceling
+            // of the Nashorn request, the return Nashorn response will not be processed by the NashornRequestResultAsyncTask
+            if (rootCause instanceof InterruptedIOException) {
+              LOGGER.info("The execution of the widget instance {} has been interrupted", nashornRequest.getProjectWidgetId());
             } else {
-                nashornResponse.setError(NashornErrorTypeEnum.ERROR);
-            }
+              LOGGER.error("An error has occurred during the Nashorn request execution of the widget instance {}", nashornRequest.getProjectWidgetId(), exception);
 
-            if (rootCause instanceof RequestException) {
-                nashornResponse.setLog("Service Response:\n\n" + ((RequestException) rootCause).getResponse() + "\n\nTechnical Data:\n\n" + ((RequestException) rootCause).getTechnicalData());
-            } else if (rootCause instanceof SocketException) {
-                LOGGER.error("An error has been thrown by the http call during the script execution of the widget instance {}", nashornRequest.getProjectWidgetId());
-                nashornResponse.setLog("An error has been thrown by the http call during the script execution of the widget instance " + nashornRequest.getProjectWidgetId() + ". " + prettify(ExceptionUtils.getRootCauseMessage(exception)));
-            } else if (rootCause instanceof ECMAException) {
-                LOGGER.error("An error has been thrown during the script execution of the widget instance {}", nashornRequest.getProjectWidgetId());
-                nashornResponse.setLog("An error has been thrown during the script execution of the widget instance " + nashornRequest.getProjectWidgetId() + ". " + prettify(ExceptionUtils.getRootCauseMessage(exception)));
-            } else {
-                nashornResponse.setLog(prettify(ExceptionUtils.getRootCauseMessage(exception)));
+              if (isFatalError(exception, rootCause)) {
+                nashornResponse.setError(NashornErrorTypeEnum.FATAL);
+              } else {
+                nashornResponse.setError(NashornErrorTypeEnum.ERROR);
+              }
+
+              nashornResponse.setLog(ExceptionUtils.getRootCauseMessage(exception));
             }
         } finally {
             nashornResponse.setProjectId(nashornRequest.getProjectId());

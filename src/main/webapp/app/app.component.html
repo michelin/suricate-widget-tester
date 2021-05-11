@@ -1,6 +1,74 @@
-<section class="run-widget-section">
-    <button mat-stroked-button color="primary">Run widget</button>
-</section>
+<div class="main">
+  <div class="form-div">
+    <form class="run-widget-form" [formGroup]="runWidgetForm" (ngSubmit)="runWidget()">
+      <h2>Widget configuration</h2>
 
-<mat-divider></mat-divider>
+      <mat-form-field class="widget-path" appearance="fill">
+        <mat-label>Widget path</mat-label>
+        <input matInput formControlName="path" required>
+        <mat-error *ngIf="checkError('path', 'required')">The widget path is required</mat-error>
+      </mat-form-field>
 
+      <mat-form-field class="widget-path" appearance="fill">
+        <mat-label>Previous execution data</mat-label>
+        <input matInput formControlName="previousData">
+      </mat-form-field>
+
+      <div class="widget-parameters-title-div">
+        <h2>Widget parameters configuration</h2>
+        <button mat-icon-button type="button" (click)="addParameter()" color="primary">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+
+      <div formArrayName="parameters">
+        <div class="widget-parameters-div" *ngFor="let widgetParameter of parameters.controls; let i = index" [formGroupName]="i">
+          <mat-form-field appearance="fill">
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="parameterName">
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <mat-label>Value</mat-label>
+            <input matInput formControlName="parameterValue">
+          </mat-form-field>
+
+          <button mat-icon-button (click)="removeParameter(i)" color="primary">
+            <mat-icon>remove</mat-icon>
+          </button>
+        </div>
+      </div>
+
+      <h2>Proxy configuration</h2>
+
+      <mat-form-field class="widget-path" appearance="fill">
+        <mat-label>Host</mat-label>
+        <input matInput formControlName="proxyHost">
+      </mat-form-field>
+
+      <mat-form-field class="widget-path" appearance="fill">
+        <mat-label>Port</mat-label>
+        <input matInput type="number" formControlName="proxyPort">
+      </mat-form-field>
+
+      <mat-form-field class="widget-path" appearance="fill">
+        <mat-label>No proxy domains</mat-label>
+        <input matInput formControlName="noProxyDomains">
+      </mat-form-field>
+
+      <div class="run-widget-button-div">
+        <button mat-stroked-button color="primary">Run widget</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="response-main-div">
+    <div class="response-content-div">
+      <h2>Response</h2>
+      <div *ngIf="responseError">
+        <h3>An error has occurred during the widget execution:</h3>
+        <p>{{ responseError }}</p>
+      </div>
+    </div>
+  </div>
+</div>

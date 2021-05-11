@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.cors.CorsConfiguration;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,12 +12,11 @@ import java.util.Map;
 @Getter
 @Setter
 @Configuration
-@ConfigurationProperties(prefix = "widget")
+@ConfigurationProperties(prefix = "application", ignoreUnknownFields = false)
 public class ApplicationProperties {
 
-    private String folder;
-
-    private final Map<String, String> parameters = new HashMap<>();
-
-    private String previousData;
+    /**
+     * Cors properties
+     */
+    public final CorsConfiguration cors = new CorsConfiguration();
 }
