@@ -12,7 +12,7 @@ on:
       - '**'
       
 jobs:
-  Back-End:
+  Widget-Tester:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout project
