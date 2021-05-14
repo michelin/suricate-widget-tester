@@ -1,7 +1,9 @@
 package io.suricate.widget.tester.model.dto.nashorn;
 
 import io.suricate.widget.tester.model.dto.AbstractDto;
+import io.suricate.widget.tester.utils.JsonUtils;
 import lombok.*;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Date;
 
@@ -69,5 +71,18 @@ public class NashornRequest extends AbstractDto {
         this.projectWidgetId = technicalId;
         this.delay = delay;
         this.alreadySuccess = lastSuccess != null;
+    }
+
+    /**
+     * Validate the Nashorn request
+     *
+     * @return true if the data is valid, false otherwise
+     */
+    public boolean isValid() {
+      return projectId != null
+        && projectWidgetId != null
+        && JsonUtils.isValid(previousData)
+        && StringUtils.isNotEmpty(script)
+        && delay != null;
     }
 }

@@ -52,15 +52,15 @@ public class WidgetController {
      */
     @PostMapping(value = "/v1/run")
     public ResponseEntity<ProjectWidgetResponseDto> runWidget(@RequestBody WidgetExecutionRequestDto widgetExecutionRequestDto) throws IOException {
-        NashornResponse nashornResponse = this.widgetService.runWidget(widgetExecutionRequestDto);
+        ProjectWidgetResponseDto projectWidgetResponseDto = this.widgetService.runWidget(widgetExecutionRequestDto);
 
-        if (nashornResponse.getError() != null) {
-          throw new ApiException(nashornResponse.getLog(), ApiErrorEnum.INTERNAL_SERVER_ERROR);
+        if (projectWidgetResponseDto.getLog() != null) {
+          throw new ApiException(projectWidgetResponseDto.getLog(), ApiErrorEnum.INTERNAL_SERVER_ERROR);
         }
 
         return ResponseEntity
           .ok()
           .contentType(MediaType.APPLICATION_JSON)
-          .body(nashornResponse.getProjectWidget());
+          .body(projectWidgetResponseDto);
     }
 }

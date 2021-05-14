@@ -13,7 +13,7 @@ export class DashboardScreenComponent implements OnInit, OnChanges, AfterViewIni
    * The project widget list
    */
   @Input()
-  public projectWidgets!: ProjectWidget[];
+  public projectWidget: ProjectWidget | undefined;
 
   /**
    * The error message that can occur during the
@@ -70,8 +70,8 @@ export class DashboardScreenComponent implements OnInit, OnChanges, AfterViewIni
   private initGridStackItems(): void {
     this.gridStackItems = [];
 
-    if (this.projectWidgets) {
-      this.startGridStackItems = this.getGridStackItemsFromProjectWidgets(this.projectWidgets);
+    if (this.projectWidget) {
+      this.startGridStackItems = this.getGridStackItemsFromProjectWidgets(this.projectWidget);
       // Make a copy with a new reference
       this.gridStackItems = JSON.parse(JSON.stringify(this.startGridStackItems));
     }
@@ -96,18 +96,18 @@ export class DashboardScreenComponent implements OnInit, OnChanges, AfterViewIni
   /**
    * Get the list of GridItemConfigs from project widget
    *
-   * @param projectWidgets The project widgets
+   * @param projectWidget The project widgets
    */
-  private getGridStackItemsFromProjectWidgets(projectWidgets: ProjectWidget[]): NgGridItemConfig[] {
+  private getGridStackItemsFromProjectWidgets(projectWidget: ProjectWidget): NgGridItemConfig[] {
     const gridStackItemsConfig: NgGridItemConfig[] = [];
 
-    if (this.projectWidgets && this.projectWidgets[0]) {
+    if (this.projectWidget) {
       gridStackItemsConfig.push({
         col: 0,
         row: 0,
         sizey: 1,
         sizex: 1,
-        payload: this.projectWidgets[0]
+        payload: this.projectWidget
       });
     }
 

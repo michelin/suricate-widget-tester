@@ -12,6 +12,7 @@ import io.suricate.widget.tester.model.dto.nashorn.NashornResponse;
 import io.suricate.widget.tester.model.dto.widget.WidgetDto;
 import io.suricate.widget.tester.model.dto.widget.WidgetParamDto;
 import io.suricate.widget.tester.properties.ApplicationProperties;
+import io.suricate.widget.tester.services.nashorn.services.NashornService;
 import io.suricate.widget.tester.services.nashorn.tasks.NashornRequestWidgetExecutionAsyncTask;
 import io.suricate.widget.tester.utils.JavaScriptUtils;
 import io.suricate.widget.tester.utils.JsonUtils;
@@ -47,52 +48,66 @@ public class WidgetService {
     private final MustacheFactory mustacheFactory;
 
     /**
+     * The nashorn service
+     */
+    private NashornService nashornService;
+
+    /**
      * Constructor
      *
      * @param mustacheFactory The mustache factory (HTML template)
+     * @param nashornService The nashorn service
      */
     @Autowired
-    public WidgetService(MustacheFactory mustacheFactory) {
+    public WidgetService(MustacheFactory mustacheFactory,
+                         NashornService nashornService) {
       this.mustacheFactory = mustacheFactory;
+      this.nashornService = nashornService;
     }
 
     /**
      * Run the widget configured in the application properties
      */
-    public NashornResponse runWidget(WidgetExecutionRequestDto widgetExecutionRequestDto) throws IOException {
+    public ProjectWidgetResponseDto runWidget(WidgetExecutionRequestDto widgetExecutionRequestDto) throws IOException {
         WidgetDto widget = WidgetUtils.getWidget(new File(widgetExecutionRequestDto.getPath()));
 
         StringBuilder propertiesBuilder = new StringBuilder();
 
-      widgetExecutionRequestDto.getParameters().forEach(parameter -> propertiesBuilder
-          .append(parameter.getName())
-          .append("=")
-          .append(parameter.getValue())
-          .append("\n"));
+        widgetExecutionRequestDto.getParameters().forEach(parameter -> propertiesBuilder
+            .append(parameter.getName())
+            .append("=")
+            .append(parameter.getValue())
+            .append("\n"));
 
         NashornRequest nashornRequest = new NashornRequest(propertiesBuilder.toString(), widget.getBackendJs(),
             widgetExecutionRequestDto.getPreviousData(), widget.getDelay(), 1L, 1L, new Date()
         );
 
-        NashornRequestWidgetExecutionAsyncTask nashornRequestWidgetExecutionAsyncTask = new NashornRequestWidgetExecutionAsyncTask(nashornRequest,
-          WidgetUtils.getWidgetParametersForNashorn(widget));
-
-        NashornResponse nashornResponse = nashornRequestWidgetExecutionAsyncTask.call();
-
-        // Failure
-        if (nashornResponse.getError() != null) {
-            return nashornResponse;
-        }
-
-        // Success
         ProjectWidgetResponseDto projectWidgetResponseDto = new ProjectWidgetResponseDto();
-        projectWidgetResponseDto.setInstantiateHtml(this.instantiateProjectWidgetHtml(widget, nashornResponse.getData(), propertiesBuilder.toString()));
         projectWidgetResponseDto.setTechnicalName(widget.getTechnicalName());
         projectWidgetResponseDto.setCssContent(widget.getCssContent());
 
-        nashornResponse.setProjectWidget(projectWidgetResponseDto);
+        String data = StringUtils.EMPTY;
 
-        return nashornResponse;
+        if (this.nashornService.isNashornRequestExecutable(nashornRequest)) {
+            NashornRequestWidgetExecutionAsyncTask nashornRequestWidgetExecutionAsyncTask = new NashornRequestWidgetExecutionAsyncTask(nashornRequest,
+              WidgetUtils.getWidgetParametersForNashorn(widget));
+
+            NashornResponse nashornResponse = nashornRequestWidgetExecutionAsyncTask.call();
+
+            // Failure
+            if (nashornResponse.getError() != null) {
+                projectWidgetResponseDto.setLog(nashornResponse.getLog());
+                return projectWidgetResponseDto;
+            }
+
+            data = nashornResponse.getData();
+        }
+
+        // Success
+        projectWidgetResponseDto.setInstantiateHtml(this.instantiateProjectWidgetHtml(widget, data, propertiesBuilder.toString()));
+
+        return projectWidgetResponseDto;
     }
 
     /**

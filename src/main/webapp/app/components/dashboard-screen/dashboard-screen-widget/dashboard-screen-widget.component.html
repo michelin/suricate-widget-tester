@@ -16,7 +16,7 @@
     <!--                 WIDGET HTML                   -->
     <!--------------------------------------------------->
     <div class="grid-stack-item-content">
-      <div class="widget-html-content" [innerHTML]="projectWidget?.instantiateHtml | safeHtml"></div>
+      <div class="widget-html-content" [innerHTML]="projectWidget?.instantiateHtml! | safeHtml"></div>
     </div>
   </ng-container>
 </div>

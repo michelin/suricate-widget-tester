@@ -27,4 +27,9 @@ public class ProjectWidgetResponseDto extends AbstractDto {
      * CSS content
      */
     private String cssContent;
+
+    /**
+     * The log of the last nashorn execution
+     */
+    private String log;
 }
