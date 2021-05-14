@@ -1,8 +1,5 @@
-import { Component } from '@angular/core';
-import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {HttpWidgetService} from "./services/backend/http-widget/http-widget.service";
-import {WidgetExecutionRequest} from "./models/widget-execution-request/widget-execution-request";
-import {ProjectWidget} from "./models/project-widget/project-widget";
+import {Component} from '@angular/core';
+import {ProjectWidget} from './models/project-widget/project-widget';
 
 @Component({
   selector: 'suricate-widget-tester-root',
@@ -31,7 +28,7 @@ export class AppComponent {
    *
    * @param projectWidget The configured project widget
    */
-  setConfiguredProjectWidget(projectWidget: ProjectWidget) {
+  setConfiguredProjectWidget(projectWidget: ProjectWidget): void {
     this.projectWidget = projectWidget;
   }
 
@@ -40,7 +37,7 @@ export class AppComponent {
    *
    * @param errorMessage The widget execution error message
    */
-  setWidgetExecutionErrorMessage(errorMessage: string) {
+  setWidgetExecutionErrorMessage(errorMessage: string): void {
     this.widgetExecutionErrorMessage = errorMessage;
   }
 }

@@ -1,12 +1,11 @@
-import {Component, OnInit, Output} from '@angular/core';
-import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {WidgetExecutionRequest} from "../../models/widget-execution-request/widget-execution-request";
-import {ProjectWidget} from "../../models/project-widget/project-widget";
-import {HttpWidgetService} from "../../services/backend/http-widget/http-widget.service";
-import { EventEmitter } from "@angular/core";
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {WidgetExecutionRequest} from '../../models/widget-execution-request/widget-execution-request';
+import {ProjectWidget} from '../../models/project-widget/project-widget';
+import {HttpWidgetService} from '../../services/backend/http-widget/http-widget.service';
 
 @Component({
-  selector: 'widget-configuration',
+  selector: 'suricate-widget-configuration',
   templateUrl: './widget-configuration.component.html',
   styleUrls: ['./widget-configuration.component.scss']
 })
@@ -59,7 +58,7 @@ export class WidgetConfigurationComponent implements OnInit {
   /**
    * Run the widget by validating the form
    */
-  public runWidget() {
+  public runWidget(): void {
     if (!this.runWidgetForm.invalid) {
       const widgetExecutionRequest: WidgetExecutionRequest = {
         path: this.runWidgetForm.value.path,
@@ -81,7 +80,7 @@ export class WidgetConfigurationComponent implements OnInit {
               value: parameter.parameterValue
             });
           }
-        })
+        });
       }
 
       this.httpWidgetService.runWidget(widgetExecutionRequest)
@@ -92,7 +91,7 @@ export class WidgetConfigurationComponent implements OnInit {
           },
           error => {
             this.projectWidgetEmitEvent.emit(undefined);
-            this.widgetExecutionErrorEmitEvent.emit(error.error.message)
+            this.widgetExecutionErrorEmitEvent.emit(error.error.message);
           }
         );
     }
@@ -108,7 +107,7 @@ export class WidgetConfigurationComponent implements OnInit {
   /**
    * Add a widget parameter form field
    */
-  public addParameter() {
+  public addParameter(): void {
     this.parameters.push(this.buildWidgetParameterFormField());
   }
 
@@ -117,8 +116,8 @@ export class WidgetConfigurationComponent implements OnInit {
    *
    * @param index The index of the form field to remove
    */
-  public removeParameter(index: number) {
-    this.parameters.removeAt(index)
+  public removeParameter(index: number): void {
+    this.parameters.removeAt(index);
   }
 
   /**
@@ -137,6 +136,6 @@ export class WidgetConfigurationComponent implements OnInit {
    * @param value The value to check
    */
   public isNotBlank(value: string): boolean {
-    return value != null && value != '';
+    return value != null && value !== '';
   }
 }

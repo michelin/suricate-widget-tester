@@ -1,6 +1,6 @@
-import {AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
-import {NgGridConfig, NgGridItemConfig} from "angular2-grid";
-import {ProjectWidget} from "../../models/project-widget/project-widget";
+import {AfterViewInit, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {NgGridConfig, NgGridItemConfig} from 'angular2-grid';
+import {ProjectWidget} from '../../models/project-widget/project-widget';
 
 @Component({
   selector: 'suricate-dashboard-screen',
@@ -50,11 +50,11 @@ export class DashboardScreenComponent implements OnInit, OnChanges, AfterViewIni
   /**
    * Changes method
    *
-   * @param changes
+   * @param changes The changes event
    */
   ngOnChanges(changes: SimpleChanges): void {
     this.initGridStackOptions();
-    this.initGridStackItems()
+    this.initGridStackItems();
   }
 
   /**
@@ -102,7 +102,6 @@ export class DashboardScreenComponent implements OnInit, OnChanges, AfterViewIni
     const gridStackItemsConfig: NgGridItemConfig[] = [];
 
     if (this.projectWidgets && this.projectWidgets[0]) {
-      console.warn(this.projectWidgets)
       gridStackItemsConfig.push({
         col: 0,
         row: 0,
@@ -119,7 +118,7 @@ export class DashboardScreenComponent implements OnInit, OnChanges, AfterViewIni
    * For each JS libraries linked with the project, create a script element with the URL of the library
    * and a callback which notify subscribers when the library is loaded.
    */
-  public addExternalJSLibrariesToTheDOM() {
+  public addExternalJSLibrariesToTheDOM(): void {
 
   }
 }
