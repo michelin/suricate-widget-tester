@@ -24,10 +24,10 @@ export class WidgetHtmlDirective implements OnInit {
    * It executes the scripts again and render the widget properly.
    * This is called once the HTML of the widget is fully loaded.
    */
-  private reloadJSScripts() {
-    const scripts: HTMLScriptElement[] = (<HTMLScriptElement[]>(
-      Array.from(this.elementRef.nativeElement.getElementsByTagName('script'))
-    )).filter(currentScript => currentScript.src || currentScript.innerHTML);
+  private reloadJSScripts(): void {
+    const scripts: HTMLScriptElement[] = (Array.from(
+      this.elementRef.nativeElement.getElementsByTagName('script')) as HTMLScriptElement[]
+    ).filter(currentScript => currentScript.src || currentScript.innerHTML);
 
     Array.from(Array(scripts.length).keys()).forEach((index: number) => {
       const script = scripts[index];
@@ -36,7 +36,10 @@ export class WidgetHtmlDirective implements OnInit {
       copyScript.type = script.type ? script.type : 'text/javascript';
       copyScript.innerHTML = script.innerHTML;
       copyScript.async = false;
-      script.parentNode!.replaceChild(copyScript, script);
+
+      if (script.parentNode != null) {
+        script.parentNode.replaceChild(copyScript, script);
+      }
     });
   }
 }

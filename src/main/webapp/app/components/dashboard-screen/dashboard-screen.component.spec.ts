@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DashboardScreenComponent } from './dashboard-screen.component';
+import {MockModule} from '../../mock/mock.module';
 
 describe('WidgetResponseComponent', () => {
   let component: DashboardScreenComponent;
@@ -8,7 +9,8 @@ describe('WidgetResponseComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DashboardScreenComponent ]
+      imports: [MockModule],
+      declarations: [DashboardScreenComponent]
     })
     .compileComponents();
   });

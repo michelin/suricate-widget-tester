@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "widget-front": {
+    "widget-tester-front": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -77,18 +77,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "widget-front:build"
+            "browserTarget": "widget-tester-front:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "widget-front:build:production"
+              "browserTarget": "widget-tester-front:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "widget-front:build"
+            "browserTarget": "widget-tester-front:build"
           }
         },
         "test": {
@@ -132,16 +132,16 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "protractor.conf.js",
-            "devServerTarget": "widget-front:serve"
+            "devServerTarget": "widget-tester-front:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "widget-front:serve:production"
+              "devServerTarget": "widget-tester-front:serve:production"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "widget-front"
+  "defaultProject": "widget-tester-front"
 }
