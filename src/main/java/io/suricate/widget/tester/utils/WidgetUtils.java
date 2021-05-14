@@ -3,6 +3,7 @@ package io.suricate.widget.tester.utils;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import io.suricate.widget.tester.model.dto.library.LibraryDto;
 import io.suricate.widget.tester.model.dto.nashorn.WidgetVariableResponse;
 import io.suricate.widget.tester.model.dto.widget.WidgetDto;
 import io.suricate.widget.tester.model.dto.widget.WidgetParamDto;
@@ -36,6 +37,34 @@ public class WidgetUtils {
     static {
         mapper = new ObjectMapper(new YAMLFactory());
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    }
+
+    /**
+     * Method used to parse library folder
+     *
+     * @param rootFolder the root library folder
+     * @return the list of library
+     */
+    public static List<LibraryDto> parseLibraryFolder(File rootFolder) {
+      List<LibraryDto> libraries = null;
+
+      try {
+        List<File> list = FilesUtils.getFiles(rootFolder);
+
+        if (!list.isEmpty()) {
+          libraries = new ArrayList<>();
+
+          for (File file : list) {
+            LibraryDto lib = new LibraryDto();
+            lib.setAsset(FileUtils.readFileToByteArray(file));
+            lib.setTechnicalName(file.getName());
+            libraries.add(lib);
+          }
+        }
+      } catch (Exception e) {
+        LOGGER.error(e.getMessage(), e);
+      }
+      return libraries;
     }
 
     /**

@@ -27,6 +27,7 @@
     "material-design-icons-iconfont": "^5.0.1",
     "angular2-grid": "^4.0.0",
     "classlist.js": "^1.1.20150312",
+    "jquery": "^3.5.0",
     "normalize-scss": "^7.0.1",
     "rxjs": "6.5.3",
     "tslib": "^2.0.0",

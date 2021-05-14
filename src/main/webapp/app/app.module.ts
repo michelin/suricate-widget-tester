@@ -17,6 +17,7 @@ import {WidgetConfigurationComponent} from './components/widget-configuration/wi
 import {DashboardScreenComponent} from './components/dashboard-screen/dashboard-screen.component';
 import {NgGridModule} from 'angular2-grid';
 import {DashboardScreenWidgetComponent} from './components/dashboard-screen/dashboard-screen-widget/dashboard-screen-widget.component';
+import {WidgetHtmlDirective} from "./directives/widget-html.directive";
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import {DashboardScreenWidgetComponent} from './components/dashboard-screen/dash
     SafeHtmlPipe,
     WidgetConfigurationComponent,
     DashboardScreenComponent,
-    DashboardScreenWidgetComponent
+    DashboardScreenWidgetComponent,
+    WidgetHtmlDirective
   ],
   imports: [
     MatIconModule,

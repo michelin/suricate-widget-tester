@@ -39,7 +39,9 @@
             "styles": [
               "src/main/webapp/sass/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -109,7 +111,9 @@
             "styles": [
               "src/main/webapp/sass/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js"
+            ]
           }
         },
         "lint": {

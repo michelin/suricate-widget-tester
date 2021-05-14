@@ -7,15 +7,14 @@ import com.github.mustachejava.MustacheException;
 import com.github.mustachejava.MustacheFactory;
 import io.suricate.widget.tester.model.dto.api.ProjectWidgetResponseDto;
 import io.suricate.widget.tester.model.dto.api.WidgetExecutionRequestDto;
+import io.suricate.widget.tester.model.dto.library.LibraryDto;
 import io.suricate.widget.tester.model.dto.nashorn.NashornRequest;
 import io.suricate.widget.tester.model.dto.nashorn.NashornResponse;
 import io.suricate.widget.tester.model.dto.widget.WidgetDto;
 import io.suricate.widget.tester.model.dto.widget.WidgetParamDto;
-import io.suricate.widget.tester.properties.ApplicationProperties;
 import io.suricate.widget.tester.services.nashorn.services.NashornService;
 import io.suricate.widget.tester.services.nashorn.tasks.NashornRequestWidgetExecutionAsyncTask;
 import io.suricate.widget.tester.utils.JavaScriptUtils;
-import io.suricate.widget.tester.utils.JsonUtils;
 import io.suricate.widget.tester.utils.PropertiesUtils;
 import io.suricate.widget.tester.utils.WidgetUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -29,6 +28,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -69,7 +69,20 @@ public class WidgetService {
      * Run the widget configured in the application properties
      */
     public ProjectWidgetResponseDto runWidget(WidgetExecutionRequestDto widgetExecutionRequestDto) throws IOException {
-        WidgetDto widget = WidgetUtils.getWidget(new File(widgetExecutionRequestDto.getPath()));
+        // Load libraries
+        File librariesFolder = new File(widgetExecutionRequestDto.getPath());
+
+        while (!librariesFolder.getPath().endsWith("content")) {
+          librariesFolder = librariesFolder.getParentFile();
+        }
+
+        librariesFolder = new File(librariesFolder.getParentFile().getPath() + "/libraries");
+
+        List<LibraryDto> libraries = WidgetUtils.parseLibraryFolder(librariesFolder);
+
+        // Load widget
+        File widgetFolder = new File(widgetExecutionRequestDto.getPath());
+        WidgetDto widget = WidgetUtils.getWidget(widgetFolder);
 
         StringBuilder propertiesBuilder = new StringBuilder();
 
@@ -87,7 +100,7 @@ public class WidgetService {
         projectWidgetResponseDto.setTechnicalName(widget.getTechnicalName());
         projectWidgetResponseDto.setCssContent(widget.getCssContent());
 
-        String data = StringUtils.EMPTY;
+        String data = "{}";
 
         if (this.nashornService.isNashornRequestExecutable(nashornRequest)) {
             NashornRequestWidgetExecutionAsyncTask nashornRequestWidgetExecutionAsyncTask = new NashornRequestWidgetExecutionAsyncTask(nashornRequest,
