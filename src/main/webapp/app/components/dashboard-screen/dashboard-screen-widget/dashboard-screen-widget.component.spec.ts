@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DashboardScreenWidgetComponent } from './dashboard-screen-widget.component';
+import {SafeHtmlPipe} from '../../../pipes/safe-html/safe-html.pipe';
 
 describe('DashboardScreenWidgetComponent', () => {
   let component: DashboardScreenWidgetComponent;
@@ -8,7 +9,7 @@ describe('DashboardScreenWidgetComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DashboardScreenWidgetComponent ]
+      declarations: [ DashboardScreenWidgetComponent, SafeHtmlPipe ]
     })
     .compileComponents();
   });
