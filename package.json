@@ -22,7 +22,11 @@
     "@angular/platform-browser": "^11.2.12",
     "@angular/platform-browser-dynamic": "^11.2.12",
     "@angular/router": "^11.2.12",
+    "@fortawesome/fontawesome-free": "^5.11.2",
+    "material-design-icons-iconfont": "^5.0.1",
+    "angular2-grid": "^4.0.0",
     "classlist.js": "^1.1.20150312",
+    "normalize-scss": "^7.0.1",
     "rxjs": "6.5.3",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"

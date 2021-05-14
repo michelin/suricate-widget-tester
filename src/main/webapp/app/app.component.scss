@@ -1,44 +1,10 @@
 .main {
-  display: flex;
-  max-width: 1200px;
+  max-width: 700px;
   margin: auto;
 }
-
-.form-div {
-  min-width: 600px;
-  margin: 15px auto;
-  border-right: 0.5px solid black;
-}
-
-.run-widget-form, .response-content-div {
-  margin: 0 25px;
-  text-align: left;
-}
-
-.widget-path {
-  display: block;
-}
-
-.widget-parameters-title-div {
-  display: flex;
-  align-items: baseline;
-}
-
-.widget-parameters-div {
-  text-align: center;
-}
-
-.widget-parameters-div > mat-form-field {
-  margin: 0 14px;
-}
-
-.run-widget-button-div {
-  text-align: center;
-}
-
-/***** Response CSS *****/
 
 .response-main-div {
   min-width: 600px;
   margin: 15px auto;
 }
+

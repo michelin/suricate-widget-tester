@@ -11,10 +11,20 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatIconModule} from "@angular/material/icon";
 import {HttpClientModule} from "@angular/common/http";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {SafeHtmlPipe} from "./pipes/safe-html/safe-html.pipe";
+import { WidgetConfigurationComponent } from './components/widget-configuration/widget-configuration.component';
+import { DashboardScreenComponent } from './components/dashboard-screen/dashboard-screen.component';
+import {NgGridModule} from "angular2-grid";
+import { DashboardScreenWidgetComponent } from './components/dashboard-screen/dashboard-screen-widget/dashboard-screen-widget.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    SafeHtmlPipe,
+    WidgetConfigurationComponent,
+    DashboardScreenComponent,
+    DashboardScreenWidgetComponent
   ],
   imports: [
     MatIconModule,
@@ -26,6 +36,8 @@ import {HttpClientModule} from "@angular/common/http";
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
+    MatProgressSpinnerModule,
+    NgGridModule,
     HttpClientModule,
     AppRoutingModule,
   ],

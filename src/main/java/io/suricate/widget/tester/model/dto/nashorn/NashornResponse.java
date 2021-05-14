@@ -1,6 +1,8 @@
 package io.suricate.widget.tester.model.dto.nashorn;
 
 import io.suricate.widget.tester.model.dto.AbstractDto;
+import io.suricate.widget.tester.model.dto.api.ProjectWidgetResponseDto;
+import io.suricate.widget.tester.model.dto.widget.WidgetDto;
 import io.suricate.widget.tester.model.enums.NashornErrorTypeEnum;
 import lombok.*;
 
@@ -45,4 +47,9 @@ public class NashornResponse extends AbstractDto {
      * Error
      */
     private NashornErrorTypeEnum error;
+
+    /**
+    * The "fake" project widget to return through the web service
+    */
+    private ProjectWidgetResponseDto projectWidget;
 }

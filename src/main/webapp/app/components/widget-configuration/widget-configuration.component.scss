@@ -1,0 +1,30 @@
+.form-div {
+  max-width: 600px;
+  margin: 15px auto;
+}
+
+.run-widget-form, .response-content-div {
+  margin: 0 25px;
+  text-align: left;
+}
+
+.widget-path {
+  display: block;
+}
+
+.widget-parameters-title-div {
+  display: flex;
+  align-items: baseline;
+}
+
+.widget-parameters-div {
+  text-align: center;
+}
+
+.widget-parameters-div > mat-form-field {
+  margin: 0 14px;
+}
+
+.run-widget-button-div {
+  text-align: center;
+}

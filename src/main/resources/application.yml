@@ -1,3 +1,5 @@
+server:
+  port: 8085
 application:
   cors:
     allowedHeaders: 'Content-Type, Accept, Authorization, X-Requested-With'
