@@ -42,10 +42,7 @@ export class WidgetConfigurationComponent implements OnInit {
     this.runWidgetForm = this.formBuilder.group({
       path: ['', Validators.required],
       previousData: [''],
-      parameters: this.formBuilder.array([this.buildWidgetParameterFormField()]),
-      proxyHost: [''],
-      proxyPort: [''],
-      noProxyDomains: [''],
+      parameters: this.formBuilder.array([this.buildWidgetParameterFormField()])
     });
   }
 
@@ -63,52 +60,42 @@ export class WidgetConfigurationComponent implements OnInit {
    * Run the widget by validating the form
    */
   public runWidget() {
-    const widgetExecutionRequest: WidgetExecutionRequest = {
-      path: this.runWidgetForm.value.path,
-    };
+    if (!this.runWidgetForm.invalid) {
+      const widgetExecutionRequest: WidgetExecutionRequest = {
+        path: this.runWidgetForm.value.path,
+      };
 
-    if (this.isNotBlank(this.runWidgetForm.value.previousData)) {
-      widgetExecutionRequest.previousData = this.runWidgetForm.value.previousData;
-    }
+      if (this.isNotBlank(this.runWidgetForm.value.previousData)) {
+        widgetExecutionRequest.previousData = this.runWidgetForm.value.previousData;
+      }
 
-    if (this.isNotBlank(this.runWidgetForm.value.proxyHost)) {
-      widgetExecutionRequest.proxyHost = this.runWidgetForm.value.proxyHost;
-    }
+      if (this.runWidgetForm.value.parameters.length > 0) {
+        this.runWidgetForm.value.parameters.forEach((parameter: { parameterName: string; parameterValue: string; }) => {
+          if (this.isNotBlank(parameter.parameterName) && this.isNotBlank(parameter.parameterValue)) {
+            if (widgetExecutionRequest.parameters == null) {
+              widgetExecutionRequest.parameters = [];
+            }
 
-    if (this.isNotBlank(this.runWidgetForm.value.proxyPort)) {
-      widgetExecutionRequest.proxyPort = this.runWidgetForm.value.proxyPort;
-    }
-
-    if (this.isNotBlank(this.runWidgetForm.value.noProxyDomains)) {
-      widgetExecutionRequest.noProxyDomains = this.runWidgetForm.value.noProxyDomains;
-    }
-
-    if (this.runWidgetForm.value.parameters.length > 0) {
-      this.runWidgetForm.value.parameters.forEach((parameter: { parameterName: string; parameterValue: string; }) => {
-        if (this.isNotBlank(parameter.parameterName) && this.isNotBlank(parameter.parameterValue)) {
-          if (widgetExecutionRequest.parameters == null) {
-            widgetExecutionRequest.parameters = [];
+            widgetExecutionRequest.parameters.push({
+              name: parameter.parameterName,
+              value: parameter.parameterValue
+            });
           }
+        })
+      }
 
-          widgetExecutionRequest.parameters.push({
-            name: parameter.parameterName,
-            value: parameter.parameterValue
-          });
-        }
-      })
+      this.httpWidgetService.runWidget(widgetExecutionRequest)
+        .subscribe(
+          (projectWidget: ProjectWidget) => {
+            this.projectWidgetEmitEvent.emit(projectWidget);
+            this.widgetExecutionErrorEmitEvent.emit(undefined);
+          },
+          error => {
+            this.projectWidgetEmitEvent.emit(undefined);
+            this.widgetExecutionErrorEmitEvent.emit(error.error.message)
+          }
+        );
     }
-
-    this.httpWidgetService.runWidget(widgetExecutionRequest)
-      .subscribe(
-        (projectWidget: ProjectWidget) => {
-          this.projectWidgetEmitEvent.emit(projectWidget);
-          this.widgetExecutionErrorEmitEvent.emit(undefined);
-        },
-        error => {
-          this.projectWidgetEmitEvent.emit(undefined);
-          this.widgetExecutionErrorEmitEvent.emit(error.error.message)
-        }
-      );
   }
 
   /**

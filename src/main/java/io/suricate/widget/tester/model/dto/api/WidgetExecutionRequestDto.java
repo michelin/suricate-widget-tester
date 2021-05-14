@@ -27,21 +27,6 @@ public class WidgetExecutionRequestDto extends AbstractDto {
   private String previousData;
 
   /**
-   * Proxy host
-   */
-  private String proxyHost;
-
-  /**
-   * Proxy port
-   */
-  private Integer proxyPort;
-
-  /**
-   * No proxy domains
-   */
-  private String noProxyDomains;
-
-  /**
    * List of widget parameters
    */
   private List<WidgetParametersRequestDto> parameters = new ArrayList<>();

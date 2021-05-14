@@ -15,18 +15,7 @@ export interface WidgetExecutionRequest {
   previousData?: string;
 
   /**
-   * Proxy host
+   * Widget parameters
    */
-  proxyHost?: number;
-
-  /**
-   * Proxy port
-   */
-  proxyPort?: number;
-
-  /**
-   * No proxy domains
-   */
-  noProxyDomains?: string;
   parameters?: WidgetParameter[];
 }

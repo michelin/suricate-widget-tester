@@ -3,7 +3,12 @@
 
   <p *ngIf="!widgetExecutionErrorMessage && gridStackItems.length === 0">No widget to display</p>
 
-  <p *ngIf="widgetExecutionErrorMessage">{{ widgetExecutionErrorMessage }}</p>
+  <div *ngIf="widgetExecutionErrorMessage"
+       class="widget-execution-error">
+    <mat-icon>warning</mat-icon>
+    <p>{{ widgetExecutionErrorMessage }}</p>
+  </div>
+
 
   <div *ngIf="gridOptions"
        class="grid-stack"

@@ -71,7 +71,6 @@ public final class OkHttpClientUtils {
                     .writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS)
                     .addInterceptor(loggingInterceptor)
                     .retryOnConnectionFailure(true)
-                    .proxySelector(new WidgetProxySelector())
                     .connectionSpecs(Arrays.asList(ConnectionSpec.CLEARTEXT, ConnectionSpec.MODERN_TLS))
                     .hostnameVerifier((s, sslSession) -> true);
 
