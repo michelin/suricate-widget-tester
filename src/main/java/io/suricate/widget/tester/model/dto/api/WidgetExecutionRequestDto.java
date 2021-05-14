@@ -24,7 +24,7 @@ public class WidgetExecutionRequestDto extends AbstractDto {
   /**
    * Data of the previous execution of the widget
    */
-  private String previousData;
+  private String previousData = "{}";
 
   /**
    * List of widget parameters

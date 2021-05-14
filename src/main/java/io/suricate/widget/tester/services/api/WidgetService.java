@@ -15,6 +15,7 @@ import io.suricate.widget.tester.model.dto.widget.WidgetParamDto;
 import io.suricate.widget.tester.services.nashorn.services.NashornService;
 import io.suricate.widget.tester.services.nashorn.tasks.NashornRequestWidgetExecutionAsyncTask;
 import io.suricate.widget.tester.utils.JavaScriptUtils;
+import io.suricate.widget.tester.utils.JsonUtils;
 import io.suricate.widget.tester.utils.PropertiesUtils;
 import io.suricate.widget.tester.utils.WidgetUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -93,7 +94,7 @@ public class WidgetService {
             .append("\n"));
 
         NashornRequest nashornRequest = new NashornRequest(propertiesBuilder.toString(), widget.getBackendJs(),
-            widgetExecutionRequestDto.getPreviousData(), widget.getDelay(), 1L, 1L, new Date()
+            widgetExecutionRequestDto.getPreviousData(), 1L, 1L, widget.getDelay(), new Date()
         );
 
         ProjectWidgetResponseDto projectWidgetResponseDto = new ProjectWidgetResponseDto();
@@ -107,6 +108,8 @@ public class WidgetService {
               WidgetUtils.getWidgetParametersForNashorn(widget));
 
             NashornResponse nashornResponse = nashornRequestWidgetExecutionAsyncTask.call();
+
+            this.logResponse(nashornResponse);
 
             // Failure
             if (nashornResponse.getError() != null) {
@@ -170,5 +173,28 @@ public class WidgetService {
       }
 
       return instantiateHtml;
+    }
+
+    /**
+     * Log information about the Nashorn response
+     *
+     * @param nashornResponse The Nashorn response
+     */
+    private void logResponse(NashornResponse nashornResponse) {
+        if (StringUtils.isNotBlank(nashornResponse.getLog())) {
+          WidgetService.LOGGER.info("----------- START LOG ---------");
+          WidgetService.LOGGER.info(nashornResponse.getLog());
+          WidgetService.LOGGER.info("----------- END LOG ---------");
+        }
+
+        if (nashornResponse.getError() != null) {
+          WidgetService.LOGGER.info("----------- START ERROR ---------");
+          WidgetService.LOGGER.info(nashornResponse.getError().name());
+          WidgetService.LOGGER.info("----------- END ERROR ---------");
+        }
+
+        WidgetService.LOGGER.info("------------ START RESPONSE --------");
+        WidgetService.LOGGER.info("\n" + JsonUtils.prettifyJson(nashornResponse.getData()));
+        WidgetService.LOGGER.info("------------ END RESPONSE --------");
     }
 }
