@@ -1,5 +1,7 @@
 import {Component} from '@angular/core';
-import {ProjectWidget} from './models/project-widget/project-widget';
+import {ProjectWidget} from './shared/models/project-widget/project-widget';
+import {WidgetExecutionRequest} from "./shared/models/widget-execution/widget-execution-request/widget-execution-request";
+import {WidgetExecutionResult} from "./shared/models/widget-execution/widget-execution-result/widget-execution-result";
 
 @Component({
   selector: 'suricate-widget-tester-root',
@@ -9,14 +11,9 @@ import {ProjectWidget} from './models/project-widget/project-widget';
 export class AppComponent {
 
   /**
-   * The project widget to display according to the given configuration
+   * The widget execution result
    */
-  public projectWidget: ProjectWidget | undefined;
-
-  /**
-   * The error message that can occur during the
-   */
-  public widgetExecutionErrorMessage: string | undefined;
+  public widgetExecutionResult: WidgetExecutionResult | undefined;
 
   /**
    * Constructor
@@ -24,20 +21,11 @@ export class AppComponent {
   constructor() { }
 
   /**
-   * Set the configured project widget from the child component
+   * Set the widget execution result from the child component
    *
-   * @param projectWidget The configured project widget
+   * @param widgetExecutionResult The widget execution result
    */
-  setConfiguredProjectWidget(projectWidget: ProjectWidget): void {
-    this.projectWidget = projectWidget;
-  }
-
-  /**
-   * Set the widget execution error message from the child component
-   *
-   * @param errorMessage The widget execution error message
-   */
-  setWidgetExecutionErrorMessage(errorMessage: string): void {
-    this.widgetExecutionErrorMessage = errorMessage;
+  public setWidgetExecutionResult(widgetExecutionResult: WidgetExecutionResult) {
+    this.widgetExecutionResult = widgetExecutionResult;
   }
 }

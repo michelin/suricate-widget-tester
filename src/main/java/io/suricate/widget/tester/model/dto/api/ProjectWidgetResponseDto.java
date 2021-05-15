@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 /**
  * Project widget response DTO
  */
@@ -32,4 +34,9 @@ public class ProjectWidgetResponseDto extends AbstractDto {
      * The log of the last nashorn execution
      */
     private String log;
+
+    /**
+     * Names of the libraries used by the widget
+     */
+    private List<String> librariesNames;
 }

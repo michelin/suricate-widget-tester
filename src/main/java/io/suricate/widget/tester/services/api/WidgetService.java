@@ -28,6 +28,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -70,20 +71,7 @@ public class WidgetService {
      * Run the widget configured in the application properties
      */
     public ProjectWidgetResponseDto runWidget(WidgetExecutionRequestDto widgetExecutionRequestDto) throws IOException {
-        // Load libraries
-        File librariesFolder = new File(widgetExecutionRequestDto.getPath());
-
-        while (!librariesFolder.getPath().endsWith("content")) {
-          librariesFolder = librariesFolder.getParentFile();
-        }
-
-        librariesFolder = new File(librariesFolder.getParentFile().getPath() + "/libraries");
-
-        List<LibraryDto> libraries = WidgetUtils.parseLibraryFolder(librariesFolder);
-
-        // Load widget
-        File widgetFolder = new File(widgetExecutionRequestDto.getPath());
-        WidgetDto widget = WidgetUtils.getWidget(widgetFolder);
+        WidgetDto widget = WidgetUtils.getWidget(new File(widgetExecutionRequestDto.getPath()));
 
         StringBuilder propertiesBuilder = new StringBuilder();
 
@@ -100,6 +88,10 @@ public class WidgetService {
         ProjectWidgetResponseDto projectWidgetResponseDto = new ProjectWidgetResponseDto();
         projectWidgetResponseDto.setTechnicalName(widget.getTechnicalName());
         projectWidgetResponseDto.setCssContent(widget.getCssContent());
+
+        if (widget.getLibraries() != null && widget.getLibraries().length > 0) {
+          projectWidgetResponseDto.setLibrariesNames(Arrays.asList(widget.getLibraries()));
+        }
 
         String data = "{}";
 

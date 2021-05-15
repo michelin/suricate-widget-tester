@@ -1,47 +1,13 @@
-import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-
-import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {MatButtonModule} from '@angular/material/button';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatDividerModule} from '@angular/material/divider';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
-import {MatIconModule} from '@angular/material/icon';
-import {HttpClientModule} from '@angular/common/http';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import {SafeHtmlPipe} from './pipes/safe-html/safe-html.pipe';
-import {WidgetConfigurationComponent} from './components/widget-configuration/widget-configuration.component';
-import {DashboardScreenComponent} from './components/dashboard-screen/dashboard-screen.component';
-import {NgGridModule} from 'angular2-grid';
-import {DashboardScreenWidgetComponent} from './components/dashboard-screen/dashboard-screen-widget/dashboard-screen-widget.component';
-import {WidgetHtmlDirective} from './directives/widget-html.directive';
+import {DashboardModule} from "./dashboard/dashboard.module";
+import {SharedModule} from "./shared/shared.module";
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    SafeHtmlPipe,
-    WidgetConfigurationComponent,
-    DashboardScreenComponent,
-    DashboardScreenWidgetComponent,
-    WidgetHtmlDirective
-  ],
+  declarations: [AppComponent],
   imports: [
-    MatIconModule,
-    MatButtonModule,
-    MatDividerModule,
-    BrowserModule,
-    BrowserAnimationsModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatProgressSpinnerModule,
-    NgGridModule,
-    HttpClientModule,
-    AppRoutingModule,
+    DashboardModule,
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -16,24 +16,26 @@
  *
  */
 
-import {ElementRef, NgModule} from '@angular/core';
-import {HttpClientTestingModule} from '@angular/common/http/testing';
-import {RouterTestingModule} from '@angular/router/testing';
-import {MockElementRef} from './models/mock-element-ref';
-import {NgGrid} from 'angular2-grid';
-import {SharedModule} from "../shared/shared.module";
+import { Component, Input } from '@angular/core';
+import { ThemePalette } from '@angular/material/core';
 
-@NgModule({
-  imports: [
-    SharedModule,
-    HttpClientTestingModule,
-    RouterTestingModule
-  ],
-  exports: [
-    SharedModule,
-    HttpClientTestingModule,
-    RouterTestingModule
-  ],
-  providers: [{ provide: ElementRef, useClass: MockElementRef }, NgGrid]
+/**
+ * Components used to display the spinner
+ */
+@Component({
+  selector: 'suricate-spinner',
+  templateUrl: './spinner.component.html',
+  styleUrls: ['./spinner.component.scss']
 })
-export class MockModule {}
+export class SpinnerComponent {
+  /**
+   * The color to use with the spinner
+   */
+  @Input()
+  public color: ThemePalette;
+
+  /**
+   * Constructor
+   */
+  constructor() {}
+}

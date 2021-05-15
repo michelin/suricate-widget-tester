@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {FormBuilder} from '@angular/forms';
 import {NgGridItemConfig} from 'angular2-grid';
-import {ProjectWidget} from '../../../models/project-widget/project-widget';
+import {ProjectWidget} from '../../../shared/models/project-widget/project-widget';
 
 @Injectable({
   providedIn: 'root'

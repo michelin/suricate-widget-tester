@@ -1,11 +1,9 @@
 <suricate-widget-configuration
-  (projectWidgetEmitEvent)="setConfiguredProjectWidget($event)"
-  (widgetExecutionErrorEmitEvent)="setWidgetExecutionErrorMessage($event)"
+  (widgetExecutionResultEmitEvent)="setWidgetExecutionResult($event)"
 ></suricate-widget-configuration>
 
 <mat-divider></mat-divider>
 
 <suricate-dashboard-screen
-  [projectWidget]="projectWidget"
-  [widgetExecutionErrorMessage]="widgetExecutionErrorMessage"
+  [widgetExecutionResult]="widgetExecutionResult"
 ></suricate-dashboard-screen>

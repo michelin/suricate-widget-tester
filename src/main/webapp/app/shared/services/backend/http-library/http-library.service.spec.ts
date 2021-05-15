@@ -16,24 +16,21 @@
  *
  */
 
-import {ElementRef, NgModule} from '@angular/core';
-import {HttpClientTestingModule} from '@angular/common/http/testing';
-import {RouterTestingModule} from '@angular/router/testing';
-import {MockElementRef} from './models/mock-element-ref';
-import {NgGrid} from 'angular2-grid';
-import {SharedModule} from "../shared/shared.module";
+import { inject, TestBed } from '@angular/core/testing';
 
-@NgModule({
-  imports: [
-    SharedModule,
-    HttpClientTestingModule,
-    RouterTestingModule
-  ],
-  exports: [
-    SharedModule,
-    HttpClientTestingModule,
-    RouterTestingModule
-  ],
-  providers: [{ provide: ElementRef, useClass: MockElementRef }, NgGrid]
-})
-export class MockModule {}
+import { HttpLibraryService } from './http-library.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { MockModule } from '../../../../mock/mock.module';
+
+describe('HttpAssetService', () => {
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [MockModule],
+      providers: [HttpLibraryService]
+    });
+  });
+
+  it('should create', inject([HttpLibraryService], (service: HttpLibraryService) => {
+    expect(service).toBeTruthy();
+  }));
+});
