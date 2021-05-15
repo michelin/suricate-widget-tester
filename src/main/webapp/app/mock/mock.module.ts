@@ -16,24 +16,16 @@
  *
  */
 
-import {ElementRef, NgModule} from '@angular/core';
-import {HttpClientTestingModule} from '@angular/common/http/testing';
-import {RouterTestingModule} from '@angular/router/testing';
-import {MockElementRef} from './models/mock-element-ref';
-import {NgGrid} from 'angular2-grid';
-import {SharedModule} from "../shared/shared.module";
+import { ElementRef, NgModule } from '@angular/core';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { MockElementRef } from './models/mock-element-ref';
+import { NgGrid } from 'angular2-grid';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
-  imports: [
-    SharedModule,
-    HttpClientTestingModule,
-    RouterTestingModule
-  ],
-  exports: [
-    SharedModule,
-    HttpClientTestingModule,
-    RouterTestingModule
-  ],
+  imports: [SharedModule, HttpClientTestingModule, RouterTestingModule],
+  exports: [SharedModule, HttpClientTestingModule, RouterTestingModule],
   providers: [{ provide: ElementRef, useClass: MockElementRef }, NgGrid]
 })
 export class MockModule {}

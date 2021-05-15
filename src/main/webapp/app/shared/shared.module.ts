@@ -14,23 +14,23 @@
  * limitations under the License.
  */
 
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {HttpClientModule} from '@angular/common/http';
-import {NgGridModule} from 'angular2-grid';
-import {NgModule} from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { NgGridModule } from 'angular2-grid';
+import { NgModule } from '@angular/core';
 
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {BrowserModule} from '@angular/platform-browser';
-import {SafeHtmlPipe} from './pipes/safe-html/safe-html.pipe';
-import {MatIconModule} from "@angular/material/icon";
-import {MatButtonModule} from "@angular/material/button";
-import {MatDividerModule} from "@angular/material/divider";
-import {MatFormFieldModule} from "@angular/material/form-field";
-import {MatInputModule} from "@angular/material/input";
-import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
-import {AppRoutingModule} from "../app-routing.module";
-import {WidgetHtmlDirective} from "./directives/widget-html.directive";
-import {SpinnerComponent} from "./components/spinner/spinner.component";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserModule } from '@angular/platform-browser';
+import { SafeHtmlPipe } from './pipes/safe-html/safe-html.pipe';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { AppRoutingModule } from '../app-routing.module';
+import { WidgetHtmlDirective } from './directives/widget-html.directive';
+import { SpinnerComponent } from './components/spinner/spinner.component';
 
 @NgModule({
   imports: [
@@ -48,11 +48,7 @@ import {SpinnerComponent} from "./components/spinner/spinner.component";
     HttpClientModule,
     AppRoutingModule
   ],
-  declarations: [
-    SpinnerComponent,
-    SafeHtmlPipe,
-    WidgetHtmlDirective
-  ],
+  declarations: [SpinnerComponent, SafeHtmlPipe, WidgetHtmlDirective],
   exports: [
     MatIconModule,
     MatButtonModule,
@@ -70,7 +66,6 @@ import {SpinnerComponent} from "./components/spinner/spinner.component";
     SpinnerComponent,
     SafeHtmlPipe,
     WidgetHtmlDirective
-  ],
-  providers: [  ]
+  ]
 })
 export class SharedModule {}

@@ -1,8 +1,7 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
-
-import {DashboardScreenWidgetComponent} from './dashboard-screen-widget.component';
-import {MockModule} from '../../../../mock/mock.module';
-import {MockedModelBuilderService} from '../../../../mock/services/mocked-model-builder/mocked-model-builder.service';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { DashboardScreenWidgetComponent } from './dashboard-screen-widget.component';
+import { MockModule } from '../../../../mock/mock.module';
+import { MockedModelBuilderService } from '../../../../mock/services/mocked-model-builder/mocked-model-builder.service';
 
 describe('DashboardScreenWidgetComponent', () => {
   let component: DashboardScreenWidgetComponent;
@@ -12,8 +11,7 @@ describe('DashboardScreenWidgetComponent', () => {
     await TestBed.configureTestingModule({
       imports: [MockModule],
       declarations: [DashboardScreenWidgetComponent]
-    })
-    .compileComponents();
+    }).compileComponents();
   });
 
   beforeEach(() => {

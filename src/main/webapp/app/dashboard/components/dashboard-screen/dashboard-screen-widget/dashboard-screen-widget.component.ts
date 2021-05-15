@@ -1,8 +1,8 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {ProjectWidget} from '../../../../shared/models/project-widget/project-widget';
-import {NgGridItemConfig, NgGridItemEvent} from 'angular2-grid';
-import {GridItemUtils} from '../../../../shared/utils/grid-item.utils';
-import {LibraryService} from "../../../services/library/library.service";
+import { Component, Input, OnInit } from '@angular/core';
+import { ProjectWidget } from '../../../../shared/models/project-widget/project-widget';
+import { NgGridItemConfig, NgGridItemEvent } from 'angular2-grid';
+import { GridItemUtils } from '../../../../shared/utils/grid-item.utils';
+import { LibraryService } from '../../../services/library/library.service';
 
 @Component({
   selector: 'suricate-dashboard-screen-widget',
@@ -10,7 +10,6 @@ import {LibraryService} from "../../../services/library/library.service";
   styleUrls: ['./dashboard-screen-widget.component.scss']
 })
 export class DashboardScreenWidgetComponent implements OnInit {
-
   /**
    * The projectWidget to display
    */
@@ -36,7 +35,7 @@ export class DashboardScreenWidgetComponent implements OnInit {
   /**
    * Constructor
    */
-  constructor(private readonly libraryService: LibraryService) { }
+  constructor(private readonly libraryService: LibraryService) {}
 
   /**
    * Init method

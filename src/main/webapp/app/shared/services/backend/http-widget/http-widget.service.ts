@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {AbstractHttpService} from '../abstract-http/abstract-http.service';
-import {WidgetExecutionRequest} from '../../../models/widget-execution/widget-execution-request/widget-execution-request';
-import {Observable} from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { AbstractHttpService } from '../abstract-http/abstract-http.service';
+import { WidgetExecutionRequest } from '../../../models/widget-execution/widget-execution-request/widget-execution-request';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HttpWidgetService {
-
   /**
    * Widgets API endpoint
    */
@@ -19,7 +18,7 @@ export class HttpWidgetService {
    *
    * @param httpClient The HTTP client service
    */
-  constructor(private readonly httpClient: HttpClient) { }
+  constructor(private readonly httpClient: HttpClient) {}
 
   /**
    * Run the widget according to the given parameters

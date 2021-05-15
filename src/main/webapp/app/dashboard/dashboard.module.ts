@@ -14,25 +14,15 @@
  * limitations under the License.
  */
 
-import {NgModule} from '@angular/core';
-import {DashboardScreenWidgetComponent} from "./components/dashboard-screen/dashboard-screen-widget/dashboard-screen-widget.component";
-import {DashboardScreenComponent} from "./components/dashboard-screen/dashboard-screen.component";
-import {SharedModule} from "../shared/shared.module";
-import {WidgetConfigurationComponent} from "./components/widget-configuration/widget-configuration.component";
-
+import { NgModule } from '@angular/core';
+import { DashboardScreenWidgetComponent } from './components/dashboard-screen/dashboard-screen-widget/dashboard-screen-widget.component';
+import { DashboardScreenComponent } from './components/dashboard-screen/dashboard-screen.component';
+import { SharedModule } from '../shared/shared.module';
+import { WidgetConfigurationComponent } from './components/widget-configuration/widget-configuration.component';
 
 @NgModule({
-  imports: [
-    SharedModule
-  ],
-  exports: [
-    DashboardScreenComponent,
-    WidgetConfigurationComponent
-  ],
-  declarations: [
-    DashboardScreenComponent,
-    DashboardScreenWidgetComponent,
-    WidgetConfigurationComponent
-  ]
+  imports: [SharedModule],
+  exports: [DashboardScreenComponent, WidgetConfigurationComponent],
+  declarations: [DashboardScreenComponent, DashboardScreenWidgetComponent, WidgetConfigurationComponent]
 })
 export class DashboardModule {}

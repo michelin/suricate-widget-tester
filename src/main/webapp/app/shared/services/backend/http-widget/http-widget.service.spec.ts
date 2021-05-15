@@ -1,14 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 
 import { HttpWidgetService } from './http-widget.service';
-import {HttpClientTestingModule} from '@angular/common/http/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('HttpWidgetService', () => {
   let service: HttpWidgetService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [HttpClientTestingModule]
     });
 
     service = TestBed.inject(HttpWidgetService);

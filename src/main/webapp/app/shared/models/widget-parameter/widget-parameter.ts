@@ -2,7 +2,6 @@
  * A widget parameter
  */
 export interface WidgetParameter {
-
   /**
    * Widget parameter name
    */

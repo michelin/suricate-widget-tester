@@ -1,19 +1,9 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  Input,
-  OnChanges,
-  OnInit,
-  Renderer2,
-  SimpleChanges,
-  ViewChild
-} from '@angular/core';
-import {NgGridConfig, NgGridItemConfig} from 'angular2-grid';
-import {ProjectWidget} from '../../../shared/models/project-widget/project-widget';
-import {LibraryService} from "../../services/library/library.service";
-import {HttpLibraryService} from "../../../shared/services/backend/http-library/http-library.service";
-import {WidgetExecutionResult} from "../../../shared/models/widget-execution/widget-execution-result/widget-execution-result";
+import { Component, ElementRef, Input, OnChanges, OnInit, Renderer2, SimpleChanges, ViewChild } from '@angular/core';
+import { NgGridConfig, NgGridItemConfig } from 'angular2-grid';
+import { ProjectWidget } from '../../../shared/models/project-widget/project-widget';
+import { LibraryService } from '../../services/library/library.service';
+import { HttpLibraryService } from '../../../shared/services/backend/http-library/http-library.service';
+import { WidgetExecutionResult } from '../../../shared/models/widget-execution/widget-execution-result/widget-execution-result';
 
 @Component({
   selector: 'suricate-dashboard-screen',
@@ -21,7 +11,6 @@ import {WidgetExecutionResult} from "../../../shared/models/widget-execution/wid
   styleUrls: ['./dashboard-screen.component.scss']
 })
 export class DashboardScreenComponent implements OnInit, OnChanges {
-
   /**
    * Reference on the span containing all the required JS libraries
    */
@@ -61,15 +50,12 @@ export class DashboardScreenComponent implements OnInit, OnChanges {
    * @param renderer The renderer Angular entity
    * @param libraryService Front-End service used to manage the libraries
    */
-  constructor(
-    private renderer: Renderer2,
-    private readonly libraryService: LibraryService
-  ) { }
+  constructor(private renderer: Renderer2, private readonly libraryService: LibraryService) {}
 
   /**
    * Init method
    */
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   /**
    * Changes method
@@ -77,22 +63,22 @@ export class DashboardScreenComponent implements OnInit, OnChanges {
    * @param changes The changes event
    */
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.widgetExecutionResult && this.widgetExecutionResult.projectWidget) {
-      this.initGridStackOptions();
-      this.initGridStackItems();
-      this.addExternalJSLibrariesToTheDOM();
-    }
+    this.initGridStackOptions();
+    this.initGridStackItems();
+    this.addExternalJSLibrariesToTheDOM();
   }
 
   /**
    * Create the list of gridStackItems used to display widgets on the grid
    */
   private initGridStackItems(): void {
-    this.gridStackItems = [];
+    if (this.widgetExecutionResult && this.widgetExecutionResult.projectWidget) {
+      this.gridStackItems = [];
 
-    this.startGridStackItems = this.getGridStackItemsFromProjectWidgets(this.widgetExecutionResult?.projectWidget!);
-    // Make a copy with a new reference
-    this.gridStackItems = JSON.parse(JSON.stringify(this.startGridStackItems));
+      this.startGridStackItems = this.getGridStackItemsFromProjectWidgets(this.widgetExecutionResult.projectWidget);
+      // Make a copy with a new reference
+      this.gridStackItems = JSON.parse(JSON.stringify(this.startGridStackItems));
+    }
   }
 
   /**
@@ -137,24 +123,27 @@ export class DashboardScreenComponent implements OnInit, OnChanges {
    * and a callback which notify subscribers when the library is loaded.
    */
   public addExternalJSLibrariesToTheDOM(): void {
-    this.libraryService.numberOfExternalLibrariesToLoad = this.widgetExecutionResult!
-      .projectWidget!.librariesNames?.length;
+    if (this.widgetExecutionResult && this.widgetExecutionResult.projectWidget) {
+      if (this.widgetExecutionResult.projectWidget.librariesNames) {
+        this.libraryService.numberOfExternalLibrariesToLoad = this.widgetExecutionResult.projectWidget.librariesNames.length;
 
-    if (this.widgetExecutionResult!.projectWidget!.librariesNames?.length > 0) {
-      this.widgetExecutionResult!.projectWidget!.librariesNames.forEach(libraryName => {
-        const script: HTMLScriptElement = document.createElement('script');
-        script.type = 'text/javascript';
-        script.src = HttpLibraryService.getContentUrl(libraryName, encodeURIComponent(this.widgetExecutionResult!.widgetExecutionRequest.path));
-        script.onload = () => this.libraryService.markScriptAsLoaded(libraryName);
-        script.async = false;
+        const widgetFolderPath = this.widgetExecutionResult.widgetExecutionRequest.path;
 
-        this.renderer.appendChild(this.externalJsLibrariesSpan.nativeElement, script);
-      });
-    }
+        this.widgetExecutionResult.projectWidget.librariesNames.forEach(libraryName => {
+          const script: HTMLScriptElement = document.createElement('script');
+          script.type = 'text/javascript';
+          script.src = HttpLibraryService.getContentUrl(libraryName, encodeURIComponent(widgetFolderPath));
+          script.onload = () => this.libraryService.markScriptAsLoaded(libraryName);
+          script.async = false;
 
-    // No library to load
-    else {
-      this.libraryService.emitAreJSScriptsLoaded(true);
+          this.renderer.appendChild(this.externalJsLibrariesSpan.nativeElement, script);
+        });
+      }
+
+      // No library to load
+      else {
+        this.libraryService.emitAreJSScriptsLoaded(true);
+      }
     }
   }
 }

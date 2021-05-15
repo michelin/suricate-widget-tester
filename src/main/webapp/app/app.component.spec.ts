@@ -1,12 +1,12 @@
-import {TestBed} from '@angular/core/testing';
-import {AppComponent} from './app.component';
-import {MockModule} from './mock/mock.module';
+import { TestBed } from '@angular/core/testing';
+import { AppComponent } from './app.component';
+import { MockModule } from './mock/mock.module';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [MockModule],
-      declarations: [AppComponent],
+      declarations: [AppComponent]
     }).compileComponents();
   });
 
@@ -15,5 +15,4 @@ describe('AppComponent', () => {
     const app = fixture.componentInstance;
     expect(app).toBeTruthy();
   });
-
 });

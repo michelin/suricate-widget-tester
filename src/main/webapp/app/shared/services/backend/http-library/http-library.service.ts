@@ -16,9 +16,8 @@
  *
  */
 
-import {Injectable} from '@angular/core';
-
-import {AbstractHttpService} from '../abstract-http/abstract-http.service';
+import { Injectable } from '@angular/core';
+import { AbstractHttpService } from '../abstract-http/abstract-http.service';
 
 /**
  * Manage the asset http calls

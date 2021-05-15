@@ -14,7 +14,7 @@ export class LibraryService {
   /**
    * Number of JS libraries to load for the current project
    */
-  public numberOfExternalLibrariesToLoad!: number;
+  public numberOfExternalLibrariesToLoad = 0;
 
   /**
    * Are the required JS libraries loaded
@@ -26,7 +26,7 @@ export class LibraryService {
    *
    * @param value The new value to emit
    */
-  emitAreJSScriptsLoaded(value: boolean) {
+  public emitAreJSScriptsLoaded(value: boolean): void {
     this.allExternalLibrariesLoaded.next(value);
   }
 
@@ -37,7 +37,7 @@ export class LibraryService {
    *
    * @param libraryName A name representing a JS library
    */
-  public markScriptAsLoaded(libraryName: string) {
+  public markScriptAsLoaded(libraryName: string): void {
     if (this.loadedExternalLibraries.indexOf(libraryName) === -1) {
       this.loadedExternalLibraries.push(libraryName);
     }

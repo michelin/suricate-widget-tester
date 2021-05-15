@@ -1,9 +1,9 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {WidgetExecutionRequest} from '../../../shared/models/widget-execution/widget-execution-request/widget-execution-request';
-import {ProjectWidget} from '../../../shared/models/project-widget/project-widget';
-import {HttpWidgetService} from '../../../shared/services/backend/http-widget/http-widget.service';
-import {WidgetExecutionResult} from "../../../shared/models/widget-execution/widget-execution-result/widget-execution-result";
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { WidgetExecutionRequest } from '../../../shared/models/widget-execution/widget-execution-request/widget-execution-request';
+import { ProjectWidget } from '../../../shared/models/project-widget/project-widget';
+import { HttpWidgetService } from '../../../shared/services/backend/http-widget/http-widget.service';
+import { WidgetExecutionResult } from '../../../shared/models/widget-execution/widget-execution-result/widget-execution-result';
 
 @Component({
   selector: 'suricate-widget-configuration',
@@ -11,7 +11,6 @@ import {WidgetExecutionResult} from "../../../shared/models/widget-execution/wid
   styleUrls: ['./widget-configuration.component.scss']
 })
 export class WidgetConfigurationComponent implements OnInit {
-
   /**
    * Emit the error message of a widget
    */
@@ -26,8 +25,7 @@ export class WidgetConfigurationComponent implements OnInit {
   /**
    * Constructor
    */
-  constructor(private formBuilder: FormBuilder,
-              private httpWidgetService: HttpWidgetService) { }
+  constructor(private formBuilder: FormBuilder, private httpWidgetService: HttpWidgetService) {}
 
   /**
    * On init
@@ -56,7 +54,7 @@ export class WidgetConfigurationComponent implements OnInit {
   public runWidget(): void {
     if (!this.runWidgetForm.invalid) {
       const widgetExecutionRequest: WidgetExecutionRequest = {
-        path: this.runWidgetForm.value.path,
+        path: this.runWidgetForm.value.path
       };
 
       if (this.isNotBlank(this.runWidgetForm.value.previousData)) {
@@ -64,7 +62,7 @@ export class WidgetConfigurationComponent implements OnInit {
       }
 
       if (this.runWidgetForm.value.parameters.length > 0) {
-        this.runWidgetForm.value.parameters.forEach((parameter: { parameterName: string; parameterValue: string; }) => {
+        this.runWidgetForm.value.parameters.forEach((parameter: { parameterName: string; parameterValue: string }) => {
           if (this.isNotBlank(parameter.parameterName) && this.isNotBlank(parameter.parameterValue)) {
             if (widgetExecutionRequest.parameters == null) {
               widgetExecutionRequest.parameters = [];
@@ -78,25 +76,24 @@ export class WidgetConfigurationComponent implements OnInit {
         });
       }
 
-      this.httpWidgetService.runWidget(widgetExecutionRequest)
-        .subscribe(
-          (projectWidget: ProjectWidget) => {
-            const widgetExecutionResult: WidgetExecutionResult = {
-              projectWidget: projectWidget,
-              widgetExecutionRequest: widgetExecutionRequest
-            };
+      this.httpWidgetService.runWidget(widgetExecutionRequest).subscribe(
+        (projectWidget: ProjectWidget) => {
+          const widgetExecutionResult: WidgetExecutionResult = {
+            projectWidget: projectWidget,
+            widgetExecutionRequest: widgetExecutionRequest
+          };
 
-            this.widgetExecutionResultEmitEvent.emit(widgetExecutionResult);
-          },
-          error => {
-            const widgetExecutionResult: WidgetExecutionResult = {
-              widgetExecutionErrorMessage: error.error.message,
-              widgetExecutionRequest: widgetExecutionRequest
-            };
+          this.widgetExecutionResultEmitEvent.emit(widgetExecutionResult);
+        },
+        error => {
+          const widgetExecutionResult: WidgetExecutionResult = {
+            widgetExecutionErrorMessage: error.error.message,
+            widgetExecutionRequest: widgetExecutionRequest
+          };
 
-            this.widgetExecutionResultEmitEvent.emit(widgetExecutionResult);
-          }
-        );
+          this.widgetExecutionResultEmitEvent.emit(widgetExecutionResult);
+        }
+      );
     }
   }
 

@@ -1,10 +1,9 @@
 /**
  * Class that manage the utility function for grid items management
  */
-import {NgGridItemConfig} from 'angular2-grid';
+import { NgGridItemConfig } from 'angular2-grid';
 
 export class GridItemUtils {
-
   /**
    * Check if item have been moved
    *

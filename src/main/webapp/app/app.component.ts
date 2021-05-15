@@ -1,7 +1,5 @@
-import {Component} from '@angular/core';
-import {ProjectWidget} from './shared/models/project-widget/project-widget';
-import {WidgetExecutionRequest} from "./shared/models/widget-execution/widget-execution-request/widget-execution-request";
-import {WidgetExecutionResult} from "./shared/models/widget-execution/widget-execution-result/widget-execution-result";
+import { Component } from '@angular/core';
+import { WidgetExecutionResult } from './shared/models/widget-execution/widget-execution-result/widget-execution-result';
 
 @Component({
   selector: 'suricate-widget-tester-root',
@@ -9,7 +7,6 @@ import {WidgetExecutionResult} from "./shared/models/widget-execution/widget-exe
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-
   /**
    * The widget execution result
    */
@@ -18,7 +15,7 @@ export class AppComponent {
   /**
    * Constructor
    */
-  constructor() { }
+  constructor() {}
 
   /**
    * Set the widget execution result from the child component
