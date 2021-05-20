@@ -3,15 +3,17 @@
 
   <p *ngIf="!widgetExecutionResult">No widget to display</p>
 
-  <div *ngIf="widgetExecutionResult && widgetExecutionResult.widgetExecutionErrorMessage"
-       class="widget-execution-error">
+  <div *ngIf="widgetExecutionResult && widgetExecutionResult.widgetExecutionErrorMessage" class="widget-execution-error">
     <mat-icon>warning</mat-icon>
     <p>{{ widgetExecutionResult.widgetExecutionErrorMessage! }}</p>
   </div>
 
-  <div *ngIf="gridOptions"
-       class="grid-stack"
-       [ngGrid]="gridOptions"
+  <div
+    *ngIf="gridOptions"
+    class="grid-stack"
+    [ngGrid]="gridOptions"
+    (onResizeStop)="updateProjectWidgetsPosition()"
+    (onDragStop)="updateProjectWidgetsPosition()"
   >
     <span #externalJsLibraries></span>
 

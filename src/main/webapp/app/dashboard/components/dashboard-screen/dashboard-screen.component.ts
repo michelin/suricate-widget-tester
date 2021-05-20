@@ -4,6 +4,7 @@ import { ProjectWidget } from '../../../shared/models/project-widget/project-wid
 import { LibraryService } from '../../services/library/library.service';
 import { HttpLibraryService } from '../../../shared/services/backend/http-library/http-library.service';
 import { WidgetExecutionResult } from '../../../shared/models/widget-execution/widget-execution-result/widget-execution-result';
+import { GridItemUtils } from '../../../shared/utils/grid-item.utils';
 
 @Component({
   selector: 'suricate-dashboard-screen',
@@ -45,6 +46,11 @@ export class DashboardScreenComponent implements OnInit, OnChanges {
   protected startGridStackItems: NgGridItemConfig[] = [];
 
   /**
+   * Grid configuration of the widget
+   */
+  private widgetGridConfig: NgGridItemConfig = { col: 0, row: 0, sizey: 1, sizex: 1 };
+
+  /**
    * Constructor
    *
    * @param renderer The renderer Angular entity
@@ -63,7 +69,15 @@ export class DashboardScreenComponent implements OnInit, OnChanges {
    * @param changes The changes event
    */
   ngOnChanges(changes: SimpleChanges): void {
-    this.initGridStackOptions();
+    if (changes.widgetExecutionResult) {
+      if (!changes.widgetExecutionResult.previousValue) {
+        // Inject this variable in the window scope because some widgets use it to init the js
+        (window as any)['page_loaded'] = true;
+      }
+
+      this.initGridStackOptions();
+    }
+
     this.initGridStackItems();
     this.addExternalJSLibrariesToTheDOM();
   }
@@ -72,10 +86,11 @@ export class DashboardScreenComponent implements OnInit, OnChanges {
    * Create the list of gridStackItems used to display widgets on the grid
    */
   private initGridStackItems(): void {
-    if (this.widgetExecutionResult && this.widgetExecutionResult.projectWidget) {
-      this.gridStackItems = [];
+    this.gridStackItems = [];
 
+    if (this.widgetExecutionResult && this.widgetExecutionResult.projectWidget) {
       this.startGridStackItems = this.getGridStackItemsFromProjectWidgets(this.widgetExecutionResult.projectWidget);
+
       // Make a copy with a new reference
       this.gridStackItems = JSON.parse(JSON.stringify(this.startGridStackItems));
     }
@@ -107,15 +122,26 @@ export class DashboardScreenComponent implements OnInit, OnChanges {
 
     if (this.widgetExecutionResult?.projectWidget) {
       gridStackItemsConfig.push({
-        col: 0,
-        row: 0,
-        sizey: 1,
-        sizex: 1,
+        col: this.widgetGridConfig.col,
+        row: this.widgetGridConfig.row,
+        sizey: this.widgetGridConfig.sizey,
+        sizex: this.widgetGridConfig.sizex,
         payload: this.widgetExecutionResult.projectWidget
       });
     }
 
     return gridStackItemsConfig;
+  }
+
+  /**
+   * Update the project widget position
+   */
+  public updateProjectWidgetsPosition(): void {
+    if (this.isGridItemsHasMoved()) {
+      this.widgetGridConfig = this.gridStackItems[0];
+
+      this.initGridStackItems();
+    }
   }
 
   /**
@@ -145,5 +171,20 @@ export class DashboardScreenComponent implements OnInit, OnChanges {
         this.libraryService.emitAreJSScriptsLoaded(true);
       }
     }
+  }
+
+  /**
+   * Checks if the grid elements have been moved
+   */
+  private isGridItemsHasMoved(): boolean {
+    let itemHaveBeenMoved = false;
+
+    this.startGridStackItems.forEach(startGridItem => {
+      if (this.gridStackItems[0] && GridItemUtils.isItemHaveBeenMoved(startGridItem, this.gridStackItems[0])) {
+        itemHaveBeenMoved = true;
+      }
+    });
+
+    return itemHaveBeenMoved;
   }
 }

@@ -196,19 +196,15 @@ public class WidgetService {
      */
     private void logResponse(NashornResponse nashornResponse) {
         if (StringUtils.isNotBlank(nashornResponse.getLog())) {
-          WidgetService.LOGGER.info("----------- START LOG ---------");
-          WidgetService.LOGGER.info(nashornResponse.getLog());
-          WidgetService.LOGGER.info("----------- END LOG ---------");
+            WidgetService.LOGGER.info("----------- START LOG ---------");
+            WidgetService.LOGGER.info(nashornResponse.getLog());
+            WidgetService.LOGGER.info("----------- END LOG ---------");
         }
 
-        if (nashornResponse.getError() != null) {
-          WidgetService.LOGGER.info("----------- START ERROR ---------");
-          WidgetService.LOGGER.info(nashornResponse.getError().name());
-          WidgetService.LOGGER.info("----------- END ERROR ---------");
+        if (StringUtils.isNotBlank(nashornResponse.getData())) {
+            WidgetService.LOGGER.info("------------ START DATA --------");
+            WidgetService.LOGGER.info(JsonUtils.prettifyJson(nashornResponse.getData()));
+            WidgetService.LOGGER.info("------------ END DATA --------");
         }
-
-        WidgetService.LOGGER.info("------------ START RESPONSE --------");
-        WidgetService.LOGGER.info("\n" + JsonUtils.prettifyJson(nashornResponse.getData()));
-        WidgetService.LOGGER.info("------------ END RESPONSE --------");
     }
 }

@@ -26,9 +26,7 @@
             "polyfills": "src/main/webapp/polyfills.ts",
             "tsConfig": "src/main/webapp/tsconfig.app.json",
             "aot": false,
-            "assets": [
-              "src/main/webapp/assets"
-            ],
+            "assets": ["src/main/webapp/assets"],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/normalize-scss/sass",
@@ -36,12 +34,8 @@
                 "node_modules/@fortawesome/fontawesome-free/scss"
               ]
             },
-            "styles": [
-              "src/main/webapp/sass/styles.scss"
-            ],
-            "scripts": [
-              "node_modules/jquery/dist/jquery.min.js"
-            ]
+            "styles": ["src/main/webapp/sass/styles.scss"],
+            "scripts": ["node_modules/jquery/dist/jquery.min.js", "node_modules/moment/min/moment-with-locales.min.js"]
           },
           "configurations": {
             "production": {
@@ -98,9 +92,7 @@
             "polyfills": "src/main/webapp/polyfills.ts",
             "tsConfig": "src/main/webapp/tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
-            "assets": [
-              "src/main/webapp/assets"
-            ],
+            "assets": ["src/main/webapp/assets"],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/normalize-scss/sass",
@@ -108,24 +100,15 @@
                 "node_modules/@fortawesome/fontawesome-free/scss"
               ]
             },
-            "styles": [
-              "src/main/webapp/sass/styles.scss"
-            ],
-            "scripts": [
-              "node_modules/jquery/dist/jquery.min.js"
-            ]
+            "styles": ["src/main/webapp/sass/styles.scss"],
+            "scripts": ["node_modules/jquery/dist/jquery.min.js", "node_modules/moment/min/moment-with-locales.min.js"]
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": [
-              "src/main/webapp/tsconfig.app.json",
-              "src/main/webapp/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "tsConfig": ["src/main/webapp/tsconfig.app.json", "src/main/webapp/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**"]
           }
         },
         "e2e": {

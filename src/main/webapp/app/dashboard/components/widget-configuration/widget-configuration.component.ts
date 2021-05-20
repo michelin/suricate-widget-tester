@@ -16,7 +16,7 @@ export class WidgetConfigurationComponent implements OnInit {
    * Emit the error message of a widget
    */
   @Output()
-  public widgetExecutionResultEmitEvent = new EventEmitter<WidgetExecutionResult>();
+  public widgetExecutionResultEmitEvent = new EventEmitter<WidgetExecutionResult | undefined>();
 
   /**
    * Form group
@@ -27,6 +27,11 @@ export class WidgetConfigurationComponent implements OnInit {
    * The error message that can be retrieved when pushing a widget path into the input field
    */
   public onWidgetPathInputErrorMessage: string | undefined;
+
+  /**
+   * Entered widget path
+   */
+  public widgetPath: string | undefined;
 
   /**
    * Constructor
@@ -48,39 +53,55 @@ export class WidgetConfigurationComponent implements OnInit {
    * Build a widget parameter form field
    *
    * @param parameterName An optional default parameter name
+   * @param parameterValue An optional default parameter value
    */
-  public buildWidgetParameterFormField(parameterName?: string): FormGroup {
+  public buildWidgetParameterFormField(parameterName?: string, parameterValue?: string): FormGroup {
     return this.formBuilder.group({
       parameterName: [parameterName ? parameterName : ''],
-      parameterValue: ['']
+      parameterValue: [parameterValue ? parameterValue : '']
     });
   }
 
   /**
-   * On widget path input, load the parameters of the widget
-   * and add them to the widget parameters form
+   * Load the parameters of the widgets.
    *
-   * @param widgetPath The widget path
+   * Triggered when setting a widget path in the dedicated input
+   * and also triggered when a reload is asked manually with the dedicated
+   * button
+   *
+   * @param event The input event
    */
-  public onWidgetPathInput(widgetPath: string): void {
-    if (this.isNotBlank(widgetPath)) {
-      this.httpWidgetService.getWidgetParameters(widgetPath).subscribe(
+  public getWidgetParameters(event?: Event): void {
+    if (event) {
+      this.widgetPath = (<HTMLInputElement>event.target).value;
+    }
+
+    if (this.widgetPath) {
+      this.httpWidgetService.getWidgetParameters(this.widgetPath).subscribe(
         (widgetParameters: WidgetParameter[]) => {
           if (widgetParameters && widgetParameters.length > 0) {
-            this.parameters.clear();
+            const oldParameters = { ...this.parameters };
+
+            this.resetScreen();
 
             widgetParameters.forEach((widgetParameter: WidgetParameter) => {
-              this.parameters.push(this.buildWidgetParameterFormField(widgetParameter.name));
+              const oldParameter = oldParameters.value.find(
+                (value: { parameterName: string; parameterValue: string }) => value.parameterName === widgetParameter.name
+              );
+
+              this.parameters.push(
+                this.buildWidgetParameterFormField(widgetParameter.name, oldParameter ? oldParameter.parameterValue : undefined)
+              );
             });
           }
         },
         error => {
+          this.resetScreen();
           this.onWidgetPathInputErrorMessage = error.error.message;
-          this.parameters.clear();
         }
       );
     } else {
-      this.parameters.clear();
+      this.resetScreen();
     }
   }
 
@@ -131,6 +152,15 @@ export class WidgetConfigurationComponent implements OnInit {
         }
       );
     }
+  }
+
+  /**
+   * Reset the widget parameters and the displayed widget
+   */
+  public resetScreen(): void {
+    this.parameters.clear();
+    this.onWidgetPathInputErrorMessage = undefined;
+    this.widgetExecutionResultEmitEvent.emit(undefined);
   }
 
   /**

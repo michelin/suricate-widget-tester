@@ -4,7 +4,7 @@
 
     <mat-form-field appearance="fill">
       <mat-label>Widget path</mat-label>
-      <input matInput formControlName="path" required (input)="onWidgetPathInput($event.target.value)" />
+      <input matInput formControlName="path" required (input)="getWidgetParameters($event)" />
       <mat-error *ngIf="checkError('path', 'required')">The widget path is required</mat-error>
     </mat-form-field>
 
@@ -21,6 +21,7 @@
   <div class="widget-parameters">
     <div>
       <h2>Widget parameters</h2>
+      <button mat-stroked-button color="primary" type="button" (click)="getWidgetParameters()">Reload</button>
     </div>
 
     <p *ngIf="parameters.controls.length === 0 && !onWidgetPathInputErrorMessage">No parameters to display</p>
