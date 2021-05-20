@@ -34,27 +34,27 @@ public class LibraryController {
         File librariesFolder = new File(widgetPath);
 
         while (!librariesFolder.getPath().endsWith("content")) {
-          librariesFolder = librariesFolder.getParentFile();
+            librariesFolder = librariesFolder.getParentFile();
         }
 
         librariesFolder = new File(librariesFolder.getParentFile().getPath() + "/libraries");
 
         LibraryDto libraryDto = WidgetUtils.parseLibraryFolder(librariesFolder)
-          .stream()
-          .filter(library -> library.getTechnicalName().equals(libraryName))
-          .findFirst()
-          .orElse(null);
+            .stream()
+            .filter(library -> library.getTechnicalName().equals(libraryName))
+            .findFirst()
+            .orElse(null);
 
         if (libraryDto == null) {
-          throw new ObjectNotFoundException(LibraryDto.class, libraryName);
+            throw new ObjectNotFoundException(LibraryDto.class, libraryName);
         }
 
         return ResponseEntity
-          .ok()
-          .contentType(MediaType.parseMediaType("application/javascript"))
-          .contentLength(libraryDto.getAsset().length)
-          .lastModified(new Date().getTime())
-          .cacheControl(CacheControl.noCache())
-          .body(libraryDto.getAsset());
+            .ok()
+            .contentType(MediaType.parseMediaType("application/javascript"))
+            .contentLength(libraryDto.getAsset().length)
+            .lastModified(new Date().getTime())
+            .cacheControl(CacheControl.noCache())
+            .body(libraryDto.getAsset());
     }
 }

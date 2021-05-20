@@ -4,6 +4,7 @@ import { WidgetExecutionRequest } from '../../../shared/models/widget-execution/
 import { ProjectWidget } from '../../../shared/models/project-widget/project-widget';
 import { HttpWidgetService } from '../../../shared/services/backend/http-widget/http-widget.service';
 import { WidgetExecutionResult } from '../../../shared/models/widget-execution/widget-execution-result/widget-execution-result';
+import { WidgetParameter } from '../../../shared/models/widget-parameter/widget-parameter';
 
 @Component({
   selector: 'suricate-widget-configuration',
@@ -23,6 +24,11 @@ export class WidgetConfigurationComponent implements OnInit {
   public runWidgetForm!: FormGroup;
 
   /**
+   * The error message that can be retrieved when pushing a widget path into the input field
+   */
+  public onWidgetPathInputErrorMessage: string | undefined;
+
+  /**
    * Constructor
    */
   constructor(private formBuilder: FormBuilder, private httpWidgetService: HttpWidgetService) {}
@@ -34,18 +40,48 @@ export class WidgetConfigurationComponent implements OnInit {
     this.runWidgetForm = this.formBuilder.group({
       path: ['', Validators.required],
       previousData: [''],
-      parameters: this.formBuilder.array([this.buildWidgetParameterFormField()])
+      parameters: this.formBuilder.array([])
     });
   }
 
   /**
    * Build a widget parameter form field
+   *
+   * @param parameterName An optional default parameter name
    */
-  public buildWidgetParameterFormField(): FormGroup {
+  public buildWidgetParameterFormField(parameterName?: string): FormGroup {
     return this.formBuilder.group({
-      parameterName: [''],
+      parameterName: [parameterName ? parameterName : ''],
       parameterValue: ['']
     });
+  }
+
+  /**
+   * On widget path input, load the parameters of the widget
+   * and add them to the widget parameters form
+   *
+   * @param widgetPath The widget path
+   */
+  public onWidgetPathInput(widgetPath: string): void {
+    if (this.isNotBlank(widgetPath)) {
+      this.httpWidgetService.getWidgetParameters(widgetPath).subscribe(
+        (widgetParameters: WidgetParameter[]) => {
+          if (widgetParameters && widgetParameters.length > 0) {
+            this.parameters.clear();
+
+            widgetParameters.forEach((widgetParameter: WidgetParameter) => {
+              this.parameters.push(this.buildWidgetParameterFormField(widgetParameter.name));
+            });
+          }
+        },
+        error => {
+          this.onWidgetPathInputErrorMessage = error.error.message;
+          this.parameters.clear();
+        }
+      );
+    } else {
+      this.parameters.clear();
+    }
   }
 
   /**
@@ -102,22 +138,6 @@ export class WidgetConfigurationComponent implements OnInit {
    */
   get parameters(): FormArray {
     return this.runWidgetForm.get('parameters') as FormArray;
-  }
-
-  /**
-   * Add a widget parameter form field
-   */
-  public addParameter(): void {
-    this.parameters.push(this.buildWidgetParameterFormField());
-  }
-
-  /**
-   * Remove a widget parameter form field
-   *
-   * @param index The index of the form field to remove
-   */
-  public removeParameter(index: number): void {
-    this.parameters.removeAt(index);
   }
 
   /**

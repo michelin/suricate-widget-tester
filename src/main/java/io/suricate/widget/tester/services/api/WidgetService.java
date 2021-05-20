@@ -7,7 +7,7 @@ import com.github.mustachejava.MustacheException;
 import com.github.mustachejava.MustacheFactory;
 import io.suricate.widget.tester.model.dto.api.ProjectWidgetResponseDto;
 import io.suricate.widget.tester.model.dto.api.WidgetExecutionRequestDto;
-import io.suricate.widget.tester.model.dto.library.LibraryDto;
+import io.suricate.widget.tester.model.dto.category.CategoryDto;
 import io.suricate.widget.tester.model.dto.nashorn.NashornRequest;
 import io.suricate.widget.tester.model.dto.nashorn.NashornResponse;
 import io.suricate.widget.tester.model.dto.widget.WidgetDto;
@@ -30,7 +30,6 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -52,7 +51,7 @@ public class WidgetService {
     /**
      * The nashorn service
      */
-    private NashornService nashornService;
+    private final NashornService nashornService;
 
     /**
      * Constructor
@@ -68,10 +67,33 @@ public class WidgetService {
     }
 
     /**
+     * Get the widget according to the given widget path
+     * Load the category parameters as widget parameters
+     *
+     * @param widgetPath The widget path
+     * @return The widget
+     */
+    public WidgetDto getWidget(String widgetPath) throws IOException {
+        WidgetDto widgetDto = WidgetUtils.getWidget(new File(widgetPath));
+
+        CategoryDto categoryDto = WidgetUtils.getCategory(new File(widgetPath)
+                .getParentFile().getParentFile());
+
+        categoryDto.getConfigurations().forEach(categoryParameterDto -> {
+            WidgetParamDto widgetParamDto = new WidgetParamDto();
+            widgetParamDto.setName(categoryParameterDto.getKey());
+
+            widgetDto.getWidgetParams().add(widgetParamDto);
+        });
+
+        return widgetDto;
+    }
+
+    /**
      * Run the widget configured in the application properties
      */
     public ProjectWidgetResponseDto runWidget(WidgetExecutionRequestDto widgetExecutionRequestDto) throws IOException {
-        WidgetDto widget = WidgetUtils.getWidget(new File(widgetExecutionRequestDto.getPath()));
+        WidgetDto widget = this.getWidget(widgetExecutionRequestDto.getPath());
 
         StringBuilder propertiesBuilder = new StringBuilder();
 

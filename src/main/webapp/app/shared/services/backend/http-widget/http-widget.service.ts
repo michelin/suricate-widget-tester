@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { AbstractHttpService } from '../abstract-http/abstract-http.service';
 import { WidgetExecutionRequest } from '../../../models/widget-execution/widget-execution-request/widget-execution-request';
 import { Observable } from 'rxjs';
+import { WidgetParameter } from '../../../models/widget-parameter/widget-parameter';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,15 @@ export class HttpWidgetService {
    * @param httpClient The HTTP client service
    */
   constructor(private readonly httpClient: HttpClient) {}
+
+  /**
+   * Get the widget parameters according to a given path
+   */
+  public getWidgetParameters(widgetPath: string): Observable<any> {
+    const url = `${HttpWidgetService.widgetsApiEndpoint}/parameters?widgetPath=${encodeURIComponent(widgetPath)}`;
+
+    return this.httpClient.get<WidgetParameter[]>(url);
+  }
 
   /**
    * Run the widget according to the given parameters

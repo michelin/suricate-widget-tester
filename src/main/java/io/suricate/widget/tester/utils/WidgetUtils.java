@@ -3,6 +3,7 @@ package io.suricate.widget.tester.utils;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import io.suricate.widget.tester.model.dto.category.CategoryDto;
 import io.suricate.widget.tester.model.dto.library.LibraryDto;
 import io.suricate.widget.tester.model.dto.nashorn.WidgetVariableResponse;
 import io.suricate.widget.tester.model.dto.widget.WidgetDto;
@@ -18,9 +19,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class WidgetUtils {
@@ -40,31 +39,62 @@ public class WidgetUtils {
     }
 
     /**
+     * Method used to get category from Folder
+     *
+     * @param folderCategory folder category
+     * @return the category bean
+     * @throws IOException Triggered exception during the files reading
+     */
+    public static CategoryDto getCategory(File folderCategory) throws IOException {
+        if (folderCategory == null) {
+            return null;
+        }
+
+        CategoryDto category = new CategoryDto();
+        List<File> files = FilesUtils.getFiles(folderCategory);
+
+        if (files.isEmpty()) {
+            return category;
+        }
+
+        for (File file : files) {
+            if ("icon".equals(FilenameUtils.getBaseName(file.getName()))) {
+                category.setImage(FileUtils.readFileToByteArray(file));
+            } else if ("description".equals(FilenameUtils.getBaseName(file.getName()))) {
+                mapper.readerForUpdating(category).readValue(file);
+            }
+        }
+
+        return category;
+    }
+
+    /**
      * Method used to parse library folder
      *
      * @param rootFolder the root library folder
      * @return the list of library
      */
     public static List<LibraryDto> parseLibraryFolder(File rootFolder) {
-      List<LibraryDto> libraries = null;
+        List<LibraryDto> libraries = null;
 
-      try {
-        List<File> list = FilesUtils.getFiles(rootFolder);
+        try {
+            List<File> list = FilesUtils.getFiles(rootFolder);
 
-        if (!list.isEmpty()) {
-          libraries = new ArrayList<>();
+            if (!list.isEmpty()) {
+                libraries = new ArrayList<>();
 
-          for (File file : list) {
-            LibraryDto lib = new LibraryDto();
-            lib.setAsset(FileUtils.readFileToByteArray(file));
-            lib.setTechnicalName(file.getName());
-            libraries.add(lib);
-          }
+                for (File file : list) {
+                    LibraryDto lib = new LibraryDto();
+                    lib.setAsset(FileUtils.readFileToByteArray(file));
+                    lib.setTechnicalName(file.getName());
+                    libraries.add(lib);
+              }
+            }
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
         }
-      } catch (Exception e) {
-        LOGGER.error(e.getMessage(), e);
-      }
-      return libraries;
+
+        return libraries;
     }
 
     /**
@@ -177,4 +207,9 @@ public class WidgetUtils {
                 .stream()
                 .collect(Collectors.toMap(WidgetParamValueDto::getJsKey, WidgetParamValueDto::getValue));
     }
+
+    /**
+     * Private constructor
+     */
+    private WidgetUtils() { }
 }

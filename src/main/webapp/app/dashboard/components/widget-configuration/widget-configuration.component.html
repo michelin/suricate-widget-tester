@@ -4,40 +4,40 @@
 
     <mat-form-field appearance="fill">
       <mat-label>Widget path</mat-label>
-      <input matInput formControlName="path" required>
+      <input matInput formControlName="path" required (input)="onWidgetPathInput($event.target.value)" />
       <mat-error *ngIf="checkError('path', 'required')">The widget path is required</mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Previous execution data</mat-label>
-      <input matInput formControlName="previousData">
+      <input matInput formControlName="previousData" />
     </mat-form-field>
+
+    <div class="run-widget-button-div">
+      <button mat-stroked-button color="primary">Run widget</button>
+    </div>
   </div>
 
   <div class="widget-parameters">
     <div>
       <h2>Widget parameters</h2>
-      <button mat-stroked-button color="primary" type="button" (click)="addParameter()">Add</button>
     </div>
+
+    <p *ngIf="parameters.controls.length === 0 && !onWidgetPathInputErrorMessage">No parameters to display</p>
+    <p *ngIf="onWidgetPathInputErrorMessage" class="widget-path-error-message">{{ onWidgetPathInputErrorMessage }}</p>
 
     <div formArrayName="parameters">
       <div class="widget-parameters-fields" *ngFor="let widgetParameter of parameters.controls; let i = index" [formGroupName]="i">
         <mat-form-field appearance="fill">
           <mat-label>Name</mat-label>
-          <input matInput formControlName="parameterName">
+          <input matInput formControlName="parameterName" />
         </mat-form-field>
 
         <mat-form-field appearance="fill">
           <mat-label>Value</mat-label>
-          <input matInput formControlName="parameterValue">
+          <input matInput formControlName="parameterValue" />
         </mat-form-field>
-
-        <button mat-stroked-button color="primary" type="button" (click)="removeParameter(i)">Remove</button>
       </div>
-    </div>
-
-    <div class="run-widget-button-div">
-      <button mat-stroked-button color="primary">Run widget</button>
     </div>
   </div>
 </form>

@@ -11,6 +11,11 @@ form {
   mat-form-field {
     display: block;
   }
+
+  .run-widget-button-div {
+    text-align: center;
+    margin-bottom: 10px;
+  }
 }
 
 .widget-parameters {
@@ -37,9 +42,7 @@ form {
     }
   }
 
-  .run-widget-button-div {
-    max-width: 620px;
-    text-align: center;
-    margin-bottom: 10px;
+  .widget-path-error-message {
+    color: red;
   }
 }

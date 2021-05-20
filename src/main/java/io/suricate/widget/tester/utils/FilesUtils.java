@@ -21,12 +21,13 @@ public class FilesUtils {
     public static List<File> getFiles(File folder) throws IOException {
         if (folder != null) {
             try (Stream<Path> list = Files.list(folder.toPath())) {
-                return list.filter((Path path) -> path.toFile().isFile())
-                        .map(Path::toFile)
+                return list.map(Path::toFile)
+                        .filter(File::isFile)
                         .sorted()
                         .collect(Collectors.toList());
             }
         }
+
         return Collections.emptyList();
     }
 }

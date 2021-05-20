@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.suricate.widget.tester.model.dto.api.ProjectWidgetResponseDto;
 import io.suricate.widget.tester.model.dto.api.WidgetExecutionRequestDto;
+import io.suricate.widget.tester.model.dto.category.CategoryDto;
 import io.suricate.widget.tester.model.dto.nashorn.NashornResponse;
 import io.suricate.widget.tester.model.dto.widget.WidgetDto;
 import io.suricate.widget.tester.model.dto.widget.WidgetParamDto;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -45,6 +47,19 @@ public class WidgetController {
     @Autowired
     public WidgetController(WidgetService widgetService) {
       this.widgetService = widgetService;
+    }
+
+    /**
+     * Get the widget parameters according to a given path
+     */
+    @GetMapping(value = "/v1/parameters")
+    public ResponseEntity<List<WidgetParamDto>> getWidgetParameters(@RequestParam String widgetPath) throws IOException {
+        WidgetDto widgetDto = this.widgetService.getWidget(widgetPath);
+
+        return ResponseEntity
+          .ok()
+          .contentType(MediaType.APPLICATION_JSON)
+          .body(widgetDto.getWidgetParams());
     }
 
     /**
