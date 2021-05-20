@@ -72,7 +72,7 @@ export class DashboardScreenComponent implements OnInit, OnChanges {
     if (changes.widgetExecutionResult) {
       if (!changes.widgetExecutionResult.previousValue) {
         // Inject this variable in the window scope because some widgets use it to init the js
-        (window as any)['page_loaded'] = true;
+        (window as any).page_loaded = true;
       }
 
       this.initGridStackOptions();
