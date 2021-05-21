@@ -1,5 +1,5 @@
   
-name: Release
+name: GitHub Release
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
       - "v*.*.*" 
       
 jobs:
-  release:
+  Release:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout project
