@@ -41,5 +41,4 @@ jobs:
 
       - name: Release Back-End
         run: mvn -B release:clean |
-             mvn release:prepare -DreleaseVersion=${{ github.event.inputs.release_version }} -DreleaseProfiles=production |
-             mvn release:perform
+             mvn -B release:prepare -DreleaseVersion=${{ github.event.inputs.release_version }} -DreleaseProfiles=production
