@@ -1,4 +1,4 @@
-name: Release
+name: Tag
 
 on:
   workflow_dispatch:
@@ -30,7 +30,7 @@ jobs:
 
       - name: Update Front-End release version
         run: |
-          npm --no-git-tag-version version ${{ github.event.inputs.release_version }}
+          npm --no-git-tag-version --allow-same-version version ${{ github.event.inputs.release_version }}
 
       - name: Commit Front-End release version
         uses: EndBug/add-and-commit@v7.1.1
