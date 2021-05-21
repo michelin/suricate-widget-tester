@@ -9,6 +9,13 @@
   <name>Suricate Widget Tester</name>
   <description>Widget tester of the Suricate application</description>
 
+  <scm>
+    <connection>scm:git:https://github.com/michelin/suricate-widget-tester.git</connection>
+    <url>scm:git:https://github.com/michelin/suricate-widget-tester.git</url>
+    <developerConnection>scm:git:https://github.com/michelin/suricate-widget-tester.git</developerConnection>
+    <tag>HEAD</tag>
+  </scm>
+
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
