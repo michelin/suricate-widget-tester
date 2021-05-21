@@ -1,0 +1,17 @@
+  
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*" # Run workflow on version tags, e.g. v1.0.0.
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v2
+        with:
+          # Token used to checkout and push to origin/master
+          token: ${{ secrets.CI_CD_TOKEN }}
