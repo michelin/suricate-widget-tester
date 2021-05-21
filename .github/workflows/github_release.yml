@@ -7,7 +7,7 @@ on:
       - "v*.*.*" 
       
 jobs:
-  GitHub Release:
+  GitHub-Release:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout project
