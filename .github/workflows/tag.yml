@@ -29,7 +29,7 @@ jobs:
 
       - name: Update Front-End release version
         run: |
-          npm --no-git-tag-version --allow-same-version version ${{ github.event.inputs.release_version }} 
+          npm --no-git-tag-version version ${{ github.event.inputs.release_version }} 
           git config --global user.email "loic.greffier_ext@michelin.com"
           git config --global user.name "GitHub CI/CD"
           git add package.json
