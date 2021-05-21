@@ -29,5 +29,5 @@ jobs:
         with:
           token: ${{ secrets.CI_CD_TOKEN }}
           bodyFile: "CHANGELOG.md"
-          artifacts: "suricate-widget-tester.jar"
-          name: Release ${{ github.ref }}
+          artifacts: "target/suricate-widget-tester.jar"
+          name: Release ${GITHUB_REF##*/}
