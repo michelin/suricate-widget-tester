@@ -11,4 +11,4 @@ This repository contains the source code of the Suricate widget tester applicati
 
 ## 📚 Wiki
 
-Information and instructions about the use of the widget tester are located in [the wiki](https://github.com/michelin/suricate-widget-tester/wiki) 🙌
+Information and instructions about the use of the widget tester are located in [the widget tester wiki](https://github.com/michelin/suricate-widget-tester/wiki) 🙌
