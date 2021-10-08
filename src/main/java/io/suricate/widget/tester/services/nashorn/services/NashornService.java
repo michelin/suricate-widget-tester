@@ -1,6 +1,8 @@
 package io.suricate.widget.tester.services.nashorn.services;
 
 import io.suricate.widget.tester.model.dto.nashorn.NashornRequest;
+import io.suricate.widget.tester.utils.JsonUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -23,16 +25,24 @@ public class NashornService {
      * @return True is it is ok, false otherwise
      */
     public boolean isNashornRequestExecutable(final NashornRequest nashornRequest) {
-      if (!nashornRequest.isValid()) {
-        LOGGER.debug("The Nashorn request is not valid for the widget instance: {}", nashornRequest.getProjectWidgetId());
-        return false;
-      }
+        if (!StringUtils.isNotEmpty(nashornRequest.getScript())) {
+            LOGGER.debug("The widget instance {} has no script. Stopping Nashorn request execution",
+                    nashornRequest.getProjectWidgetId());
+            return false;
+        }
 
-      if (nashornRequest.getDelay() < 0) {
-        LOGGER.debug("The Nashorn request has a delay < 0 for widget instance: {}", nashornRequest.getProjectWidgetId());
-        return false;
-      }
+        if (!JsonUtils.isValid(nashornRequest.getPreviousData())) {
+            LOGGER.debug("The widget instance {} has bad formed previous data. Stopping Nashorn request execution",
+                    nashornRequest.getProjectWidgetId());
+            return false;
+        }
 
-      return true;
+        if (nashornRequest.getDelay() == null || nashornRequest.getDelay() < 0) {
+            LOGGER.debug("The widget instance {} has no delay or delay is < 0. Stopping Nashorn request execution",
+                    nashornRequest.getProjectWidgetId());
+            return false;
+        }
+
+        return true;
     }
 }
