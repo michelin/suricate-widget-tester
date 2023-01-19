@@ -1,9 +1,8 @@
-name: Continuous Integration
+name: Pull request
 
 on:
-  push:
-    branches:
-      - master
+  pull_request:
+    branches: [ master ]
 
 jobs:
   back-end:
@@ -36,7 +35,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: jar
-          path: ${{ github.workspace }}/target/suricate-widget-tester.jar
+          path: ${{ github.workspace }}/target/suricate.jar
 
   front-end:
     runs-on: ubuntu-latest
@@ -51,13 +50,13 @@ jobs:
         with:
           node-version: '12.x'
 
-      - name: Build with NPM
+      - name: Build
         run: |
           npm install --no-progress
           npm run build -- --prod
 
-      - name: Lint with NPM
+      - name: Lint
         run: npm run lint
 
-      - name: Test with NPM
+      - name: Test
         run: npm run test-headless-no-sandbox -- --watch=false --progress=false --code-coverage
