@@ -9,29 +9,21 @@ import io.suricate.widget.tester.model.dto.nashorn.WidgetVariableResponse;
 import io.suricate.widget.tester.model.dto.widget.WidgetDto;
 import io.suricate.widget.tester.model.dto.widget.WidgetParamDto;
 import io.suricate.widget.tester.model.dto.widget.WidgetParamValueDto;
-import io.suricate.widget.tester.model.enums.DataTypeEnum;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
+@Slf4j
 public class WidgetUtils {
-
-    /**
-     * Class logger
-     */
-    private static final Logger LOGGER = LoggerFactory.getLogger(WidgetUtils.class);
-
-    /**
-     * Object mapper for jackson
-     */
     private static final ObjectMapper mapper;
     static {
         mapper = new ObjectMapper(new YAMLFactory());
@@ -40,7 +32,6 @@ public class WidgetUtils {
 
     /**
      * Method used to get category from Folder
-     *
      * @param folderCategory folder category
      * @return the category bean
      * @throws IOException Triggered exception during the files reading
@@ -91,7 +82,7 @@ public class WidgetUtils {
               }
             }
         } catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
+            log.error(e.getMessage(), e);
         }
 
         return libraries;
@@ -118,17 +109,17 @@ public class WidgetUtils {
             }
 
             if (widget.getDelay() == null) {
-                LOGGER.error("Widget delay must no be null : {}", folder.getPath());
+                log.error("Widget delay must no be null : {}", folder.getPath());
                 return null;
             }
 
             if (widget.getDelay() > 0 && StringUtils.isBlank(widget.getBackendJs())) {
-                LOGGER.error("Widget script must not be empty when delay > 0 : {}", folder.getPath());
+                log.error("Widget script must not be empty when delay > 0 : {}", folder.getPath());
                 return null;
             }
 
             if (StringUtils.isAnyBlank(widget.getCssContent(), widget.getDescription(), widget.getHtmlContent(), widget.getTechnicalName(), widget.getName())) {
-                LOGGER.error("Widget is not well formatted : {}", folder.getPath());
+                log.error("Widget is not well formatted : {}", folder.getPath());
                 return null;
             }
         }
