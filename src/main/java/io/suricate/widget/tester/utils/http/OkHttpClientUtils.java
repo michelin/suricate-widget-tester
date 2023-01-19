@@ -1,10 +1,9 @@
 package io.suricate.widget.tester.utils.http;
 
+import lombok.extern.slf4j.Slf4j;
 import okhttp3.ConnectionSpec;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
@@ -15,13 +14,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
+@Slf4j
 public final class OkHttpClientUtils {
-
-    /**
-     * Class logger
-     */
-    private static final Logger LOGGER = LoggerFactory.getLogger(OkHttpClientUtils.class);
-
     /**
      * Read timeout
      */
@@ -76,9 +70,9 @@ public final class OkHttpClientUtils {
 
             return builder.build();
         } catch (NoSuchAlgorithmException e) {
-            LOGGER.error("An error occurred during the OKHttpClient configuration: SSL algorithm not found", e);
+            log.error("An error occurred during the OKHttpClient configuration: SSL algorithm not found", e);
         } catch (KeyManagementException e) {
-            LOGGER.error("An error occurred during the OKHttpClient configuration: Cannot init the SSL context", e);
+            log.error("An error occurred during the OKHttpClient configuration: Cannot init the SSL context", e);
         }
 
         return null;

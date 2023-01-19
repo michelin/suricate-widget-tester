@@ -1,5 +1,6 @@
 package io.suricate.widget.tester.utils;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,21 +11,12 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.TreeMap;
 
+@Slf4j
 public final class PropertiesUtils {
-
-    /**
-     * Logger
-     */
-    private static final Logger LOGGER = LoggerFactory.getLogger(PropertiesUtils.class);
-
-    /**
-     * Constructor
-     */
     private PropertiesUtils() { }
 
     /**
      * Convert widget parameters values from string to map
-     *
      * @param widgetProperties the string containing the widget parameters values (key1=value1)
      * @return The widget parameters values as map
      */
@@ -57,7 +49,7 @@ public final class PropertiesUtils {
                 properties = new Properties();
                 properties.load(reader);
             } catch (IOException e) {
-                LOGGER.error("An error has occurred converting widget parameters values from string to Properties: {}", widgetProperties, e);
+                log.error("An error has occurred converting widget parameters values from string to Properties: {}", widgetProperties, e);
             }
         }
 

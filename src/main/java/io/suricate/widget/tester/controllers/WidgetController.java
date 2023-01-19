@@ -15,34 +15,18 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.List;
 
-/**
- * Widget controller
- */
 @RestController
 @RequestMapping("/api")
 public class WidgetController {
-
-    /**
-     * Widget service
-     */
-    private final WidgetService widgetService;
-
-    /**
-     * Constructor
-     *
-     * @param widgetService The widget service
-     */
     @Autowired
-    public WidgetController(WidgetService widgetService) {
-      this.widgetService = widgetService;
-    }
+    private WidgetService widgetService;
 
     /**
      * Get the widget parameters according to a given path
      */
     @GetMapping(value = "/v1/parameters")
     public ResponseEntity<List<WidgetParamDto>> getWidgetParameters(@RequestParam String widgetPath) throws IOException {
-        WidgetDto widgetDto = this.widgetService.getWidget(widgetPath);
+        WidgetDto widgetDto = widgetService.getWidget(widgetPath);
 
         return ResponseEntity
           .ok()
@@ -55,7 +39,7 @@ public class WidgetController {
      */
     @PostMapping(value = "/v1/run")
     public ResponseEntity<ProjectWidgetResponseDto> runWidget(@RequestBody WidgetExecutionRequestDto widgetExecutionRequestDto) throws IOException {
-        ProjectWidgetResponseDto projectWidgetResponseDto = this.widgetService.runWidget(widgetExecutionRequestDto);
+        ProjectWidgetResponseDto projectWidgetResponseDto = widgetService.runWidget(widgetExecutionRequestDto);
 
         if (projectWidgetResponseDto.getLog() != null) {
           throw new ApiException(projectWidgetResponseDto.getLog(), ApiErrorEnum.INTERNAL_SERVER_ERROR);

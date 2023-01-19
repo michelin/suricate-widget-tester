@@ -3,26 +3,16 @@ package io.suricate.widget.tester.controllers.handlers;
 import io.suricate.widget.tester.model.dto.error.ApiErrorDto;
 import io.suricate.widget.tester.model.enums.ApiErrorEnum;
 import io.suricate.widget.tester.utils.exceptions.ApiException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.nio.file.NoSuchFileException;
 
-/**
- * Manage Rest exceptions
- */
+@Slf4j
 @RestControllerAdvice
 public class GlobalDefaultExceptionHandler {
-
-    /**
-     * Logger
-     */
-    public static final Logger LOGGER = LoggerFactory.getLogger(GlobalDefaultExceptionHandler.class);
 
     /**
      * Manage the API exception.
@@ -32,7 +22,7 @@ public class GlobalDefaultExceptionHandler {
      */
     @ExceptionHandler(ApiException.class)
     public ResponseEntity<ApiErrorDto> handleApiException(ApiException exception) {
-      GlobalDefaultExceptionHandler.LOGGER.debug("An exception has occurred in the API controllers part", exception);
+      log.debug("An exception has occurred in the API controllers part", exception);
 
       return ResponseEntity
         .status(exception.getError().getStatus())
@@ -47,7 +37,7 @@ public class GlobalDefaultExceptionHandler {
      */
     @ExceptionHandler(NoSuchFileException.class)
     public ResponseEntity<ApiErrorDto> handleApiException(NoSuchFileException exception) {
-        GlobalDefaultExceptionHandler.LOGGER.debug("An exception has occurred in the API controllers part", exception);
+        log.debug("An exception has occurred in the API controllers part", exception);
 
         return ResponseEntity
                 .status(ApiErrorEnum.FILE_ERROR.getStatus())

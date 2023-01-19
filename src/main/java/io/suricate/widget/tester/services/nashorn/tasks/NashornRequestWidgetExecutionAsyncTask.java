@@ -9,40 +9,23 @@ import io.suricate.widget.tester.utils.JavaScriptUtils;
 import io.suricate.widget.tester.utils.JsonUtils;
 import io.suricate.widget.tester.utils.PropertiesUtils;
 import io.suricate.widget.tester.utils.exceptions.nashorn.RemoteException;
-import io.suricate.widget.tester.utils.exceptions.nashorn.RequestException;
 import jdk.nashorn.api.scripting.NashornScriptEngineFactory;
-import jdk.nashorn.internal.runtime.ECMAException;
-import org.apache.commons.lang3.RegExUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.script.*;
 import java.io.InterruptedIOException;
 import java.io.StringWriter;
-import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
+@Slf4j
 public class NashornRequestWidgetExecutionAsyncTask implements Callable<NashornResponse> {
-
-    /**
-     * Class logger
-     */
-    private static final Logger LOGGER = LoggerFactory.getLogger(NashornRequestWidgetExecutionAsyncTask.class);
-
-    /**
-     * The Nashorn request to execute
-     */
     private final NashornRequest nashornRequest;
-
-    /**
-     * The list of widget parameters
-     */
     private final List<WidgetVariableResponse> widgetParameters;
 
     /**
@@ -58,7 +41,6 @@ public class NashornRequestWidgetExecutionAsyncTask implements Callable<NashornR
 
     /**
      * Method automatically called by the scheduler after the given delay.
-     *
      * Convert the widget properties set by the user to a map. Then, decrypt
      * the secret properties and set default value to unset properties.
      *
@@ -74,7 +56,7 @@ public class NashornRequestWidgetExecutionAsyncTask implements Callable<NashornR
      */
     @Override
     public NashornResponse call() {
-        LOGGER.debug("Executing the Nashorn request of the widget instance {}", nashornRequest.getProjectWidgetId());
+        log.debug("Executing the Nashorn request of the widget instance {}", nashornRequest.getProjectWidgetId());
 
         NashornResponse nashornResponse = new NashornResponse();
         nashornResponse.setLaunchDate(new Date());
@@ -117,8 +99,8 @@ public class NashornRequestWidgetExecutionAsyncTask implements Callable<NashornR
                     nashornResponse.setData(json);
                     nashornResponse.setLog(sw.toString());
                 } else {
-                    LOGGER.debug("The JSON response obtained after the execution of the Nashorn request of the widget instance {} is invalid", nashornRequest.getProjectWidgetId());
-                    LOGGER.debug("The JSON response is: {}", json);
+                    log.debug("The JSON response obtained after the execution of the Nashorn request of the widget instance {} is invalid", nashornRequest.getProjectWidgetId());
+                    log.debug("The JSON response is: {}", json);
 
                     nashornResponse.setLog(sw + "\nThe JSON response is not valid - " + json);
                     nashornResponse.setError(nashornRequest.isAlreadySuccess() ? NashornErrorTypeEnum.ERROR : NashornErrorTypeEnum.FATAL);
@@ -130,9 +112,9 @@ public class NashornRequestWidgetExecutionAsyncTask implements Callable<NashornR
             // Do not set logs during an interruption, as it is caused by a canceling
             // of the Nashorn request, the return Nashorn response will not be processed by the NashornRequestResultAsyncTask
             if (rootCause instanceof InterruptedIOException) {
-              LOGGER.info("The execution of the widget instance {} has been interrupted", nashornRequest.getProjectWidgetId());
+                log.info("The execution of the widget instance {} has been interrupted", nashornRequest.getProjectWidgetId());
             } else {
-              LOGGER.error("An error has occurred during the Nashorn request execution of the widget instance {}", nashornRequest.getProjectWidgetId(), exception);
+                log.error("An error has occurred during the Nashorn request execution of the widget instance {}", nashornRequest.getProjectWidgetId(), exception);
 
               if (isFatalError(exception, rootCause)) {
                 nashornResponse.setError(NashornErrorTypeEnum.FATAL);
@@ -156,8 +138,8 @@ public class NashornRequestWidgetExecutionAsyncTask implements Callable<NashornR
      * @param widgetProperties        The widget properties
      */
     private void setDefaultValueToWidgetProperties(Map<String, String> widgetProperties) {
-        if (this.widgetParameters != null) {
-            for (WidgetVariableResponse widgetVariableResponse : this.widgetParameters) {
+        if (widgetParameters != null) {
+            for (WidgetVariableResponse widgetVariableResponse : widgetParameters) {
                 if (!widgetProperties.containsKey(widgetVariableResponse.getName())) {
                     if (!widgetVariableResponse.isRequired()) {
                         widgetProperties.put(widgetVariableResponse.getName(), null);
@@ -167,19 +149,6 @@ public class NashornRequestWidgetExecutionAsyncTask implements Callable<NashornR
                 }
             }
         }
-    }
-
-    /**
-     * Prettify an error message
-     *
-     * @param message The message to prettify
-     * @return the message without the exception name
-     */
-    protected String prettify(String message) {
-        if (message == null) {
-            return null;
-        }
-        return RegExUtils.replacePattern(message, "ExecutionException: java.lang.FatalError:|FatalError:", "").trim();
     }
 
     /**

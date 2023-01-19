@@ -14,9 +14,5 @@ import java.util.Map;
 @Configuration
 @ConfigurationProperties(prefix = "application", ignoreUnknownFields = false)
 public class ApplicationProperties {
-
-    /**
-     * Cors properties
-     */
-    public final CorsConfiguration cors = new CorsConfiguration();
+    private CorsConfiguration cors;
 }

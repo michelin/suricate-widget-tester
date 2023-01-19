@@ -18,9 +18,8 @@ import io.suricate.widget.tester.utils.JavaScriptUtils;
 import io.suricate.widget.tester.utils.JsonUtils;
 import io.suricate.widget.tester.utils.PropertiesUtils;
 import io.suricate.widget.tester.utils.WidgetUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,44 +31,18 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
 
-/**
- * Widget service
- */
+@Slf4j
 @Service
 public class WidgetService {
-
-    /**
-     * LOGGER
-     */
-    private static final Logger LOGGER = LoggerFactory.getLogger(WidgetService.class);
-
-    /**
-     * The mustacheFactory
-     */
-    private final MustacheFactory mustacheFactory;
-
-    /**
-     * The nashorn service
-     */
-    private final NashornService nashornService;
-
-    /**
-     * Constructor
-     *
-     * @param mustacheFactory The mustache factory (HTML template)
-     * @param nashornService The nashorn service
-     */
     @Autowired
-    public WidgetService(MustacheFactory mustacheFactory,
-                         NashornService nashornService) {
-      this.mustacheFactory = mustacheFactory;
-      this.nashornService = nashornService;
-    }
+    private MustacheFactory mustacheFactory;
+
+    @Autowired
+    private NashornService nashornService;
 
     /**
      * Get the widget according to the given widget path
      * Load the category parameters as widget parameters
-     *
      * @param widgetPath The widget path
      * @return The widget
      */
@@ -93,7 +66,7 @@ public class WidgetService {
      * Run the widget configured in the application properties
      */
     public ProjectWidgetResponseDto runWidget(WidgetExecutionRequestDto widgetExecutionRequestDto) throws IOException {
-        WidgetDto widget = this.getWidget(widgetExecutionRequestDto.getPath());
+        WidgetDto widget = getWidget(widgetExecutionRequestDto.getPath());
 
         StringBuilder propertiesBuilder = new StringBuilder();
 
@@ -117,13 +90,13 @@ public class WidgetService {
 
         String data = "{}";
 
-        if (this.nashornService.isNashornRequestExecutable(nashornRequest)) {
+        if (nashornService.isNashornRequestExecutable(nashornRequest)) {
             NashornRequestWidgetExecutionAsyncTask nashornRequestWidgetExecutionAsyncTask = new NashornRequestWidgetExecutionAsyncTask(nashornRequest,
               WidgetUtils.getWidgetParametersForNashorn(widget));
 
             NashornResponse nashornResponse = nashornRequestWidgetExecutionAsyncTask.call();
 
-            this.logResponse(nashornResponse);
+            logResponse(nashornResponse);
 
             // Failure
             if (nashornResponse.getError() != null) {
@@ -135,7 +108,7 @@ public class WidgetService {
         }
 
         // Success
-        projectWidgetResponseDto.setInstantiateHtml(this.instantiateProjectWidgetHtml(widget, data, propertiesBuilder.toString()));
+        projectWidgetResponseDto.setInstantiateHtml(instantiateProjectWidgetHtml(widget, data, propertiesBuilder.toString()));
 
         return projectWidgetResponseDto;
     }
@@ -172,7 +145,7 @@ public class WidgetService {
             }
           }
         } catch (IOException e) {
-          LOGGER.error(e.getMessage(), e);
+          log.error(e.getMessage(), e);
         }
 
         StringWriter stringWriter = new StringWriter();
@@ -180,7 +153,7 @@ public class WidgetService {
           Mustache mustache = mustacheFactory.compile(new StringReader(instantiateHtml), widget.getTechnicalName());
           mustache.execute(stringWriter, map);
         } catch (MustacheException me) {
-          LOGGER.error("Error with mustache template for widget {}", widget.getTechnicalName(), me);
+            log.error("Error with mustache template for widget {}", widget.getTechnicalName(), me);
         }
         stringWriter.flush();
         instantiateHtml = stringWriter.toString();
@@ -196,15 +169,15 @@ public class WidgetService {
      */
     private void logResponse(NashornResponse nashornResponse) {
         if (StringUtils.isNotBlank(nashornResponse.getLog())) {
-            WidgetService.LOGGER.info("----------- START LOG ---------");
-            WidgetService.LOGGER.info(nashornResponse.getLog());
-            WidgetService.LOGGER.info("----------- END LOG ---------");
+            log.info("----------- START LOG ---------");
+            log.info(nashornResponse.getLog());
+            log.info("----------- END LOG ---------");
         }
 
         if (StringUtils.isNotBlank(nashornResponse.getData())) {
-            WidgetService.LOGGER.info("------------ START DATA --------");
-            WidgetService.LOGGER.info(JsonUtils.prettifyJson(nashornResponse.getData()));
-            WidgetService.LOGGER.info("------------ END DATA --------");
+            log.info("------------ START DATA --------");
+            log.info(JsonUtils.prettifyJson(nashornResponse.getData()));
+            log.info("------------ END DATA --------");
         }
     }
 }
