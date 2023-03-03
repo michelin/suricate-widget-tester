@@ -37,6 +37,18 @@ jobs:
           name: jar
           path: ${{ github.workspace }}/target/suricate.jar
 
+      - name: Set up JDK 11 for Sonar
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+
+      - name: Sonar
+        run: mvn verify sonar:sonar -DcentralAnalyzerEnabled=false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
   front-end:
     runs-on: ubuntu-latest
     steps:
