@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
@@ -50,6 +51,25 @@ class WidgetIntegrationTest {
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
         assertThat(response.getBody()).isNotNull();
-        assertThat(response.getBody().getMessage()).isEqualTo("The file src\\test\\resources\\error\\repository\\content\\github\\widgets\\count-issues does not exist");
+
+        String expectedFileName = "src" +
+                File.separator +
+                "test" +
+                File.separator +
+                "resources" +
+                File.separator +
+                "error" +
+                File.separator +
+                "repository" +
+                File.separator +
+                "content" +
+                File.separator +
+                "github" +
+                File.separator +
+                "widgets" +
+                File.separator +
+                "count-issues";
+
+        assertThat(response.getBody().getMessage()).isEqualTo("The file " + expectedFileName + " does not exist");
     }
 }
