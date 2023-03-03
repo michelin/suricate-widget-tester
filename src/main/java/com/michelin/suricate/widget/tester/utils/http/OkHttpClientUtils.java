@@ -16,24 +16,12 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 public final class OkHttpClientUtils {
-    /**
-     * Read timeout
-     */
     private static final int READ_TIMEOUT = 300;
 
-    /**
-     * Write timeout
-     */
     private static final int WRITE_TIMEOUT = 300;
 
-    /**
-     * Connect timeout
-     */
     private static final int CONNECT_TIMEOUT = 300;
 
-    /**
-     * Private constructor
-     */
     private OkHttpClientUtils() { }
 
     /**
@@ -49,10 +37,10 @@ public final class OkHttpClientUtils {
             };
 
             // Install the all-trusting trust manager
-            final SSLContext sslContext = SSLContext.getInstance("SSL");
+            final SSLContext sslContext = SSLContext.getInstance("TLS");
             sslContext.init(null, trustManager, new java.security.SecureRandom());
 
-            // Create an ssl socket factory with our all-trusting manager
+            // Create a ssl socket factory with our all-trusting manager
             final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
 
             HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
