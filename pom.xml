@@ -5,7 +5,7 @@
   <groupId>io.suricate</groupId>
   <artifactId>suricate-widget-tester</artifactId>
   <version>1.0.2-SNAPSHOT</version>
-  <name>Suricate Widget Tester</name>
+  <name>suricate widget tester</name>
   <description>Widget tester of the Suricate application</description>
 
   <scm>
