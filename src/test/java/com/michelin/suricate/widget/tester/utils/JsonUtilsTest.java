@@ -33,6 +33,6 @@ class JsonUtilsTest {
     @Test
     void shouldPrettifyJson() {
         String actual = JsonUtils.prettifyJson("{\"test\":0}");
-        assertThat(actual).isEqualTo("test");
+        assertThat(actual).contains("{\n  \"test\": 0\n}");
     }
 }

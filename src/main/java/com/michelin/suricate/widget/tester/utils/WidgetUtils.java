@@ -170,9 +170,9 @@ public class WidgetUtils {
 
             if (widgetVariableResponse.getType() != null) {
                 switch (widgetVariableResponse.getType()) {
-                    case DataTypeEnum.COMBO:
+                    case COMBO:
 
-                    case DataTypeEnum.MULTIPLE:
+                    case MULTIPLE:
                         widgetVariableResponse.setValues(getWidgetParamValuesAsMap(widgetParameter.getValues()));
                         break;
 
