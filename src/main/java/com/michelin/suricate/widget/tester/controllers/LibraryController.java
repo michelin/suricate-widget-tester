@@ -1,0 +1,53 @@
+package com.michelin.suricate.widget.tester.controllers;
+
+import com.michelin.suricate.widget.tester.model.dto.library.LibraryDto;
+import com.michelin.suricate.widget.tester.utils.exceptions.ObjectNotFoundException;
+import com.michelin.suricate.widget.tester.utils.WidgetUtils;
+import org.springframework.http.CacheControl;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.io.File;
+import java.util.Date;
+
+@RestController
+@RequestMapping("/api")
+public class LibraryController {
+
+    /**
+     * Get the JS library content by name from the widget folder path
+     *
+     * @param libraryName The library name
+     * @return The library data
+     */
+    @GetMapping(path = "/v1/libraries/{libraryName}/content")
+    public ResponseEntity<byte[]> getLibrary(@PathVariable("libraryName") String libraryName,
+                                             @RequestParam String widgetPath) {
+        File librariesFolder = new File(widgetPath);
+
+        while (!librariesFolder.getPath().endsWith("content")) {
+            librariesFolder = librariesFolder.getParentFile();
+        }
+
+        librariesFolder = new File(librariesFolder.getParentFile().getPath() + "/libraries");
+
+        LibraryDto libraryDto = WidgetUtils.parseLibraryFolder(librariesFolder)
+            .stream()
+            .filter(library -> library.getTechnicalName().equals(libraryName))
+            .findFirst()
+            .orElse(null);
+
+        if (libraryDto == null) {
+            throw new ObjectNotFoundException(LibraryDto.class, libraryName);
+        }
+
+        return ResponseEntity
+            .ok()
+            .contentType(MediaType.parseMediaType("application/javascript"))
+            .contentLength(libraryDto.getAsset().length)
+            .lastModified(new Date().getTime())
+            .cacheControl(CacheControl.noCache())
+            .body(libraryDto.getAsset());
+    }
+}
