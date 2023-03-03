@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 
 @RestController
@@ -23,10 +24,10 @@ public class LibraryController {
      */
     @GetMapping(path = "/v1/libraries/{libraryName}/content")
     public ResponseEntity<byte[]> getLibrary(@PathVariable("libraryName") String libraryName,
-                                             @RequestParam String widgetPath) {
+                                             @RequestParam String widgetPath) throws IOException {
         File librariesFolder = new File(widgetPath);
 
-        while (!librariesFolder.getPath().endsWith("content")) {
+        while (!librariesFolder.getCanonicalPath().endsWith("content")) {
             librariesFolder = librariesFolder.getParentFile();
         }
 

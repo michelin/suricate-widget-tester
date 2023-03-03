@@ -53,22 +53,8 @@ class WidgetIntegrationTest {
         assertThat(response.getBody()).isNotNull();
 
         String expectedFileName = "src" +
-                File.separator +
-                "test" +
-                File.separator +
-                "resources" +
-                File.separator +
-                "error" +
-                File.separator +
-                "repository" +
-                File.separator +
-                "content" +
-                File.separator +
-                "github" +
-                File.separator +
-                "widgets" +
-                File.separator +
-                "count-issues";
+                File.separator + "test" + File.separator + "resources" + File.separator + "error" + File.separator + "repository" +
+                File.separator + "content" + File.separator + "github" + File.separator + "widgets" + File.separator + "count-issues";
 
         assertThat(response.getBody().getMessage()).isEqualTo("The file " + expectedFileName + " does not exist");
     }
