@@ -23,11 +23,41 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Slf4j
-public class WidgetUtils {
+public final class WidgetUtils {
     private static final ObjectMapper mapper;
+
     static {
         mapper = new ObjectMapper(new YAMLFactory());
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    }
+
+    /**
+     * Method used to parse library folder
+     *
+     * @param rootFolder the root library folder
+     * @return the list of library
+     */
+    public static List<LibraryDto> parseLibraryFolder(File rootFolder) {
+        List<LibraryDto> libraries = null;
+
+        try {
+            List<File> list = FilesUtils.getFiles(rootFolder);
+
+            if (!list.isEmpty()) {
+                libraries = new ArrayList<>();
+
+                for (File file : list) {
+                    LibraryDto lib = new LibraryDto();
+                    lib.setAsset(FileUtils.readFileToByteArray(file));
+                    lib.setTechnicalName(file.getName());
+                    libraries.add(lib);
+                }
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+
+        return libraries;
     }
 
     /**
@@ -57,35 +87,6 @@ public class WidgetUtils {
         }
 
         return category;
-    }
-
-    /**
-     * Method used to parse library folder
-     *
-     * @param rootFolder the root library folder
-     * @return the list of library
-     */
-    public static List<LibraryDto> parseLibraryFolder(File rootFolder) {
-        List<LibraryDto> libraries = null;
-
-        try {
-            List<File> list = FilesUtils.getFiles(rootFolder);
-
-            if (!list.isEmpty()) {
-                libraries = new ArrayList<>();
-
-                for (File file : list) {
-                    LibraryDto lib = new LibraryDto();
-                    lib.setAsset(FileUtils.readFileToByteArray(file));
-                    lib.setTechnicalName(file.getName());
-                    libraries.add(lib);
-              }
-            }
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-        }
-
-        return libraries;
     }
 
     /**
@@ -199,8 +200,5 @@ public class WidgetUtils {
                 .collect(Collectors.toMap(WidgetParamValueDto::getJsKey, WidgetParamValueDto::getValue));
     }
 
-    /**
-     * Private constructor
-     */
     private WidgetUtils() { }
 }
