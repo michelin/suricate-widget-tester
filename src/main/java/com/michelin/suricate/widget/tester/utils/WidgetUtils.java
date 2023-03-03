@@ -87,6 +87,12 @@ public final class WidgetUtils {
             }
         }
 
+        // Avoid not well formatted category
+        if (StringUtils.isBlank(category.getName())) {
+            log.error("Category {} invalid it's name must not be empty", folderCategory.getPath());
+            return null;
+        }
+
         return category;
     }
 
