@@ -1,6 +1,7 @@
 package com.michelin.suricate.widget.tester.services;
 
 import com.github.mustachejava.DefaultMustacheFactory;
+import com.github.mustachejava.MustacheException;
 import com.github.mustachejava.MustacheFactory;
 import com.michelin.suricate.widget.tester.model.dto.api.ProjectWidgetResponseDto;
 import com.michelin.suricate.widget.tester.model.dto.api.WidgetExecutionRequestDto;
@@ -164,5 +165,62 @@ class WidgetServiceTest {
             assertThat(actual.getCssContent()).isEqualTo("cssContent");
             assertThat(actual.getLibrariesNames().get(0)).isEqualTo("lib");
         }
+    }
+
+    @Test
+    void shouldInstantiateProjectWidgetHtmlNoData() {
+        WidgetDto widgetDto = new WidgetDto();
+        widgetDto.setId(1L);
+        widgetDto.setHtmlContent("<h1>Titre</h1>");
+
+        String actual = widgetService.instantiateProjectWidgetHtml(widgetDto, "", "param=value");
+
+        assertThat(actual)
+                .isEqualTo("<h1>Titre</h1>");
+    }
+
+    @Test
+    void shouldInstantiateProjectWidgetHtml() {
+        WidgetDto widgetDto = new WidgetDto();
+        widgetDto.setId(1L);
+        widgetDto.setHtmlContent("<h1>{{DATA}}</h1>");
+
+        when(mustacheFactory.compile(any(), any()))
+                .thenReturn(new DefaultMustacheFactory().compile(new StringReader(widgetDto.getHtmlContent()), widgetDto.getTechnicalName()));
+
+        String actual = widgetService.instantiateProjectWidgetHtml(widgetDto, "{\"DATA\": \"titre\"}", "param=value");
+
+        assertThat(actual)
+                .isEqualTo("<h1>titre</h1>");
+    }
+
+    @Test
+    void shouldThrowMustacheExceptionWhenInstantiateProjectWidgetHtml() {
+        WidgetDto widgetDto = new WidgetDto();
+        widgetDto.setId(1L);
+        widgetDto.setHtmlContent("<h1>{{DATA}}</h1>");
+
+        when(mustacheFactory.compile(any(), any()))
+                .thenThrow(new MustacheException("Error"));
+
+        String actual = widgetService.instantiateProjectWidgetHtml(widgetDto, "{\"DATA\": \"titre\"}", "param=value");
+
+        assertThat(actual).isEmpty();
+    }
+
+    @Test
+    void shouldThrowExceptionFromDataWhenInstantiateProjectWidgetHtml() {
+        WidgetDto widgetDto = new WidgetDto();
+        widgetDto.setId(1L);
+        widgetDto.setTechnicalName("technicalName");
+        widgetDto.setHtmlContent("<h1>{{DATA}}</h1>");
+
+        when(mustacheFactory.compile(any(), any()))
+                .thenReturn(new DefaultMustacheFactory().compile(new StringReader(widgetDto.getHtmlContent()), widgetDto.getTechnicalName()));
+
+        String actual = widgetService.instantiateProjectWidgetHtml(widgetDto, "parseError", "param=value");
+
+        assertThat(actual)
+                .isEqualTo("<h1></h1>");
     }
 }
