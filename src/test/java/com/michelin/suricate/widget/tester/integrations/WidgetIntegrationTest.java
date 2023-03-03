@@ -56,6 +56,8 @@ class WidgetIntegrationTest {
                 File.separator + "test" + File.separator + "resources" + File.separator + "error" + File.separator + "repository" +
                 File.separator + "content" + File.separator + "github" + File.separator + "widgets" + File.separator + "count-issues";
 
-        assertThat(response.getBody().getMessage()).isEqualTo("The file " + expectedFileName + " does not exist");
+        assertThat(response.getBody().getMessage()).contains("The file");
+        assertThat(response.getBody().getMessage()).contains(expectedFileName);
+        assertThat(response.getBody().getMessage()).contains("does not exist");
     }
 }

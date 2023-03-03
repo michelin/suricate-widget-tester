@@ -2,8 +2,10 @@ package com.michelin.suricate.widget.tester.utils;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,7 +24,7 @@ public class FilesUtils {
      */
     public static List<File> getFiles(File folder) throws IOException {
         if (folder != null) {
-            try (Stream<Path> list = Files.list(folder.toPath())) {
+            try (Stream<Path> list = Files.list(Paths.get(folder.getCanonicalPath()))) {
                 return list.map(Path::toFile)
                         .filter(File::isFile)
                         .sorted()

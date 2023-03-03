@@ -77,8 +77,7 @@ public class WidgetService {
             .append("\n"));
 
         NashornRequest nashornRequest = new NashornRequest(propertiesBuilder.toString(), widget.getBackendJs(),
-            widgetExecutionRequestDto.getPreviousData(), 1L, 1L, widget.getDelay(), new Date()
-        );
+            widgetExecutionRequestDto.getPreviousData(), 1L, 1L, widget.getDelay(), new Date());
 
         ProjectWidgetResponseDto projectWidgetResponseDto = new ProjectWidgetResponseDto();
         projectWidgetResponseDto.setTechnicalName(widget.getTechnicalName());
