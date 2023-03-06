@@ -97,12 +97,12 @@ public class NashornRequestWidgetExecutionAsyncTask implements Callable<NashornR
 
                 if (JsonUtils.isValid(json)) {
                     nashornResponse.setData(json);
-                    nashornResponse.setLog(sw.toString());
+                    nashornResponse.setLog(StringUtils.trimToNull(sw.toString()));
                 } else {
                     log.debug("The JSON response obtained after the execution of the Nashorn request of the widget instance {} is invalid", nashornRequest.getProjectWidgetId());
                     log.debug("The JSON response is: {}", json);
 
-                    nashornResponse.setLog(sw + "\nThe JSON response is not valid - " + json);
+                    nashornResponse.setLog(StringUtils.trimToNull(sw + "\nThe JSON response is not valid - " + json));
                     nashornResponse.setError(nashornRequest.isAlreadySuccess() ? NashornErrorTypeEnum.ERROR : NashornErrorTypeEnum.FATAL);
                 }
             }
@@ -122,7 +122,10 @@ public class NashornRequestWidgetExecutionAsyncTask implements Callable<NashornR
                 nashornResponse.setError(NashornErrorTypeEnum.ERROR);
               }
 
-              nashornResponse.setLog(ExceptionUtils.getRootCauseMessage(exception));
+                // If RemoteException/RequestException get custom message, else get root cause
+                String logs = ExceptionUtils.getRootCause(exception).getMessage() != null ? ExceptionUtils.getRootCause(exception).getMessage() :
+                        ExceptionUtils.getRootCause(exception).toString();
+                nashornResponse.setLog(logs);
             }
         } finally {
             nashornResponse.setProjectId(nashornRequest.getProjectId());

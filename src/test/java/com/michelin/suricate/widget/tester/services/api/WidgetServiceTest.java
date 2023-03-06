@@ -1,4 +1,4 @@
-package com.michelin.suricate.widget.tester.services;
+package com.michelin.suricate.widget.tester.services.api;
 
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.MustacheException;
@@ -164,6 +164,49 @@ class WidgetServiceTest {
             assertThat(actual.getTechnicalName()).isEqualTo("technicalName");
             assertThat(actual.getCssContent()).isEqualTo("cssContent");
             assertThat(actual.getLibrariesNames().get(0)).isEqualTo("lib");
+        }
+    }
+
+    @Test
+    void shouldNotRunWidgetWhenWrongBackendJs() throws IOException {
+        try (MockedStatic<WidgetUtils> mocked = mockStatic(WidgetUtils.class)) {
+            WidgetDto widgetDto = new WidgetDto();
+            widgetDto.setId(1L);
+            widgetDto.setName("name");
+            widgetDto.setTechnicalName("technicalName");
+            widgetDto.setBackendJs("backendJs");
+            widgetDto.setCssContent("cssContent");
+            widgetDto.setDelay(10L);
+            widgetDto.setHtmlContent("<h1>{{data}}</h1>");
+            widgetDto.setLibraries(new String[]{"lib"});
+
+            CategoryParameterDto categoryParameterDto = new CategoryParameterDto();
+            categoryParameterDto.setKey("key");
+            categoryParameterDto.setValue("value");
+
+            CategoryDto categoryDto = new CategoryDto();
+            categoryDto.setId(1L);
+            categoryDto.setConfigurations(Collections.singleton(categoryParameterDto));
+
+            mocked.when(() -> WidgetUtils.getWidget(any()))
+                    .thenReturn(widgetDto);
+            mocked.when(() -> WidgetUtils.getCategory(any()))
+                    .thenReturn(categoryDto);
+            when(nashornService.isNashornRequestExecutable(any()))
+                    .thenReturn(true);
+
+            WidgetParametersRequestDto widgetParametersRequestDto = new WidgetParametersRequestDto();
+            widgetParametersRequestDto.setName("name");
+            widgetParametersRequestDto.setValue("value");
+
+            WidgetExecutionRequestDto widgetExecutionRequestDto = new WidgetExecutionRequestDto();
+            widgetExecutionRequestDto.setPath("src/test/resources/repository/content/github/widgets/count-issues");
+            widgetExecutionRequestDto.setPreviousData("previousData");
+            widgetExecutionRequestDto.setParameters(Collections.singletonList(widgetParametersRequestDto));
+
+            ProjectWidgetResponseDto actual = widgetService.runWidget(widgetExecutionRequestDto);
+
+            assertThat(actual.getLog()).isEqualTo("ReferenceError: \"backendJs\" is not defined");
         }
     }
 

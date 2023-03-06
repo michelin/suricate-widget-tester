@@ -51,4 +51,12 @@ public class NashornResponse extends AbstractDto {
     * The "fake" project widget to return through the web service
     */
     private ProjectWidgetResponseDto projectWidget;
+
+    /**
+     * Check if the Nashorn error response type is fatal
+     * @return true if the Nashorn error response is fatal, false otherwise
+     */
+    public boolean isFatal() {
+        return NashornErrorTypeEnum.FATAL == error;
+    }
 }
