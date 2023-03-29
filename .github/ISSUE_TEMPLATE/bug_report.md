@@ -25,7 +25,7 @@ If applicable, add screenshots to help explain your problem.
 
 - OS: [e.g. iOS]
 - Browser [e.g. chrome, safari]
-- Suricate version [e.g. v2.3.1]
+- Suricate Widget Tester version [e.g. v1.0.0]
 - Java version [e.g. 1.8]
 
 ## Steps taken to try and solve the problem
