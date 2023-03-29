@@ -12,7 +12,7 @@ This repository contains the source code of the Suricate Widget Tester applicati
 
 ![Suricate widget tester](src/main/webapp/assets/images/widget-tester.png)
 
-# Table of Contents
+## Table of Contents
 
 * [Introduction](#introduction)
 * [Download](#download)
@@ -21,8 +21,9 @@ This repository contains the source code of the Suricate Widget Tester applicati
   * [JavaScript Execution](#javascript-execution)
   * [Widget and Category Parameters](#widget-and-category-parameters)
   * [Display](#display)
-  
-# Introduction
+* [Contribution](#contribution)
+
+## Introduction
 
 The Widget Tester allows developers to test a widget before deploying it to a Suricate instance. It has multiple advantages:
 - It's fast and easy to set up and use.
@@ -31,11 +32,11 @@ The Widget Tester allows developers to test a widget before deploying it to a Su
 
 The widget tester is able to test the following points.
 
-# Download
+## Download
 
 You can download the Widget Tester as a fat jar from the [GitHub releases page](https://github.com/michelin/suricate-widget-tester/releases). Please note that Java 8 is required.
 
-# Install
+## Install
 
 The Widget Tester is released as a JAR archive containing both the front-end and back-end parts, so you can run the whole application in just one command:
 
@@ -45,9 +46,9 @@ java -jar suricate-widget-tester.jar
 
 After running the command, the application will be accessible on http://localhost:8085/.
 
-# Testing a Widget
+## Testing a Widget
 
-## JavaScript Execution
+### JavaScript Execution
 
 The widget tester executes the JavaScript file of a widget. It can be used to ensure that:
 
@@ -59,13 +60,13 @@ The widget tester executes the JavaScript file of a widget. It can be used to en
 
 In short, it ensures that the widget execution works, and helps identify issues if it doesn't.
 
-## Widget and Category Parameters
+### Widget and Category Parameters
 
 The widget tester is able to read the widget and category parameters and display them in the user interface. Users can fill them before they are injected into the JavaScript part for widget execution.
 
 This ensures that the parameters work as expected during widget execution.
 
-## Display
+### Display
 
 The widget tester displays the widget directly in the user interface so that the user can see what it looks like. It can be used to ensure that:
 
@@ -74,3 +75,7 @@ The widget tester displays the widget directly in the user interface so that the
 - The resizing and moving of the widget work as expected.
 
 If JavaScript libraries are defined in the `description.yml` file, they will be picked up from the `libraries` folder and injected into the DOM so that they are available for the widget.
+
+## Contribution
+
+We welcome contributions from the community! Before you get started, please take a look at our [contribution guide](https://github.com/michelin/suricate-widget-tester/blob/master/CONTRIBUTING.md) to learn about our guidelines and best practices. We appreciate your help in making Suricate a better tool for everyone.
