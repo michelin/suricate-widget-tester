@@ -16,7 +16,7 @@ This repository contains the source code of the Suricate Widget Tester applicati
 
 * [Introduction](#introduction)
 * [Download](#download)
-* [Usage](#usage)
+* [Install](#install)
 * [Testing a Widget](#testing-a-widget)
   * [JavaScript Execution](#javascript-execution)
   * [Widget and Category Parameters](#widget-and-category-parameters)
@@ -35,7 +35,7 @@ The widget tester is able to test the following points.
 
 You can download the Widget Tester as a fat jar from the [GitHub releases page](https://github.com/michelin/suricate-widget-tester/releases). Please note that Java 8 is required.
 
-# Usage
+# Install
 
 The Widget Tester is released as a JAR archive containing both the front-end and back-end parts, so you can run the whole application in just one command:
 
