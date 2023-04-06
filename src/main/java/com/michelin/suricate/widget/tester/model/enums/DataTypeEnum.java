@@ -7,6 +7,7 @@ public enum DataTypeEnum {
     // Simple data types
     NUMBER,
     TEXT,
+    TEXTAREA,
     PASSWORD,
     // Complex data types
     BOOLEAN,

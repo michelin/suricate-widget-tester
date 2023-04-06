@@ -1,10 +1,14 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {AbstractControl, Form, FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { WidgetExecutionRequest } from '../../../shared/models/widget-execution/widget-execution-request/widget-execution-request';
 import { ProjectWidget } from '../../../shared/models/project-widget/project-widget';
 import { HttpWidgetService } from '../../../shared/services/backend/http-widget/http-widget.service';
 import { WidgetExecutionResult } from '../../../shared/models/widget-execution/widget-execution-result/widget-execution-result';
 import { WidgetParameter } from '../../../shared/models/widget-parameter/widget-parameter';
+import {DataTypeEnum} from "../../../shared/enums/data-type.enum";
+import {FormField} from "../../../shared/services/frontend/form/form-field";
+import {Observable} from "rxjs";
+import {FileUtils} from "../../services/utils/file.utils";
 
 @Component({
   selector: 'suricate-widget-configuration',
@@ -17,6 +21,16 @@ export class WidgetConfigurationComponent implements OnInit {
    */
   @Output()
   public widgetExecutionResultEmitEvent = new EventEmitter<WidgetExecutionResult | undefined>();
+
+  /**
+   * The image as base 64
+   */
+  public imgBase64: string | ArrayBuffer | undefined;
+
+  /**
+   * If it's not an image we set the filename
+   */
+  public filename: string | undefined;
 
   /**
    * Form group
@@ -34,6 +48,16 @@ export class WidgetConfigurationComponent implements OnInit {
   public widgetPath: string | undefined;
 
   /**
+   * The widget parameters form fields
+   */
+  public widgetParamsFormField: FormField[] = [];
+
+  /**
+   * The data type enum
+   */
+  public dataType = DataTypeEnum;
+
+  /**
    * Constructor
    */
   constructor(private formBuilder: FormBuilder, private httpWidgetService: HttpWidgetService) {}
@@ -44,21 +68,7 @@ export class WidgetConfigurationComponent implements OnInit {
   ngOnInit(): void {
     this.runWidgetForm = this.formBuilder.group({
       path: ['', Validators.required],
-      previousData: [''],
-      parameters: this.formBuilder.array([])
-    });
-  }
-
-  /**
-   * Build a widget parameter form field
-   *
-   * @param parameterName An optional default parameter name
-   * @param parameterValue An optional default parameter value
-   */
-  public buildWidgetParameterFormField(parameterName?: string, parameterValue?: string): FormGroup {
-    return this.formBuilder.group({
-      parameterName: [parameterName ? parameterName : ''],
-      parameterValue: [parameterValue ? parameterValue : '']
+      previousData: ['']
     });
   }
 
@@ -80,18 +90,22 @@ export class WidgetConfigurationComponent implements OnInit {
       this.httpWidgetService.getWidgetParameters(this.widgetPath).subscribe(
         (widgetParameters: WidgetParameter[]) => {
           if (widgetParameters && widgetParameters.length > 0) {
-            const oldParameters = { ...this.parameters };
-
             this.resetScreen();
 
             widgetParameters.forEach((widgetParameter: WidgetParameter) => {
-              const oldParameter = oldParameters.value.find(
-                (value: { parameterName: string; parameterValue: string }) => value.parameterName === widgetParameter.name
-              );
+              this.widgetParamsFormField.push({
+                name: widgetParameter.name,
+                type: widgetParameter.type,
+                required: widgetParameter.required,
+                possibleValues: widgetParameter.possibleValuesMap
+              });
 
-              this.parameters.push(
-                this.buildWidgetParameterFormField(widgetParameter.name, oldParameter ? oldParameter.parameterValue : undefined)
-              );
+              this.runWidgetForm.registerControl(widgetParameter.name + '-name',
+                  this.formBuilder.control(widgetParameter.name))
+
+              this.runWidgetForm.registerControl(widgetParameter.name + '-value',
+                  this.formBuilder.control(this.runWidgetForm.controls[widgetParameter.name + '-value'] ?
+                      this.runWidgetForm.controls[widgetParameter.name + '-value'].value : widgetParameter.defaultValue))
             });
           }
         },
@@ -118,20 +132,18 @@ export class WidgetConfigurationComponent implements OnInit {
         widgetExecutionRequest.previousData = this.runWidgetForm.value.previousData;
       }
 
-      if (this.runWidgetForm.value.parameters.length > 0) {
-        this.runWidgetForm.value.parameters.forEach((parameter: { parameterName: string; parameterValue: string }) => {
-          if (this.isNotBlank(parameter.parameterName) && this.isNotBlank(parameter.parameterValue)) {
-            if (widgetExecutionRequest.parameters == null) {
-              widgetExecutionRequest.parameters = [];
-            }
-
-            widgetExecutionRequest.parameters.push({
-              name: parameter.parameterName,
-              value: parameter.parameterValue
-            });
+      this.widgetParamsFormField.forEach((field: FormField) => {
+        if (this.isNotBlank(this.runWidgetForm.controls[field.name + '-value'].value)) {
+          if (widgetExecutionRequest.parameters == null) {
+            widgetExecutionRequest.parameters = [];
           }
-        });
-      }
+
+          widgetExecutionRequest.parameters.push({
+            name: field.name,
+            value: this.runWidgetForm.controls[field.name + '-value'].value
+          });
+        }
+      });
 
       this.httpWidgetService.runWidget(widgetExecutionRequest).subscribe(
         (projectWidget: ProjectWidget) => {
@@ -158,16 +170,43 @@ export class WidgetConfigurationComponent implements OnInit {
    * Reset the widget parameters and the displayed widget
    */
   public resetScreen(): void {
-    this.parameters.clear();
+    this.widgetParamsFormField = [];
     this.onWidgetPathInputErrorMessage = undefined;
     this.widgetExecutionResultEmitEvent.emit(undefined);
   }
 
   /**
-   * Return the list of widget parameters fields
+   * Manage the change event return by the input
+   *
+   * @param event The file change event
+   * @param formField The form field that triggered the event
    */
-  get parameters(): FormArray {
-    return this.runWidgetForm.get('parameters') as FormArray;
+  public onFileChange(event: Event, formField: FormField): void {
+    this.convertFileBase64(event, formField);
+  }
+
+  /**
+   * Convert a file into base64
+   *
+   * @param event The change event
+   * @param formField The form field that triggered the event
+   */
+  public convertFileBase64(event: Event, formField: FormField): void {
+    const inputElement = event.target as HTMLInputElement;
+    if (!inputElement.files || inputElement.files.length === 0) {
+      return;
+    }
+
+    const file: File = inputElement.files[0];
+    FileUtils.convertFileToBase64(file).subscribe((base64Url: string | ArrayBuffer) => {
+      const base64String = base64Url as string;
+      const fileName = file.name;
+
+      this.setBase64File(base64String, fileName);
+      this.runWidgetForm.controls[formField.name + '-value'].setValue(base64String);
+      this.runWidgetForm.markAsDirty();
+      this.runWidgetForm.markAsTouched();
+    });
   }
 
   /**
@@ -187,5 +226,21 @@ export class WidgetConfigurationComponent implements OnInit {
    */
   public isNotBlank(value: string): boolean {
     return value != null && value !== '';
+  }
+
+  /**
+   * Use to display image or filename
+   *
+   * @param base64Url The base64 url of the image
+   * @param filename The filename if the file is not an image
+   */
+  private setBase64File(base64Url: string, filename: string): void {
+    if (FileUtils.isBase64UrlIsAnImage(base64Url)) {
+      this.imgBase64 = base64Url;
+      this.filename = undefined;
+    } else {
+      this.imgBase64 = undefined;
+      this.filename = filename;
+    }
   }
 }

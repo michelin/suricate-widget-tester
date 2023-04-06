@@ -55,6 +55,7 @@ public class WidgetService {
         categoryDto.getConfigurations().forEach(categoryParameterDto -> {
             WidgetParamDto widgetParamDto = new WidgetParamDto();
             widgetParamDto.setName(categoryParameterDto.getKey());
+            widgetParamDto.setType(categoryParameterDto.getDataType());
 
             widgetDto.getWidgetParams().add(widgetParamDto);
         });
@@ -73,7 +74,7 @@ public class WidgetService {
         widgetExecutionRequestDto.getParameters().forEach(parameter -> propertiesBuilder
             .append(parameter.getName())
             .append("=")
-            .append(parameter.getValue())
+            .append(parameter.getValue().replace("\n", "\\n"))
             .append("\n"));
 
         NashornRequest nashornRequest = new NashornRequest(propertiesBuilder.toString(), widget.getBackendJs(),

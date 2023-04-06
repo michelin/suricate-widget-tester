@@ -46,3 +46,19 @@ form {
     color: red;
   }
 }
+
+.file-upload-wrapper {
+  margin-bottom: 20px;
+  place-content: baseline !important;
+  display: inline;
+
+  img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+
+  input[type='file'] {
+    display: none;
+  }
+}
