@@ -1,14 +1,13 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import {AbstractControl, Form, FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { WidgetExecutionRequest } from '../../../shared/models/widget-execution/widget-execution-request/widget-execution-request';
 import { ProjectWidget } from '../../../shared/models/project-widget/project-widget';
 import { HttpWidgetService } from '../../../shared/services/backend/http-widget/http-widget.service';
 import { WidgetExecutionResult } from '../../../shared/models/widget-execution/widget-execution-result/widget-execution-result';
 import { WidgetParameter } from '../../../shared/models/widget-parameter/widget-parameter';
-import {DataTypeEnum} from "../../../shared/enums/data-type.enum";
-import {FormField} from "../../../shared/services/frontend/form/form-field";
-import {Observable} from "rxjs";
-import {FileUtils} from "../../services/utils/file.utils";
+import { DataTypeEnum } from '../../../shared/enums/data-type.enum';
+import { FormField } from '../../../shared/services/frontend/form/form-field';
+import { FileUtils } from '../../services/utils/file.utils';
 
 @Component({
   selector: 'suricate-widget-configuration',
@@ -100,12 +99,16 @@ export class WidgetConfigurationComponent implements OnInit {
                 possibleValues: widgetParameter.possibleValuesMap
               });
 
-              this.runWidgetForm.registerControl(widgetParameter.name + '-name',
-                  this.formBuilder.control(widgetParameter.name))
+              this.runWidgetForm.registerControl(widgetParameter.name + '-name', this.formBuilder.control(widgetParameter.name));
 
-              this.runWidgetForm.registerControl(widgetParameter.name + '-value',
-                  this.formBuilder.control(this.runWidgetForm.controls[widgetParameter.name + '-value'] ?
-                      this.runWidgetForm.controls[widgetParameter.name + '-value'].value : widgetParameter.defaultValue))
+              this.runWidgetForm.registerControl(
+                widgetParameter.name + '-value',
+                this.formBuilder.control(
+                  this.runWidgetForm.controls[widgetParameter.name + '-value']
+                    ? this.runWidgetForm.controls[widgetParameter.name + '-value'].value
+                    : widgetParameter.defaultValue
+                )
+              );
             });
           }
         },

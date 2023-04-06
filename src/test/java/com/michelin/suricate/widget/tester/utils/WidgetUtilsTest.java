@@ -2,16 +2,25 @@ package com.michelin.suricate.widget.tester.utils;
 
 import com.michelin.suricate.widget.tester.model.dto.category.CategoryDto;
 import com.michelin.suricate.widget.tester.model.dto.library.LibraryDto;
+import com.michelin.suricate.widget.tester.model.dto.nashorn.WidgetVariableResponse;
 import com.michelin.suricate.widget.tester.model.dto.widget.WidgetDto;
+import com.michelin.suricate.widget.tester.model.dto.widget.WidgetParamDto;
+import com.michelin.suricate.widget.tester.model.dto.widget.WidgetParamValueDto;
+import com.michelin.suricate.widget.tester.model.enums.DataTypeEnum;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 class WidgetUtilsTest {
     @Test
@@ -116,5 +125,44 @@ class WidgetUtilsTest {
         assertThat(actual.getBackendJs()).isNull();
         assertThat(actual.getImage()).isNotNull();
         assertThat(actual.getWidgetParams()).isEmpty();
+    }
+
+    @Test
+    void shouldGetWidgetParametersForNashorn() {
+        WidgetParamDto widgetParam = new WidgetParamDto();
+        widgetParam.setName("Name1");
+        widgetParam.setDescription("Description");
+        widgetParam.setType(DataTypeEnum.TEXT);
+        widgetParam.setDefaultValue("defaultValue");
+
+        WidgetParamValueDto widgetParamValue = new WidgetParamValueDto();
+        widgetParamValue.setJsKey("key");
+        widgetParamValue.setValue("value");
+
+        WidgetParamDto widgetParamTwo = new WidgetParamDto();
+        widgetParamTwo.setName("Name2");
+        widgetParamTwo.setDescription("Description");
+        widgetParamTwo.setType(DataTypeEnum.COMBO);
+        widgetParamTwo.setPossibleValuesMap(Collections.singletonList(widgetParamValue));
+
+        WidgetParamDto widgetParamThree = new WidgetParamDto();
+        widgetParamThree.setName("Name3");
+        widgetParamThree.setDescription("Description");
+        widgetParamThree.setType(DataTypeEnum.MULTIPLE);
+        widgetParamThree.setPossibleValuesMap(Collections.singletonList(widgetParamValue));
+
+        WidgetParamDto widgetParamFour = new WidgetParamDto();
+        widgetParamFour.setName("Name4");
+        widgetParamFour.setDescription("Description");
+        widgetParamFour.setType(DataTypeEnum.TEXT);
+        widgetParamFour.setPossibleValuesMap(Collections.singletonList(widgetParamValue));
+
+        WidgetDto widget = new WidgetDto();
+        widget.setId(1L);
+        widget.setWidgetParams(Arrays.asList(widgetParam, widgetParamTwo, widgetParamThree, widgetParamFour));
+
+        List<WidgetVariableResponse> actual = WidgetUtils.getWidgetParametersForNashorn(widget);
+
+        assertThat(actual).hasSize(4);
     }
 }

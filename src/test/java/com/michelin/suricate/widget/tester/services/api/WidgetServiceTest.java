@@ -22,6 +22,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.Arrays;
 import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -78,7 +79,7 @@ class WidgetServiceTest {
             widgetDto.setBackendJs("function run () { print('title='+SURI_TITLE); return '{\"data\": \"test\"}'; }");
             widgetDto.setCssContent("cssContent");
             widgetDto.setDelay(10L);
-            widgetDto.setHtmlContent("<h1>{{data}}</h1>");
+            widgetDto.setHtmlContent("<h1>{{data}}</h1><h1>{{SURI_DESC}}</h1>");
 
             CategoryParameterDto categoryParameterDto = new CategoryParameterDto();
             categoryParameterDto.setKey("key");
@@ -106,14 +107,18 @@ class WidgetServiceTest {
             widgetParametersRequestDto.setName("SURI_TITLE");
             widgetParametersRequestDto.setValue("myTitle");
 
+            WidgetParametersRequestDto breakLineWidgetParametersRequestDto = new WidgetParametersRequestDto();
+            breakLineWidgetParametersRequestDto.setName("SURI_DESC");
+            breakLineWidgetParametersRequestDto.setValue("desc\ndesc");
+
             WidgetExecutionRequestDto widgetExecutionRequestDto = new WidgetExecutionRequestDto();
             widgetExecutionRequestDto.setPath("src/test/resources/repository/content/github/widgets/count-issues");
             widgetExecutionRequestDto.setPreviousData("previousData");
-            widgetExecutionRequestDto.setParameters(Collections.singletonList(widgetParametersRequestDto));
+            widgetExecutionRequestDto.setParameters(Arrays.asList(widgetParametersRequestDto, breakLineWidgetParametersRequestDto));
 
             ProjectWidgetResponseDto actual = widgetService.runWidget(widgetExecutionRequestDto);
 
-            assertThat(actual.getInstantiateHtml()).isEqualTo("<h1>test</h1>");
+            assertThat(actual.getInstantiateHtml()).isEqualTo("<h1>test</h1><h1>desc&#10;desc</h1>");
             assertThat(actual.getTechnicalName()).isEqualTo("technicalName");
             assertThat(actual.getCssContent()).isEqualTo("cssContent");
         }

@@ -16,7 +16,7 @@
  *
  */
 
-import {Observable, Observer} from 'rxjs';
+import { Observable, Observer } from 'rxjs';
 
 /**
  * Utils class for images

@@ -1,7 +1,4 @@
-/**
- * The widget execution request
- */
-import {WidgetParameterRequest} from "../../widget-parameter/widget-parameter-request";
+import { WidgetParameterRequest } from '../../widget-parameter/widget-parameter-request';
 
 export interface WidgetExecutionRequest {
   /**

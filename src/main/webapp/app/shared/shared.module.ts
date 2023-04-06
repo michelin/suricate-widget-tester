@@ -31,8 +31,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AppRoutingModule } from '../app-routing.module';
 import { WidgetHtmlDirective } from './directives/widget-html.directive';
 import { SpinnerComponent } from './components/spinner/spinner.component';
-import {MatSelectModule} from "@angular/material/select";
-import {MatCheckboxModule} from "@angular/material/checkbox";
+import { MatSelectModule } from '@angular/material/select';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   imports: [

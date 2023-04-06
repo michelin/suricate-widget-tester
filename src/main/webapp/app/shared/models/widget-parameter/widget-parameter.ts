@@ -1,5 +1,5 @@
-import {DataTypeEnum} from "../../enums/data-type.enum";
-import {WidgetParameterValue} from "./widget-parameter-value";
+import { DataTypeEnum } from '../../enums/data-type.enum';
+import { WidgetParameterValue } from './widget-parameter-value';
 
 export interface WidgetParameter {
   name: string;
