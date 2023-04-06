@@ -1,14 +1,11 @@
-/**
- * A widget parameter
- */
-export interface WidgetParameter {
-  /**
-   * Widget parameter name
-   */
-  name: string;
+import { DataTypeEnum } from '../../enums/data-type.enum';
+import { WidgetParameterValue } from './widget-parameter-value';
 
-  /**
-   * Widget parameter value
-   */
+export interface WidgetParameter {
+  name: string;
   value: string;
+  type: DataTypeEnum;
+  defaultValue: string;
+  required: boolean;
+  possibleValuesMap: WidgetParameterValue[];
 }

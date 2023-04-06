@@ -42,7 +42,7 @@ public class WidgetParamDto {
     private String acceptFileRegex;
 
     /**
-     * An exemple of the usage of this param
+     * An example of the usage of this param
      */
     private String usageExample;
 
@@ -54,5 +54,5 @@ public class WidgetParamDto {
     /**
      * The list of param values if the type is COMBO or a MULTIPLE
      */
-    private List<WidgetParamValueDto> values = new ArrayList<>();
+    private List<WidgetParamValueDto> possibleValuesMap = new ArrayList<>();
 }

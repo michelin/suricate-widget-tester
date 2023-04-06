@@ -117,17 +117,17 @@ public final class WidgetUtils {
             }
 
             if (widget.getDelay() == null) {
-                log.error("Widget delay must no be null : {}", folder.getPath());
+                log.error("Widget delay must no be null: {}", folder.getPath());
                 return null;
             }
 
             if (widget.getDelay() > 0 && StringUtils.isBlank(widget.getBackendJs())) {
-                log.error("Widget script must not be empty when delay > 0 : {}", folder.getPath());
+                log.error("Widget script must not be empty when delay > 0: {}", folder.getPath());
                 return null;
             }
 
             if (StringUtils.isAnyBlank(widget.getCssContent(), widget.getDescription(), widget.getHtmlContent(), widget.getTechnicalName(), widget.getName())) {
-                log.error("Widget is not well formatted : {}", folder.getPath());
+                log.error("Widget is not well formatted: {}", folder.getPath());
                 return null;
             }
         }
@@ -180,7 +180,7 @@ public final class WidgetUtils {
                     case COMBO:
 
                     case MULTIPLE:
-                        widgetVariableResponse.setValues(getWidgetParamValuesAsMap(widgetParameter.getValues()));
+                        widgetVariableResponse.setValues(getWidgetParamValuesAsMap(widgetParameter.getPossibleValuesMap()));
                         break;
 
                     default:
