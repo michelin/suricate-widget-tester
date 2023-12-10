@@ -35,15 +35,22 @@ In general, we follow the ["fork-and-pull" Git workflow](https://github.com/susa
 - Push changes to your fork
 - Open a PR in our repository targeting master and follow the PR template so that we can efficiently review the changes.
 
-## Styleguides
+## Style Guide
 
-### Git Commit Messages
+### Code Style
 
-When contributing to the project, it's important to follow a consistent style for Git commit messages. Here are some guidelines to keep in mind:
+We maintain a consistent code style using [Checkstyle](https://checkstyle.sourceforge.io/).
 
-- Use the present tense, such as "Add feature," rather than the past tense, such as "Added feature."
-- Use the imperative mood, such as "Move cursor to..." rather than "Moves cursor to..."
-- Limit the first line of the commit message to 72 characters or less.
-- Use references to issues and pull requests after the first line as needed.
-- If your commit only changes documentation, include `[ci skip]` in the commit title.
-- Consider using an applicable [emoji](https://gitmoji.dev/) at the beginning of the commit message.
+The configuration file is defined in the `.checkstyle` folder.
+To perform Checkstyle validation, run the following:
+
+```bash
+mvn checkstyle:check
+```
+
+Before you start contributing new code, it is recommended to:
+
+- Install the IntelliJ [CheckStyle-IDEA](https://plugins.jetbrains.com/plugin/1065-checkstyle-idea) plugin.
+- Configure the plugin to use Suricate Widget Tester's Checkstyle configuration file.
+
+Adhering to this code style ensures consistency and helps maintain code quality throughout the project.

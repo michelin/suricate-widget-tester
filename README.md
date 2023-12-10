@@ -6,6 +6,7 @@
 [![GitHub Stars](https://img.shields.io/github/stars/michelin/suricate-widget-tester?logo=github&style=for-the-badge)](https://github.com/michelin/suricate)
 [![GitHub Watch](https://img.shields.io/github/watchers/michelin/suricate-widget-tester?logo=github&style=for-the-badge)](https://github.com/michelin/suricate)
 [![SonarCloud Coverage](https://img.shields.io/sonar/coverage/michelin_suricate-widget-tester?logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io&style=for-the-badge)](https://sonarcloud.io/component_measures?id=michelin_suricate-widget-tester&metric=coverage&view=list)
+[![SonarCloud Tests](https://img.shields.io/sonar/tests/michelin_suricate-widget-tester/master?server=https%3A%2F%2Fsonarcloud.io&style=for-the-badge&logo=sonarcloud)](https://sonarcloud.io/component_measures?metric=tests&view=list&id=michelin_suricate-widget-tester)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg?logo=apache&style=for-the-badge)](https://opensource.org/licenses/Apache-2.0)
 
 This repository contains the source code of the Suricate Widget Tester application.
@@ -34,15 +35,21 @@ The widget tester is able to test the following points.
 
 ## Download
 
-You can download the Widget Tester as a fat jar from the [GitHub releases page](https://github.com/michelin/suricate-widget-tester/releases). Please note that Java 8 is required.
+You can download the Suricate Widget Tester as a fat jar from the [GitHub releases page](https://github.com/michelin/suricate-widget-tester/releases). 
+
+Please note that Java 21 is required starting from version 1.1.0 (Java 8 before).
 
 ## Install
 
-The Widget Tester is released as a JAR archive containing both the front-end and back-end parts, so you can run the whole application in just one command:
+The Suricate Widget Tester is released as a JAR archive containing both the front-end and back-end parts, so you can run the whole application in just one command:
 
 ```console
-java -jar suricate-widget-tester.jar
+java -Dpolyglotimpl.DisableClassPathIsolation=true -jar suricate-widget-tester.jar
 ```
+
+The `-Dpolyglotimpl.DisableClassPathIsolation=true` option is required to
+run [Polyglot]((https://www.graalvm.org/jdk21/reference-manual/embed-languages/))
+properly ([more details](https://github.com/oracle/graal/issues/7625)).
 
 After running the command, the application will be accessible on http://localhost:8085/.
 
@@ -50,7 +57,7 @@ After running the command, the application will be accessible on http://localhos
 
 ### JavaScript Execution
 
-The widget tester executes the JavaScript file of a widget. It can be used to ensure that:
+The Suricate Widget Tester executes the JavaScript file of a widget. It can be used to ensure that:
 
 - The calls to REST APIs provide the expected responses.
 - The processing of REST API responses works as expected.
@@ -62,13 +69,13 @@ In short, it ensures that the widget execution works, and helps identify issues 
 
 ### Widget and Category Parameters
 
-The widget tester is able to read the widget and category parameters and display them in the user interface. Users can fill them before they are injected into the JavaScript part for widget execution.
+The Suricate Widget Tester is able to read the widget and category parameters and display them in the user interface. Users can fill them before they are injected into the JavaScript part for widget execution.
 
 This ensures that the parameters work as expected during widget execution.
 
 ### Display
 
-The widget tester displays the widget directly in the user interface so that the user can see what it looks like. It can be used to ensure that:
+The Suricate Widget Tester displays the widget directly in the user interface so that the user can see what it looks like. It can be used to ensure that:
 
 - The widget rendering meets expectations.
 - The computed data is displayed as expected.
