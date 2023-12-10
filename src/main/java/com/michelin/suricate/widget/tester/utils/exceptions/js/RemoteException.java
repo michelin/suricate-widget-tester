@@ -1,9 +1,11 @@
-package com.michelin.suricate.widget.tester.utils.exceptions.nashorn;
+package com.michelin.suricate.widget.tester.utils.exceptions.js;
 
+/**
+ * Remote exception.
+ */
 public class RemoteException extends Exception {
-
     /**
-     * Constructor
+     * Constructor.
      *
      * @param message The message of the exception
      */

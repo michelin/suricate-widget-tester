@@ -1,9 +1,15 @@
 package com.michelin.suricate.widget.tester.controllers;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
 import com.michelin.suricate.widget.tester.model.dto.api.ProjectWidgetResponseDto;
 import com.michelin.suricate.widget.tester.model.dto.api.WidgetExecutionRequestDto;
 import com.michelin.suricate.widget.tester.services.api.WidgetService;
 import com.michelin.suricate.widget.tester.utils.exceptions.ApiException;
+import java.io.IOException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -11,13 +17,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
-import java.io.IOException;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class WidgetControllerTest {
@@ -36,7 +35,7 @@ class WidgetControllerTest {
         projectWidgetResponseDto.setTechnicalName("technicalName");
 
         when(widgetService.runWidget(any()))
-                .thenReturn(projectWidgetResponseDto);
+            .thenReturn(projectWidgetResponseDto);
 
         ResponseEntity<ProjectWidgetResponseDto> actual = widgetController.runWidget(widgetExecutionRequestDto);
 
@@ -53,10 +52,10 @@ class WidgetControllerTest {
         projectWidgetResponseDto.setLog("Error");
 
         when(widgetService.runWidget(any()))
-                .thenReturn(projectWidgetResponseDto);
+            .thenReturn(projectWidgetResponseDto);
 
         assertThatThrownBy(() -> widgetController.runWidget(widgetExecutionRequestDto))
-                .isInstanceOf(ApiException.class)
-                .hasMessage("Error");
+            .isInstanceOf(ApiException.class)
+            .hasMessage("Error");
     }
 }

@@ -1,22 +1,24 @@
 package com.michelin.suricate.widget.tester.utils;
 
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.Map;
 import java.util.Properties;
 import java.util.TreeMap;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 
+/**
+ * Properties utils.
+ */
 @Slf4j
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class PropertiesUtils {
-    private PropertiesUtils() { }
-
     /**
-     * Convert widget parameters values from string to map
+     * Convert widget parameters values from string to map.
+     *
      * @param widgetProperties the string containing the widget parameters values (key1=value1)
      * @return The widget parameters values as map
      */
@@ -36,7 +38,7 @@ public final class PropertiesUtils {
     }
 
     /**
-     * Convert widget parameters values from string to Properties
+     * Convert widget parameters values from string to Properties.
      *
      * @param widgetProperties the string containing the widget parameters values
      * @return The widget parameters values as Properties
@@ -45,11 +47,12 @@ public final class PropertiesUtils {
         Properties properties = null;
 
         if (StringUtils.isNotBlank(widgetProperties)) {
-            try (StringReader reader = new StringReader(widgetProperties)){
+            try (StringReader reader = new StringReader(widgetProperties)) {
                 properties = new Properties();
                 properties.load(reader);
             } catch (IOException e) {
-                log.error("An error has occurred converting widget parameters values from string to Properties: {}", widgetProperties, e);
+                log.error("An error has occurred converting widget parameters values from string to Properties: {}",
+                    widgetProperties, e);
             }
         }
 

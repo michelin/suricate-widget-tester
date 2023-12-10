@@ -1,12 +1,11 @@
 package com.michelin.suricate.widget.tester.utils;
 
-import org.apache.commons.lang3.StringUtils;
-import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Map;
 import java.util.Properties;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import org.apache.commons.lang3.StringUtils;
+import org.junit.jupiter.api.Test;
 
 class PropertiesUtilsTest {
     @Test
@@ -25,8 +24,8 @@ class PropertiesUtilsTest {
     void shouldConvertStringWidgetPropertiesToMap() {
         Map<String, String> actual = PropertiesUtils.convertStringWidgetPropertiesToMap("key=test\nkey2=test2");
         assertThat(actual)
-                .containsEntry("key", "test")
-                .containsEntry("key2", "test2");
+            .containsEntry("key", "test")
+            .containsEntry("key2", "test2");
     }
 
     @Test
@@ -45,7 +44,7 @@ class PropertiesUtilsTest {
     void shouldConvertStringWidgetPropertiesToProperties() {
         Properties actual = PropertiesUtils.convertStringWidgetPropertiesToProperties("key=test\nkey2=test2");
         assertThat(actual)
-                .containsEntry("key", "test")
-                .containsEntry("key2", "test2");
+            .containsEntry("key", "test")
+            .containsEntry("key2", "test2");
     }
 }

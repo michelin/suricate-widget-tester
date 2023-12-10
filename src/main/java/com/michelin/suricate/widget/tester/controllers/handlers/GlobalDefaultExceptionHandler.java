@@ -3,13 +3,15 @@ package com.michelin.suricate.widget.tester.controllers.handlers;
 import com.michelin.suricate.widget.tester.model.dto.error.ApiErrorDto;
 import com.michelin.suricate.widget.tester.model.enums.ApiErrorEnum;
 import com.michelin.suricate.widget.tester.utils.exceptions.ApiException;
+import java.nio.file.NoSuchFileException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.nio.file.NoSuchFileException;
-
+/**
+ * Rest controller advice used to manage exceptions.
+ */
 @Slf4j
 @RestControllerAdvice
 public class GlobalDefaultExceptionHandler {
@@ -22,11 +24,11 @@ public class GlobalDefaultExceptionHandler {
      */
     @ExceptionHandler(ApiException.class)
     public ResponseEntity<ApiErrorDto> handleApiException(ApiException exception) {
-      log.debug("An exception has occurred in the API controllers part", exception);
+        log.debug("An exception has occurred in the API controllers part", exception);
 
-      return ResponseEntity
-        .status(exception.getError().getStatus())
-        .body(exception.getError());
+        return ResponseEntity
+            .status(exception.getError().getStatus())
+            .body(exception.getError());
     }
 
     /**
@@ -40,7 +42,8 @@ public class GlobalDefaultExceptionHandler {
         log.debug("An exception has occurred in the API controllers part", exception);
 
         return ResponseEntity
-                .status(ApiErrorEnum.FILE_ERROR.getStatus())
-                .body(new ApiErrorDto(String.format("The file %s does not exist", exception.getMessage()), ApiErrorEnum.FILE_ERROR));
+            .status(ApiErrorEnum.FILE_ERROR.getStatus())
+            .body(new ApiErrorDto(String.format("The file %s does not exist", exception.getMessage()),
+                ApiErrorEnum.FILE_ERROR));
     }
 }

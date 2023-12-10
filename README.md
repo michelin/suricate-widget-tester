@@ -25,10 +25,10 @@ This repository contains the source code of the Suricate Widget Tester applicati
 
 ## Introduction
 
-The Widget Tester allows developers to test a widget before deploying it to a Suricate instance. It has multiple advantages:
-- It's fast and easy to set up and use.
+The Suricate Widget Tester allows developers to test a widget before deploying it to a Suricate instance. It has multiple advantages:
+- It is fast and easy to set up and use.
 - It makes the development and testing of widgets easier and faster.
-- It's fully independent from Suricate. A local Suricate instance is not required for it to work.
+- It is fully independent of Suricate. A local Suricate instance is not required for it to work.
 
 The widget tester is able to test the following points.
 
