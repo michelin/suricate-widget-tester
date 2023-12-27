@@ -105,13 +105,6 @@
             "scripts": ["node_modules/jquery/dist/jquery.min.js", "node_modules/moment/min/moment-with-locales.min.js"]
           }
         },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": ["src/main/webapp/tsconfig.app.json", "src/main/webapp/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**"]
-          }
-        },
         "e2e": {
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
