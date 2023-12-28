@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { UntypedFormBuilder } from '@angular/forms';
 import { NgGridItemConfig } from 'angular2-grid';
 import { ProjectWidget } from '../../../shared/models/project-widget/project-widget';
 
@@ -12,7 +12,7 @@ export class MockedModelBuilderService {
    *
    * @param formBuilder The form builder
    */
-  constructor(private readonly formBuilder: FormBuilder) {}
+  constructor(private readonly formBuilder: UntypedFormBuilder) {}
 
   /**
    * Build a mocked project widget for the unit tests

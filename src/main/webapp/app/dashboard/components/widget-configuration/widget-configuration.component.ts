@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { WidgetExecutionRequest } from '../../../shared/models/widget-execution/widget-execution-request/widget-execution-request';
 import { ProjectWidget } from '../../../shared/models/project-widget/project-widget';
 import { HttpWidgetService } from '../../../shared/services/backend/http-widget/http-widget.service';
@@ -34,7 +34,7 @@ export class WidgetConfigurationComponent implements OnInit {
   /**
    * Form group
    */
-  public runWidgetForm!: FormGroup;
+  public runWidgetForm!: UntypedFormGroup;
 
   /**
    * The error message that can be retrieved when pushing a widget path into the input field
@@ -59,7 +59,7 @@ export class WidgetConfigurationComponent implements OnInit {
   /**
    * Constructor
    */
-  constructor(private formBuilder: FormBuilder, private httpWidgetService: HttpWidgetService) {}
+  constructor(private formBuilder: UntypedFormBuilder, private httpWidgetService: HttpWidgetService) {}
 
   /**
    * On init
