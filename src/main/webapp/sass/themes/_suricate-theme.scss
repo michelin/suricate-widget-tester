@@ -1,6 +1,6 @@
 /*!
  *  /*
- *  * Copyright 2012-2018 the original author or authors.
+ *  * Copyright 2012-2021 the original author or authors.
  *  *
  *  * Licensed under the Apache License, Version 2.0 (the "License");
  *  * you may not use this file except in compliance with the License.
@@ -15,14 +15,14 @@
  *  * limitations under the License.
  *
  */
-@import '~sass/components/material/mat-sidenav-theme';
-@import '~sass/components/material/mat-icon-theme';
-@import '~sass/components/material/mat-button-theme';
-@import '~sass/components/material/mat-slide-toggle-theme';
-@import '~sass/components/material/mat-checkbox-theme';
-@import '~sass/components/material/mat-stepper-theme';
-@import '~sass/components/material/mat-form-field-theme';
-@import '~sass/components/material/mat-grid-list-theme';
+@import 'sass/components/material/mat-sidenav-theme';
+@import 'sass/components/material/mat-icon-theme';
+@import 'sass/components/material/mat-button-theme';
+@import 'sass/components/material/mat-slide-toggle-theme';
+@import 'sass/components/material/mat-checkbox-theme';
+@import 'sass/components/material/mat-stepper-theme';
+@import 'sass/components/material/mat-form-field-theme';
+@import 'sass/components/material/mat-grid-list-theme';
 
 /**
  * Mixin that inject every custom components (used in theme definitions)

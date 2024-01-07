@@ -23,51 +23,6 @@ import { Observable, Observer } from 'rxjs';
  */
 export class FileUtils {
   /**
-   * Function that transform base64URL into a Blob
-   *
-   * @param base64Data The base 64 data in the url
-   * @param contentType The img content type
-   * @param sliceSize Buffer size
-   */
-  public static base64ToBlob(base64Data: string, contentType: string, sliceSize?: number): Blob {
-    contentType = contentType || '';
-    sliceSize = sliceSize || 512;
-
-    const byteCharacters = atob(base64Data);
-    const byteArrays = [];
-
-    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-      const slice = byteCharacters.slice(offset, offset + sliceSize);
-
-      const byteNumbers = new Array(slice.length);
-      for (let i = 0; i < slice.length; i++) {
-        byteNumbers[i] = slice.charCodeAt(i);
-      }
-
-      const byteArray = new Uint8Array(byteNumbers);
-
-      byteArrays.push(byteArray);
-    }
-
-    return new Blob(byteArrays, { type: contentType });
-  }
-
-  /**
-   * Convert a blob to a file
-   *
-   * @param blob The Blob file
-   * @param filename The filename
-   * @param lastModifiedDate The last modified date
-   */
-  public static convertBlobToFile(blob: Blob, filename: string, lastModifiedDate: Date): File {
-    const file: any = blob;
-    file.lastModified = lastModifiedDate;
-    file.name = filename;
-
-    return file as File;
-  }
-
-  /**
    * Convert a file into base 64
    *
    * @param file The file to convert

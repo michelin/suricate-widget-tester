@@ -13,4 +13,8 @@
 
 .grid-stack {
   overflow-x: hidden;
+
+  .grid-placeholder {
+    opacity: 0.2;
+  }
 }

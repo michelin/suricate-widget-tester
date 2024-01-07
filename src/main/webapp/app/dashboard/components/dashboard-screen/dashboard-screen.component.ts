@@ -1,17 +1,17 @@
-import { Component, ElementRef, Input, OnChanges, OnInit, Renderer2, SimpleChanges, ViewChild } from '@angular/core';
-import { NgGridConfig, NgGridItemConfig } from 'angular2-grid';
-import { ProjectWidget } from '../../../shared/models/project-widget/project-widget';
+import { Component, ElementRef, Input, OnChanges, Renderer2, SimpleChanges, ViewChild } from '@angular/core';
 import { LibraryService } from '../../services/library/library.service';
 import { HttpLibraryService } from '../../../shared/services/backend/http-library/http-library.service';
 import { WidgetExecutionResult } from '../../../shared/models/widget-execution/widget-execution-result/widget-execution-result';
 import { GridItemUtils } from '../../../shared/utils/grid-item.utils';
+import {GridOptions} from "../../../shared/models/grid/grid-options";
+import {KtdGridLayout} from "@katoid/angular-grid-layout";
 
 @Component({
   selector: 'suricate-dashboard-screen',
   templateUrl: './dashboard-screen.component.html',
   styleUrls: ['./dashboard-screen.component.scss']
 })
-export class DashboardScreenComponent implements OnInit, OnChanges {
+export class DashboardScreenComponent implements OnChanges {
   /**
    * Reference on the span containing all the required JS libraries
    */
@@ -22,33 +22,23 @@ export class DashboardScreenComponent implements OnInit, OnChanges {
    * The widget execution result
    */
   @Input()
-  public widgetExecutionResult: WidgetExecutionResult | undefined;
+  public widgetExecutionResult: WidgetExecutionResult;
 
   /**
    * The path of the widget folder
    */
   @Input()
-  public widgetPath: string | undefined;
+  public widgetPath: string;
 
   /**
-   * The options for the plugin angular2-grid
+   * The grid options
    */
-  public gridOptions: NgGridConfig = {};
+  public gridOptions: GridOptions;
 
   /**
-   * The grid items description
+   * All the grids of the dashboard
    */
-  public gridStackItems: NgGridItemConfig[] = [];
-
-  /**
-   * Grid state when widgets were first loaded
-   */
-  protected startGridStackItems: NgGridItemConfig[] = [];
-
-  /**
-   * Grid configuration of the widget
-   */
-  private widgetGridConfig: NgGridItemConfig = { col: 0, row: 0, sizey: 1, sizex: 1 };
+  public currentGrid: KtdGridLayout = [];
 
   /**
    * Constructor
@@ -57,11 +47,6 @@ export class DashboardScreenComponent implements OnInit, OnChanges {
    * @param libraryService Front-End service used to manage the libraries
    */
   constructor(private renderer: Renderer2, private readonly libraryService: LibraryService) {}
-
-  /**
-   * Init method
-   */
-  ngOnInit(): void {}
 
   /**
    * Changes method
@@ -78,21 +63,16 @@ export class DashboardScreenComponent implements OnInit, OnChanges {
       this.initGridStackOptions();
     }
 
-    this.initGridStackItems();
+    this.initGrid();
     this.addExternalJSLibrariesToTheDOM();
   }
 
   /**
-   * Create the list of gridStackItems used to display widgets on the grid
+   * Create the list of grid items used to display widgets on the grids
    */
-  private initGridStackItems(): void {
-    this.gridStackItems = [];
-
+  private initGrid(): void {
     if (this.widgetExecutionResult && this.widgetExecutionResult.projectWidget) {
-      this.startGridStackItems = this.getGridStackItemsFromProjectWidgets(this.widgetExecutionResult.projectWidget);
-
-      // Make a copy with a new reference
-      this.gridStackItems = JSON.parse(JSON.stringify(this.startGridStackItems));
+      this.currentGrid = this.getGridLayoutFromProjectWidgets();
     }
   }
 
@@ -101,47 +81,30 @@ export class DashboardScreenComponent implements OnInit, OnChanges {
    */
   private initGridStackOptions(): void {
     this.gridOptions = {
-      visible_cols: 5,
-      min_cols: 1,
-      row_height: 360,
-      min_rows: 1,
-      margins: [4],
-      auto_resize: true,
-      draggable: true,
-      resizable: true
+      cols: 1,
+      rowHeight: 360,
+      gap: 5,
+      draggable: false,
+      resizable: false,
+      compactType: undefined
     };
   }
 
   /**
    * Get the list of GridItemConfigs from project widget
-   *
-   * @param projectWidget The project widgets
    */
-  private getGridStackItemsFromProjectWidgets(projectWidget: ProjectWidget): NgGridItemConfig[] {
-    const gridStackItemsConfig: NgGridItemConfig[] = [];
+  private getGridLayoutFromProjectWidgets(): KtdGridLayout {
+    const layout: KtdGridLayout = [];
 
-    if (this.widgetExecutionResult?.projectWidget) {
-      gridStackItemsConfig.push({
-        col: this.widgetGridConfig.col,
-        row: this.widgetGridConfig.row,
-        sizey: this.widgetGridConfig.sizey,
-        sizex: this.widgetGridConfig.sizex,
-        payload: this.widgetExecutionResult.projectWidget
-      });
-    }
+    layout.push({
+      id: String(this.widgetExecutionResult.projectWidget.id),
+      x: 0,
+      y: 0,
+      w: 1,
+      h: 1
+    });
 
-    return gridStackItemsConfig;
-  }
-
-  /**
-   * Update the project widget position
-   */
-  public updateProjectWidgetsPosition(): void {
-    if (this.isGridItemsHasMoved()) {
-      this.widgetGridConfig = this.gridStackItems[0];
-
-      this.initGridStackItems();
-    }
+    return layout;
   }
 
   /**
@@ -176,11 +139,15 @@ export class DashboardScreenComponent implements OnInit, OnChanges {
   /**
    * Checks if the grid elements have been moved
    */
-  private isGridItemsHasMoved(): boolean {
+  private isGridItemsHasMoved(layout: KtdGridLayout): boolean {
     let itemHaveBeenMoved = false;
 
-    this.startGridStackItems.forEach(startGridItem => {
-      if (this.gridStackItems[0] && GridItemUtils.isItemHaveBeenMoved(startGridItem, this.gridStackItems[0])) {
+    this.currentGrid.forEach(currentGridItem => {
+      const gridItemFound = layout.find(newGridItem => {
+        return currentGridItem.id === newGridItem.id;
+      });
+
+      if (gridItemFound && GridItemUtils.isItemHaveBeenMoved(currentGridItem, gridItemFound)) {
         itemHaveBeenMoved = true;
       }
     });

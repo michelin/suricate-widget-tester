@@ -1,6 +1,6 @@
 /*!
  *  /*
- *  * Copyright 2012-2018 the original author or authors.
+ *  * Copyright 2012-2021 the original author or authors.
  *  *
  *  * Licensed under the Apache License, Version 2.0 (the "License");
  *  * you may not use this file except in compliance with the License.
@@ -15,18 +15,40 @@
  *  * limitations under the License.
  *
  */
-// Custom variables
-@import '~sass/variables';
-// Normalize SCSS
-@import '~normalize-scss/sass/normalize';
-// Icons
-@import '~@fortawesome/fontawesome-free/scss/v4-shims';
-@import '~@fortawesome/fontawesome-free/scss/fontawesome';
-@import '~@fortawesome/fontawesome-free/scss/brands';
-@import '~@fortawesome/fontawesome-free/scss/regular';
-@import '~@fortawesome/fontawesome-free/scss/solid';
-@import '~material-design-icons-iconfont/src/material-design-icons';
-// Suricate Specifics
-@import '~sass/dashboard-themes';
-@import '~sass/global-styles';
-@import '~sass/dashboard-screen';
+@use "@angular/material" as mat;
+
+// Font Awesome icons for widgets
+@import '@fortawesome/fontawesome-free/scss/fontawesome';
+@import '@fortawesome/fontawesome-free/scss/brands';
+@import '@fortawesome/fontawesome-free/scss/regular';
+@import '@fortawesome/fontawesome-free/scss/solid';
+
+@include mat.core();
+
+@import 'sass/global-styles';
+@import 'sass/dashboard-screen';
+
+@import 'sass/themes/suricate-theme';
+@import 'sass/themes/light-theme/dashboard-light-palette';
+
+// Suricate typography
+$suricate-typography: mat.define-typography-config(
+  $font-family: Roboto
+);
+
+// Suricate Light Theme
+$light-primary: mat.define-palette($suricate-palette-light-primary);
+$light-accent: mat.define-palette($suricate-palette-light-accent);
+$light-warn: mat.define-palette($suricate-palette-light-warn);
+$light-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $light-primary,
+      accent: $light-accent,
+      warn: $light-warn
+    ),
+    typography: $suricate-typography
+  )
+);
+@include mat.all-component-themes($light-theme);
+@include suricate-theme($light-theme);
