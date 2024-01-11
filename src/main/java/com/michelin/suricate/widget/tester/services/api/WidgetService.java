@@ -85,6 +85,7 @@ public class WidgetService {
             .append("\n"));
 
         ProjectWidgetResponseDto projectWidgetResponseDto = new ProjectWidgetResponseDto();
+        projectWidgetResponseDto.setId(1L);
         projectWidgetResponseDto.setTechnicalName(widget.getTechnicalName());
         projectWidgetResponseDto.setCssContent(widget.getCssContent());
 

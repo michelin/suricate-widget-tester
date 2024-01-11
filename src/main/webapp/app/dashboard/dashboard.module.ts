@@ -22,7 +22,7 @@ import { WidgetConfigurationComponent } from './components/widget-configuration/
 
 @NgModule({
   imports: [SharedModule],
-  exports: [DashboardScreenComponent, WidgetConfigurationComponent],
-  declarations: [DashboardScreenComponent, DashboardScreenWidgetComponent, WidgetConfigurationComponent]
+  declarations: [DashboardScreenComponent, DashboardScreenWidgetComponent, WidgetConfigurationComponent],
+  exports: [DashboardScreenComponent, WidgetConfigurationComponent]
 })
 export class DashboardModule {}

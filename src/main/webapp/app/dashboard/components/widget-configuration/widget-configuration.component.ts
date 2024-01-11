@@ -19,32 +19,32 @@ export class WidgetConfigurationComponent implements OnInit {
    * Emit the error message of a widget
    */
   @Output()
-  public widgetExecutionResultEmitEvent = new EventEmitter<WidgetExecutionResult | undefined>();
+  public widgetExecutionResultEmitEvent = new EventEmitter<WidgetExecutionResult>();
 
   /**
    * The image as base 64
    */
-  public imgBase64: string | ArrayBuffer | undefined;
+  public imgBase64: string | ArrayBuffer;
 
   /**
    * If it's not an image we set the filename
    */
-  public filename: string | undefined;
+  public filename: string;
 
   /**
    * Form group
    */
-  public runWidgetForm!: UntypedFormGroup;
+  public runWidgetForm: UntypedFormGroup;
 
   /**
    * The error message that can be retrieved when pushing a widget path into the input field
    */
-  public onWidgetPathInputErrorMessage: string | undefined;
+  public onWidgetPathInputErrorMessage: string;
 
   /**
    * Entered widget path
    */
-  public widgetPath: string | undefined;
+  public widgetPath: string;
 
   /**
    * The widget parameters form fields

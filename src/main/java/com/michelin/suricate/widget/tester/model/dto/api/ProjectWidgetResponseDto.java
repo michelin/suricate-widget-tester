@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 public class ProjectWidgetResponseDto extends AbstractDto {
+    private Long id;
     private String instantiateHtml;
     private String technicalName;
     private String cssContent;

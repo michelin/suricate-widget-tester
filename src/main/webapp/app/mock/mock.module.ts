@@ -21,10 +21,11 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MockElementRef } from './models/mock-element-ref';
 import { SharedModule } from '../shared/shared.module';
+import {DashboardModule} from "../dashboard/dashboard.module";
 
 @NgModule({
-  imports: [SharedModule, HttpClientTestingModule, RouterTestingModule],
-  exports: [SharedModule, HttpClientTestingModule, RouterTestingModule],
+  imports: [SharedModule, DashboardModule, HttpClientTestingModule, RouterTestingModule],
+  exports: [SharedModule, DashboardModule, HttpClientTestingModule, RouterTestingModule],
   providers: [{ provide: ElementRef, useClass: MockElementRef }]
 })
 export class MockModule {}
