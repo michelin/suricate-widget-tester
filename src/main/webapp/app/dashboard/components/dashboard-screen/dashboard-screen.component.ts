@@ -81,11 +81,11 @@ export class DashboardScreenComponent implements OnChanges {
    */
   private initGridStackOptions(): void {
     this.gridOptions = {
-      cols: 1,
+      cols: 5,
       rowHeight: 360,
       gap: 5,
-      draggable: false,
-      resizable: false,
+      draggable: true,
+      resizable: true,
       compactType: undefined
     };
   }
