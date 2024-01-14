@@ -37,7 +37,7 @@ public final class JavaScriptUtils {
         JavaScriptUtils.PACKAGES_LITERAL + JsEndpoints.class.getName() + ".checkInterrupted();";
 
     /**
-     * Method used to prepare Nashorn script and update path.
+     * Method used to prepare Js execution and update path.
      *
      * @param data javascript script
      * @return the script with all class path updated

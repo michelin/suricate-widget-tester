@@ -202,7 +202,7 @@ public final class JsEndpoints {
 
     /**
      * Check if a thread is interrupted.
-     * This method is injected during the Nashorn request preparation
+     * This method is injected during the Js execution preparation
      *
      * @throws InterruptedException an exception if the thread is interrupted
      */

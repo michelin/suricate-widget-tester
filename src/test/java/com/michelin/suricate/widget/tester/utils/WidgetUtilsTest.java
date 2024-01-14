@@ -131,7 +131,7 @@ class WidgetUtilsTest {
     }
 
     @Test
-    void shouldGetWidgetParametersForNashorn() {
+    void shouldGetWidgetParametersForJsExecution() {
         WidgetParamDto widgetParam = new WidgetParamDto();
         widgetParam.setName("Name1");
         widgetParam.setDescription("Description");
