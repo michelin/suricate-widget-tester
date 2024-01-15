@@ -1,29 +1,20 @@
 package com.michelin.suricate.widget.tester.model.dto.library;
 
 import com.michelin.suricate.widget.tester.model.dto.AbstractDto;
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
- * Library DTO
+ * Library DTO.
  */
 @Getter
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 public class LibraryDto extends AbstractDto {
-
-    /**
-     * The library ID
-     */
     private Long id;
-
-    /**
-     * The technical name
-     */
     private String technicalName;
-
-    /**
-     * The widget's image
-     */
     private byte[] asset;
 }

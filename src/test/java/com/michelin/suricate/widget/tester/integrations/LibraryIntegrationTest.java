@@ -1,5 +1,8 @@
 package com.michelin.suricate.widget.tester.integrations;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.http.HttpMethod.GET;
+
 import com.michelin.suricate.widget.tester.model.dto.error.ApiErrorDto;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -13,14 +16,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.http.HttpMethod.GET;
-
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 class LibraryIntegrationTest {
-    @Value(value="${local.server.port}")
+    @Value(value = "${local.server.port}")
     private int port;
 
     @Autowired
@@ -28,8 +28,10 @@ class LibraryIntegrationTest {
 
     @Test
     void shouldThrowNotFoundExceptionWhenLibraryNotFound() {
-        ResponseEntity<ApiErrorDto> response = restTemplate.exchange("http://localhost:" + port + "/api/v1/libraries/doesNotExist/content?widgetPath=src/test/resources/repository/content/github/widgets/count-issues",
-                GET, HttpEntity.EMPTY, ApiErrorDto.class);
+        ResponseEntity<ApiErrorDto> response = restTemplate.exchange("http://localhost:" + port
+                + "/api/v1/libraries/doesNotExist/content?widgetPath=src/test/resources"
+                + "/repository/content/github/widgets/count-issues",
+            GET, HttpEntity.EMPTY, ApiErrorDto.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
         assertThat(response.getBody()).isNotNull();
@@ -38,8 +40,10 @@ class LibraryIntegrationTest {
 
     @Test
     void shouldGetLibrary() {
-        ResponseEntity<byte[]> response = restTemplate.exchange("http://localhost:" + port + "/api/v1/libraries/test.js/content?widgetPath=src/test/resources/repository/content/github/widgets/count-issues",
-                GET, HttpEntity.EMPTY, byte[].class);
+        ResponseEntity<byte[]> response = restTemplate.exchange("http://localhost:" + port
+                + "/api/v1/libraries/test.js/content?widgetPath=src/test/resources/"
+                + "repository/content/github/widgets/count-issues",
+            GET, HttpEntity.EMPTY, byte[].class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isNotNull();

@@ -1,7 +1,7 @@
 package com.michelin.suricate.widget.tester.model.enums;
 
 /**
- * Possible data type for a widget parameter
+ * Possible data type for a widget parameter.
  */
 public enum DataTypeEnum {
     // Simple data types

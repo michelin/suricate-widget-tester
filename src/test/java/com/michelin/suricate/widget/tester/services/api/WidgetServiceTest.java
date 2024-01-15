@@ -1,5 +1,10 @@
 package com.michelin.suricate.widget.tester.services.api;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mockStatic;
+import static org.mockito.Mockito.when;
+
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.MustacheException;
 import com.github.mustachejava.MustacheFactory;
@@ -8,11 +13,15 @@ import com.michelin.suricate.widget.tester.model.dto.api.WidgetExecutionRequestD
 import com.michelin.suricate.widget.tester.model.dto.api.WidgetParametersRequestDto;
 import com.michelin.suricate.widget.tester.model.dto.category.CategoryDto;
 import com.michelin.suricate.widget.tester.model.dto.category.CategoryParameterDto;
-import com.michelin.suricate.widget.tester.model.dto.nashorn.WidgetVariableResponse;
+import com.michelin.suricate.widget.tester.model.dto.js.WidgetVariableResponse;
 import com.michelin.suricate.widget.tester.model.dto.widget.WidgetDto;
-import com.michelin.suricate.widget.tester.services.api.WidgetService;
-import com.michelin.suricate.widget.tester.services.nashorn.services.NashornService;
+import com.michelin.suricate.widget.tester.services.js.services.JsExecutionService;
 import com.michelin.suricate.widget.tester.utils.WidgetUtils;
+import java.io.IOException;
+import java.io.StringReader;
+import java.util.Arrays;
+import java.util.Collections;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -20,26 +29,47 @@ import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.io.IOException;
-import java.io.StringReader;
-import java.util.Arrays;
-import java.util.Collections;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mockStatic;
-import static org.mockito.Mockito.when;
-
 @ExtendWith(MockitoExtension.class)
 class WidgetServiceTest {
     @Mock
     private MustacheFactory mustacheFactory;
 
     @Mock
-    private NashornService nashornService;
+    private JsExecutionService jsExecutionService;
 
     @InjectMocks
     private WidgetService widgetService;
+
+    @NotNull
+    private static WidgetExecutionRequestDto getWidgetExecutionRequestDto() {
+        WidgetParametersRequestDto widgetParametersRequestDto = new WidgetParametersRequestDto();
+        widgetParametersRequestDto.setName("SURI_TITLE");
+        widgetParametersRequestDto.setValue("myTitle");
+
+        WidgetParametersRequestDto breakLineWidgetParametersRequestDto = new WidgetParametersRequestDto();
+        breakLineWidgetParametersRequestDto.setName("SURI_DESC");
+        breakLineWidgetParametersRequestDto.setValue("desc\ndesc");
+
+        WidgetExecutionRequestDto widgetExecutionRequestDto = new WidgetExecutionRequestDto();
+        widgetExecutionRequestDto.setPath("src/test/resources/repository/content/github/widgets/count-issues");
+        widgetExecutionRequestDto.setPreviousData("previousData");
+        widgetExecutionRequestDto.setParameters(
+            Arrays.asList(widgetParametersRequestDto, breakLineWidgetParametersRequestDto));
+        return widgetExecutionRequestDto;
+    }
+
+    @NotNull
+    private static WidgetExecutionRequestDto getExecutionRequestDto() {
+        WidgetParametersRequestDto widgetParametersRequestDto = new WidgetParametersRequestDto();
+        widgetParametersRequestDto.setName("name");
+        widgetParametersRequestDto.setValue("value");
+
+        WidgetExecutionRequestDto widgetExecutionRequestDto = new WidgetExecutionRequestDto();
+        widgetExecutionRequestDto.setPath("src/test/resources/repository/content/github/widgets/count-issues");
+        widgetExecutionRequestDto.setPreviousData("previousData");
+        widgetExecutionRequestDto.setParameters(Collections.singletonList(widgetParametersRequestDto));
+        return widgetExecutionRequestDto;
+    }
 
     @Test
     void shouldGetWidget() throws IOException {
@@ -57,11 +87,12 @@ class WidgetServiceTest {
             categoryDto.setConfigurations(Collections.singleton(categoryParameterDto));
 
             mocked.when(() -> WidgetUtils.getWidget(any()))
-                    .thenReturn(widgetDto);
+                .thenReturn(widgetDto);
             mocked.when(() -> WidgetUtils.getCategory(any()))
-                    .thenReturn(categoryDto);
+                .thenReturn(categoryDto);
 
-            WidgetDto actual = widgetService.getWidget("src/test/resources/repository/content/github/widgets/count-issues");
+            WidgetDto actual =
+                widgetService.getWidget("src/test/resources/repository/content/github/widgets/count-issues");
 
             assertThat(actual.getId()).isEqualTo(1L);
             assertThat(actual.getName()).isEqualTo("name");
@@ -93,28 +124,19 @@ class WidgetServiceTest {
             widgetVariableResponse.setName("name");
 
             mocked.when(() -> WidgetUtils.getWidget(any()))
-                    .thenReturn(widgetDto);
+                .thenReturn(widgetDto);
             mocked.when(() -> WidgetUtils.getCategory(any()))
-                    .thenReturn(categoryDto);
-            mocked.when(() -> WidgetUtils.getWidgetParametersForNashorn(any()))
-                    .thenReturn(Collections.singletonList(widgetVariableResponse));
-            when(nashornService.isNashornRequestExecutable(any()))
-                    .thenReturn(true);
+                .thenReturn(categoryDto);
+            mocked.when(() -> WidgetUtils.getWidgetParametersForJsExecution(any()))
+                .thenReturn(Collections.singletonList(widgetVariableResponse));
+            when(jsExecutionService.isJsExecutable(any()))
+                .thenReturn(true);
             when(mustacheFactory.compile(any(), any()))
-                    .thenReturn(new DefaultMustacheFactory().compile(new StringReader(widgetDto.getHtmlContent()), widgetDto.getTechnicalName()));
+                .thenReturn(new DefaultMustacheFactory().compile(new StringReader(widgetDto.getHtmlContent()),
+                    widgetDto.getTechnicalName()));
 
-            WidgetParametersRequestDto widgetParametersRequestDto = new WidgetParametersRequestDto();
-            widgetParametersRequestDto.setName("SURI_TITLE");
-            widgetParametersRequestDto.setValue("myTitle");
-
-            WidgetParametersRequestDto breakLineWidgetParametersRequestDto = new WidgetParametersRequestDto();
-            breakLineWidgetParametersRequestDto.setName("SURI_DESC");
-            breakLineWidgetParametersRequestDto.setValue("desc\ndesc");
-
-            WidgetExecutionRequestDto widgetExecutionRequestDto = new WidgetExecutionRequestDto();
-            widgetExecutionRequestDto.setPath("src/test/resources/repository/content/github/widgets/count-issues");
-            widgetExecutionRequestDto.setPreviousData("previousData");
-            widgetExecutionRequestDto.setParameters(Arrays.asList(widgetParametersRequestDto, breakLineWidgetParametersRequestDto));
+            WidgetExecutionRequestDto widgetExecutionRequestDto =
+                getWidgetExecutionRequestDto();
 
             ProjectWidgetResponseDto actual = widgetService.runWidget(widgetExecutionRequestDto);
 
@@ -135,7 +157,7 @@ class WidgetServiceTest {
             widgetDto.setCssContent("cssContent");
             widgetDto.setDelay(10L);
             widgetDto.setHtmlContent("<h1>{{data}}</h1>");
-            widgetDto.setLibraries(new String[]{"lib"});
+            widgetDto.setLibraries(new String[] {"lib"});
 
             CategoryParameterDto categoryParameterDto = new CategoryParameterDto();
             categoryParameterDto.setKey("key");
@@ -146,22 +168,16 @@ class WidgetServiceTest {
             categoryDto.setConfigurations(Collections.singleton(categoryParameterDto));
 
             mocked.when(() -> WidgetUtils.getWidget(any()))
-                    .thenReturn(widgetDto);
+                .thenReturn(widgetDto);
             mocked.when(() -> WidgetUtils.getCategory(any()))
-                    .thenReturn(categoryDto);
-            when(nashornService.isNashornRequestExecutable(any()))
-                    .thenReturn(false);
+                .thenReturn(categoryDto);
+            when(jsExecutionService.isJsExecutable(any()))
+                .thenReturn(false);
             when(mustacheFactory.compile(any(), any()))
-                    .thenReturn(new DefaultMustacheFactory().compile(new StringReader(widgetDto.getHtmlContent()), widgetDto.getTechnicalName()));
+                .thenReturn(new DefaultMustacheFactory().compile(new StringReader(widgetDto.getHtmlContent()),
+                    widgetDto.getTechnicalName()));
 
-            WidgetParametersRequestDto widgetParametersRequestDto = new WidgetParametersRequestDto();
-            widgetParametersRequestDto.setName("name");
-            widgetParametersRequestDto.setValue("value");
-
-            WidgetExecutionRequestDto widgetExecutionRequestDto = new WidgetExecutionRequestDto();
-            widgetExecutionRequestDto.setPath("src/test/resources/repository/content/github/widgets/count-issues");
-            widgetExecutionRequestDto.setPreviousData("previousData");
-            widgetExecutionRequestDto.setParameters(Collections.singletonList(widgetParametersRequestDto));
+            WidgetExecutionRequestDto widgetExecutionRequestDto = getExecutionRequestDto();
 
             ProjectWidgetResponseDto actual = widgetService.runWidget(widgetExecutionRequestDto);
 
@@ -183,7 +199,7 @@ class WidgetServiceTest {
             widgetDto.setCssContent("cssContent");
             widgetDto.setDelay(10L);
             widgetDto.setHtmlContent("<h1>{{data}}</h1>");
-            widgetDto.setLibraries(new String[]{"lib"});
+            widgetDto.setLibraries(new String[] {"lib"});
 
             CategoryParameterDto categoryParameterDto = new CategoryParameterDto();
             categoryParameterDto.setKey("key");
@@ -194,24 +210,17 @@ class WidgetServiceTest {
             categoryDto.setConfigurations(Collections.singleton(categoryParameterDto));
 
             mocked.when(() -> WidgetUtils.getWidget(any()))
-                    .thenReturn(widgetDto);
+                .thenReturn(widgetDto);
             mocked.when(() -> WidgetUtils.getCategory(any()))
-                    .thenReturn(categoryDto);
-            when(nashornService.isNashornRequestExecutable(any()))
-                    .thenReturn(true);
+                .thenReturn(categoryDto);
+            when(jsExecutionService.isJsExecutable(any()))
+                .thenReturn(true);
 
-            WidgetParametersRequestDto widgetParametersRequestDto = new WidgetParametersRequestDto();
-            widgetParametersRequestDto.setName("name");
-            widgetParametersRequestDto.setValue("value");
-
-            WidgetExecutionRequestDto widgetExecutionRequestDto = new WidgetExecutionRequestDto();
-            widgetExecutionRequestDto.setPath("src/test/resources/repository/content/github/widgets/count-issues");
-            widgetExecutionRequestDto.setPreviousData("previousData");
-            widgetExecutionRequestDto.setParameters(Collections.singletonList(widgetParametersRequestDto));
+            WidgetExecutionRequestDto widgetExecutionRequestDto = getExecutionRequestDto();
 
             ProjectWidgetResponseDto actual = widgetService.runWidget(widgetExecutionRequestDto);
 
-            assertThat(actual.getLog()).isEqualTo("ReferenceError: \"backendJs\" is not defined");
+            assertThat(actual.getLog()).isEqualTo("ReferenceError: backendJs is not defined");
         }
     }
 
@@ -224,7 +233,7 @@ class WidgetServiceTest {
         String actual = widgetService.instantiateProjectWidgetHtml(widgetDto, "", "param=value");
 
         assertThat(actual)
-                .isEqualTo("<h1>Titre</h1>");
+            .isEqualTo("<h1>Titre</h1>");
     }
 
     @Test
@@ -234,12 +243,13 @@ class WidgetServiceTest {
         widgetDto.setHtmlContent("<h1>{{DATA}}</h1>");
 
         when(mustacheFactory.compile(any(), any()))
-                .thenReturn(new DefaultMustacheFactory().compile(new StringReader(widgetDto.getHtmlContent()), widgetDto.getTechnicalName()));
+            .thenReturn(new DefaultMustacheFactory().compile(new StringReader(widgetDto.getHtmlContent()),
+                widgetDto.getTechnicalName()));
 
         String actual = widgetService.instantiateProjectWidgetHtml(widgetDto, "{\"DATA\": \"titre\"}", "param=value");
 
         assertThat(actual)
-                .isEqualTo("<h1>titre</h1>");
+            .isEqualTo("<h1>titre</h1>");
     }
 
     @Test
@@ -249,7 +259,7 @@ class WidgetServiceTest {
         widgetDto.setHtmlContent("<h1>{{DATA}}</h1>");
 
         when(mustacheFactory.compile(any(), any()))
-                .thenThrow(new MustacheException("Error"));
+            .thenThrow(new MustacheException("Error"));
 
         String actual = widgetService.instantiateProjectWidgetHtml(widgetDto, "{\"DATA\": \"titre\"}", "param=value");
 
@@ -264,11 +274,12 @@ class WidgetServiceTest {
         widgetDto.setHtmlContent("<h1>{{DATA}}</h1>");
 
         when(mustacheFactory.compile(any(), any()))
-                .thenReturn(new DefaultMustacheFactory().compile(new StringReader(widgetDto.getHtmlContent()), widgetDto.getTechnicalName()));
+            .thenReturn(new DefaultMustacheFactory().compile(new StringReader(widgetDto.getHtmlContent()),
+                widgetDto.getTechnicalName()));
 
         String actual = widgetService.instantiateProjectWidgetHtml(widgetDto, "parseError", "param=value");
 
         assertThat(actual)
-                .isEqualTo("<h1></h1>");
+            .isEqualTo("<h1></h1>");
     }
 }

@@ -1,15 +1,11 @@
 package com.michelin.suricate.widget.tester.utils;
 
-import org.junit.jupiter.api.Test;
-import org.mockito.MockedStatic;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mockStatic;
+import org.junit.jupiter.api.Test;
 
 class FilesUtilsTest {
     @Test

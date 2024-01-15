@@ -1,23 +1,29 @@
 package com.michelin.suricate.widget.tester.controllers;
 
 import com.michelin.suricate.widget.tester.model.dto.library.LibraryDto;
-import com.michelin.suricate.widget.tester.utils.exceptions.ObjectNotFoundException;
 import com.michelin.suricate.widget.tester.utils.WidgetUtils;
-import org.springframework.http.CacheControl;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
+import com.michelin.suricate.widget.tester.utils.exceptions.ObjectNotFoundException;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
+import org.springframework.http.CacheControl;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Library controller.
+ */
 @RestController
 @RequestMapping("/api")
 public class LibraryController {
 
     /**
-     * Get the JS library content by name from the widget folder path
+     * Get the JS library content by name from the widget folder path.
      *
      * @param libraryName The library name
      * @return The library data

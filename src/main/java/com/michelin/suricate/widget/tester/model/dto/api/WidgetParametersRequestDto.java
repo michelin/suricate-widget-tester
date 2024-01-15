@@ -6,20 +6,12 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
- * Widget parameter request DTO, received from Front-End
+ * Widget parameter request DTO.
  */
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 public class WidgetParametersRequestDto extends AbstractDto {
-
-  /**
-   * Widget parameter name
-   */
-  private String name;
-
-  /**
-   * Widget parameter value
-   */
-  private String value;
+    private String name;
+    private String value;
 }

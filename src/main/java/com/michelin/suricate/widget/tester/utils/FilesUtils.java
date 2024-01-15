@@ -10,13 +10,18 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Files utils.
+ */
+@Slf4j
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class FilesUtils {
-
-    private FilesUtils() { }
-
     /**
-     * Get all the files inside a given folder
+     * Get all the files inside a given folder.
      *
      * @param folder The folder containing the files
      * @return The list of files

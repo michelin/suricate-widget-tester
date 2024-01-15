@@ -1,20 +1,17 @@
 package com.michelin.suricate.widget.tester.utils;
 
+import static com.michelin.suricate.widget.tester.model.enums.DataTypeEnum.COMBO;
+import static com.michelin.suricate.widget.tester.model.enums.DataTypeEnum.MULTIPLE;
+
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.michelin.suricate.widget.tester.model.dto.category.CategoryDto;
+import com.michelin.suricate.widget.tester.model.dto.js.WidgetVariableResponse;
 import com.michelin.suricate.widget.tester.model.dto.library.LibraryDto;
-import com.michelin.suricate.widget.tester.model.dto.nashorn.WidgetVariableResponse;
 import com.michelin.suricate.widget.tester.model.dto.widget.WidgetDto;
 import com.michelin.suricate.widget.tester.model.dto.widget.WidgetParamDto;
 import com.michelin.suricate.widget.tester.model.dto.widget.WidgetParamValueDto;
-import com.michelin.suricate.widget.tester.model.enums.DataTypeEnum;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang3.StringUtils;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -22,8 +19,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
 
+/**
+ * Widget utils.
+ */
 @Slf4j
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class WidgetUtils {
     private static final ObjectMapper mapper;
 
@@ -33,7 +40,7 @@ public final class WidgetUtils {
     }
 
     /**
-     * Method used to parse library folder
+     * Method used to parse library folder.
      *
      * @param rootFolder the root library folder
      * @return the list of library
@@ -62,7 +69,8 @@ public final class WidgetUtils {
     }
 
     /**
-     * Method used to get category from Folder
+     * Method used to get category from Folder.
+     *
      * @param folderCategory folder category
      * @return the category bean
      * @throws IOException Triggered exception during the files reading
@@ -97,7 +105,7 @@ public final class WidgetUtils {
     }
 
     /**
-     * Get widget from a given folder
+     * Get widget from a given folder.
      *
      * @param folder The folder from which to retrieve the widget
      * @return The built widget from the folder
@@ -126,7 +134,8 @@ public final class WidgetUtils {
                 return null;
             }
 
-            if (StringUtils.isAnyBlank(widget.getCssContent(), widget.getDescription(), widget.getHtmlContent(), widget.getTechnicalName(), widget.getName())) {
+            if (StringUtils.isAnyBlank(widget.getCssContent(), widget.getDescription(), widget.getHtmlContent(),
+                widget.getTechnicalName(), widget.getName())) {
                 log.error("Widget is not well formatted: {}", folder.getPath());
                 return null;
             }
@@ -140,7 +149,7 @@ public final class WidgetUtils {
      * fill the widget with the information contained in the file
      *
      * @param widget The widget
-     * @param file The file containing information to set to the widget
+     * @param file   The file containing information to set to the widget
      * @throws IOException Exception triggered during file reading
      */
     private static void readWidgetConfig(WidgetDto widget, File file) throws IOException {
@@ -160,12 +169,12 @@ public final class WidgetUtils {
     }
 
     /**
-     * Get the list of widget parameters
+     * Get the list of widget parameters.
      *
      * @param widget The widget
      * @return The list of widget parameters
      */
-    public static List<WidgetVariableResponse> getWidgetParametersForNashorn(final WidgetDto widget) {
+    public static List<WidgetVariableResponse> getWidgetParametersForJsExecution(final WidgetDto widget) {
         List<WidgetVariableResponse> widgetVariableResponses = new ArrayList<>();
 
         for (WidgetParamDto widgetParameter : widget.getWidgetParams()) {
@@ -175,18 +184,12 @@ public final class WidgetUtils {
             widgetVariableResponse.setType(widgetParameter.getType());
             widgetVariableResponse.setDefaultValue(widgetParameter.getDefaultValue());
 
-            if (widgetVariableResponse.getType() != null) {
-                switch (widgetVariableResponse.getType()) {
-                    case COMBO:
-
-                    case MULTIPLE:
-                        widgetVariableResponse.setValues(getWidgetParamValuesAsMap(widgetParameter.getPossibleValuesMap()));
-                        break;
-
-                    default:
-                        widgetVariableResponse.setData(StringUtils.trimToNull(widgetParameter.getDefaultValue()));
-                        break;
-                }
+            if (widgetVariableResponse.getType() == COMBO
+                || widgetVariableResponse.getType() == MULTIPLE) {
+                widgetVariableResponse.setValues(
+                    getWidgetParamValuesAsMap(widgetParameter.getPossibleValuesMap()));
+            } else {
+                widgetVariableResponse.setData(StringUtils.trimToNull(widgetParameter.getDefaultValue()));
             }
 
             widgetVariableResponses.add(widgetVariableResponse);
@@ -196,16 +199,14 @@ public final class WidgetUtils {
     }
 
     /**
-     * Get the widget param list as a Map
+     * Get the widget param list as a Map.
      *
      * @param widgetParamValues The list of the widget param values
-     * @return The list as a Map<String, String>
+     * @return The list
      */
     public static Map<String, String> getWidgetParamValuesAsMap(List<WidgetParamValueDto> widgetParamValues) {
         return widgetParamValues
-                .stream()
-                .collect(Collectors.toMap(WidgetParamValueDto::getJsKey, WidgetParamValueDto::getValue));
+            .stream()
+            .collect(Collectors.toMap(WidgetParamValueDto::getJsKey, WidgetParamValueDto::getValue));
     }
-
-    private WidgetUtils() { }
 }

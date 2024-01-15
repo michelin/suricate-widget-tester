@@ -1,26 +1,21 @@
 package com.michelin.suricate.widget.tester.utils;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.michelin.suricate.widget.tester.model.dto.category.CategoryDto;
+import com.michelin.suricate.widget.tester.model.dto.js.WidgetVariableResponse;
 import com.michelin.suricate.widget.tester.model.dto.library.LibraryDto;
-import com.michelin.suricate.widget.tester.model.dto.nashorn.WidgetVariableResponse;
 import com.michelin.suricate.widget.tester.model.dto.widget.WidgetDto;
 import com.michelin.suricate.widget.tester.model.dto.widget.WidgetParamDto;
 import com.michelin.suricate.widget.tester.model.dto.widget.WidgetParamValueDto;
 import com.michelin.suricate.widget.tester.model.enums.DataTypeEnum;
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.Test;
-
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 class WidgetUtilsTest {
     @Test
@@ -49,12 +44,14 @@ class WidgetUtilsTest {
 
     @Test
     void shouldGetCategoryWithNoName() throws IOException {
-        assertThat(WidgetUtils.getCategory(new File("src/test/resources/specific-repository/content/no-name"))).isNull();
+        assertThat(
+            WidgetUtils.getCategory(new File("src/test/resources/specific-repository/content/no-name"))).isNull();
     }
 
     @Test
     void shouldGetCategoryWithNoWidgets() throws IOException {
-        CategoryDto actual = WidgetUtils.getCategory(new File("src/test/resources/specific-repository/content/no-widgets"));
+        CategoryDto actual =
+            WidgetUtils.getCategory(new File("src/test/resources/specific-repository/content/no-widgets"));
 
         assertThat(actual.getId()).isNull();
         assertThat(actual.getName()).isEqualTo("noWidgets");
@@ -79,25 +76,31 @@ class WidgetUtilsTest {
 
     @Test
     void shouldGetWidgetNoDelay() throws IOException {
-        Assertions.assertThat(WidgetUtils.getWidget(new File("src/test/resources/specific-repository/content/specific-widgets/widgets/no-delay")))
-                .isNull();
+        Assertions.assertThat(WidgetUtils.getWidget(
+                new File("src/test/resources/specific-repository/content/specific-widgets/widgets/no-delay")))
+            .isNull();
     }
 
     @Test
     void shouldGetWidgetDelayButNoScript() throws IOException {
-        Assertions.assertThat(WidgetUtils.getWidget(new File("src/test/resources/specific-repository/content/specific-widgets/widgets/delay-but-no-script")))
-                .isNull();
+        Assertions.assertThat(WidgetUtils.getWidget(
+                new File("src/test/resources/specific-repository/content/"
+                    + "specific-widgets/widgets/delay-but-no-script")))
+            .isNull();
     }
 
     @Test
     void shouldGetWidgetNoTechnicalName() throws IOException {
-        Assertions.assertThat(WidgetUtils.getWidget(new File("src/test/resources/specific-repository/content/specific-widgets/widgets/no-technical-name")))
-                .isNull();
+        Assertions.assertThat(WidgetUtils.getWidget(
+                new File("src/test/resources/specific-repository/content/"
+                    + "specific-widgets/widgets/no-technical-name")))
+            .isNull();
     }
 
     @Test
     void shouldGetWidgetGitHubCountIssues() throws IOException {
-        WidgetDto actual = WidgetUtils.getWidget(new File("src/test/resources/repository/content/github/widgets/count-issues"));
+        WidgetDto actual =
+            WidgetUtils.getWidget(new File("src/test/resources/repository/content/github/widgets/count-issues"));
 
         assertThat(actual.getId()).isNull();
         assertThat(actual.getName()).isEqualTo("Number of issues");
@@ -161,7 +164,7 @@ class WidgetUtilsTest {
         widget.setId(1L);
         widget.setWidgetParams(Arrays.asList(widgetParam, widgetParamTwo, widgetParamThree, widgetParamFour));
 
-        List<WidgetVariableResponse> actual = WidgetUtils.getWidgetParametersForNashorn(widget);
+        List<WidgetVariableResponse> actual = WidgetUtils.getWidgetParametersForJsExecution(widget);
 
         assertThat(actual).hasSize(4);
     }
