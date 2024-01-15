@@ -1,5 +1,9 @@
 # Suricate Widget Tester
 
+<div align="center">
+  <img src="src/main/webapp/assets/images/logo.png" height="100"  alt="suricate logo"/>
+</div>
+
 [![GitHub Build](https://img.shields.io/github/actions/workflow/status/michelin/suricate-widget-tester/continuous_integration.yml?branch=master&logo=github&style=for-the-badge)](https://img.shields.io/github/actions/workflow/status/michelin/suricate-widget-tester/continuous_integration.yml)
 [![GitHub release](https://img.shields.io/github/v/release/michelin/suricate-widget-tester?logo=github&style=for-the-badge)](https://github.com/michelin/suricate-widget-tester/releases)
 [![GitHub commits since latest release (by SemVer)](https://img.shields.io/github/commits-since/michelin/suricate-widget-tester/latest?logo=github&style=for-the-badge)](https://github.com/michelin/suricate-widget-tester/commits/master)
@@ -11,7 +15,7 @@
 
 This repository contains the source code of the Suricate Widget Tester application.
 
-![Suricate widget tester](src/main/webapp/assets/images/widget-tester.png)
+![Suricate widget tester](.readme/dashboard.png)
 
 ## Table of Contents
 

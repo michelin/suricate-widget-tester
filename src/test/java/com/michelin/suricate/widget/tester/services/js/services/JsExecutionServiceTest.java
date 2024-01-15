@@ -14,7 +14,7 @@ class JsExecutionServiceTest {
     private JsExecutionService jsExecutionService;
 
     @Test
-    void shouldNashornRequestNotExecutableBecauseNoScript() {
+    void shouldJsExecutionNotExecutableBecauseNoScript() {
         JsExecutionDto jsExecutionDto = new JsExecutionDto();
         jsExecutionDto.setProjectId(1L);
 
@@ -24,7 +24,7 @@ class JsExecutionServiceTest {
     }
 
     @Test
-    void shouldNashornRequestNotExecutableBecauseInvalidData() {
+    void shouldJsExecutionNotExecutableBecauseInvalidData() {
         JsExecutionDto jsExecutionDto = new JsExecutionDto();
         jsExecutionDto.setProjectId(1L);
         jsExecutionDto.setScript("script");
@@ -36,7 +36,7 @@ class JsExecutionServiceTest {
     }
 
     @Test
-    void shouldNashornRequestNotExecutableBecauseNoDelay() {
+    void shouldJsExecutionNotExecutableBecauseNoDelay() {
         JsExecutionDto jsExecutionDto = new JsExecutionDto();
         jsExecutionDto.setProjectId(1L);
         jsExecutionDto.setScript("script");
@@ -48,7 +48,7 @@ class JsExecutionServiceTest {
     }
 
     @Test
-    void shouldNashornRequestNotExecutableBecauseDelayLowerThan0() {
+    void shouldJsExecutionNotExecutableBecauseDelayLowerThan0() {
         JsExecutionDto jsExecutionDto = new JsExecutionDto();
         jsExecutionDto.setProjectId(1L);
         jsExecutionDto.setScript("script");
@@ -61,7 +61,7 @@ class JsExecutionServiceTest {
     }
 
     @Test
-    void shouldNashornRequestBeExecutable() {
+    void shouldJsExecutionBeExecutable() {
         JsExecutionDto jsExecutionDto = new JsExecutionDto();
         jsExecutionDto.setProjectId(1L);
         jsExecutionDto.setScript("script");

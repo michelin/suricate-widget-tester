@@ -1,6 +1,4 @@
 import { Injectable } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { NgGridItemConfig } from 'angular2-grid';
 import { ProjectWidget } from '../../../shared/models/project-widget/project-widget';
 
 @Injectable({
@@ -9,31 +7,18 @@ import { ProjectWidget } from '../../../shared/models/project-widget/project-wid
 export class MockedModelBuilderService {
   /**
    * Constructor
-   *
-   * @param formBuilder The form builder
    */
-  constructor(private readonly formBuilder: FormBuilder) {}
+  constructor() {}
 
   /**
    * Build a mocked project widget for the unit tests
    */
   public buildMockedProjectWidget(): ProjectWidget {
     return {
+      id: 1,
       instantiateHtml: '',
       technicalName: '',
       cssContent: ''
-    };
-  }
-
-  /**
-   * Build a mocked gridItemConfig for the unit tests
-   */
-  public buildGridStackItem(): NgGridItemConfig {
-    return {
-      col: 0,
-      row: 0,
-      sizey: 50,
-      sizex: 50
     };
   }
 }

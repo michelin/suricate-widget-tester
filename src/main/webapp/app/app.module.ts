@@ -4,9 +4,8 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { SharedModule } from './shared/shared.module';
 
 @NgModule({
-  declarations: [AppComponent],
   imports: [DashboardModule, SharedModule],
-  providers: [],
+  declarations: [AppComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

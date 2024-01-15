@@ -85,6 +85,7 @@ public class WidgetService {
             .append("\n"));
 
         ProjectWidgetResponseDto projectWidgetResponseDto = new ProjectWidgetResponseDto();
+        projectWidgetResponseDto.setId(1L);
         projectWidgetResponseDto.setTechnicalName(widget.getTechnicalName());
         projectWidgetResponseDto.setCssContent(widget.getCssContent());
 
@@ -124,7 +125,7 @@ public class WidgetService {
 
     /**
      * Instantiate the HTML of a widget with the data resulting from
-     * the Nashorn execution.
+     * the Js execution.
      *
      * @param widget        The widget
      * @param data          The computed data
@@ -173,9 +174,9 @@ public class WidgetService {
     }
 
     /**
-     * Log information about the Nashorn response.
+     * Log information about the Js execution.
      *
-     * @param jsResultDto The Nashorn response
+     * @param jsResultDto The Js execution result
      */
     private void logResponse(JsResultDto jsResultDto) {
         if (StringUtils.isNotBlank(jsResultDto.getLog())) {

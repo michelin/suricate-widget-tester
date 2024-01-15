@@ -18,7 +18,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>3.1.5</version>
+    <version>3.2.1</version>
   </parent>
 
   <properties>
@@ -254,8 +254,7 @@
                   <goal>install-node-and-npm</goal>
                 </goals>
                 <configuration>
-                  <!-- For Node > 4.0.0 the plugin will use npm embedded by node -->
-                  <nodeVersion>v12.13.1</nodeVersion>
+                  <nodeVersion>v20.10.0</nodeVersion>
                 </configuration>
               </execution>
               <!-- Install Angular dependencies -->
@@ -275,7 +274,7 @@
                   <goal>npm</goal>
                 </goals>
                 <configuration>
-                  <arguments>run build -- --prod</arguments>
+                  <arguments>run build -- --configuration production</arguments>
                 </configuration>
               </execution>
             </executions>

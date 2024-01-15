@@ -1,5 +1,5 @@
 /*
- * Copyright 2012-2018 the original author or authors.
+ * Copyright 2012-2021 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,59 +16,37 @@
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { NgGridModule } from 'angular2-grid';
 import { NgModule } from '@angular/core';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { SafeHtmlPipe } from './pipes/safe-html/safe-html.pipe';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AppRoutingModule } from '../app-routing.module';
 import { WidgetHtmlDirective } from './directives/widget-html.directive';
 import { SpinnerComponent } from './components/spinner/spinner.component';
-import { MatSelectModule } from '@angular/material/select';
-import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { KtdGridModule } from "@katoid/angular-grid-layout";
+import {MaterialModule} from "./modules/material.module";
 
 @NgModule({
   imports: [
-    MatIconModule,
-    MatButtonModule,
-    MatDividerModule,
-    MatSelectModule,
-    MatCheckboxModule,
+    MaterialModule,
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatProgressSpinnerModule,
-    NgGridModule,
     HttpClientModule,
-    AppRoutingModule
+    KtdGridModule
   ],
   declarations: [SpinnerComponent, SafeHtmlPipe, WidgetHtmlDirective],
   exports: [
-    MatIconModule,
-    MatButtonModule,
-    MatCheckboxModule,
-    MatSelectModule,
-    MatDividerModule,
+    MaterialModule,
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatProgressSpinnerModule,
-    NgGridModule,
     HttpClientModule,
-    AppRoutingModule,
+    KtdGridModule,
     SpinnerComponent,
     SafeHtmlPipe,
     WidgetHtmlDirective

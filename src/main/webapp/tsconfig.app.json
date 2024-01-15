@@ -11,6 +11,6 @@
     "polyfills.ts"
   ],
   "include": [
-    "src/main/webapp/*.d.ts"
+    "src/main/webapp/**/*.d.ts"
   ]
 }

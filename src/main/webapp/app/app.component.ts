@@ -10,7 +10,7 @@ export class AppComponent {
   /**
    * The widget execution result
    */
-  public widgetExecutionResult: WidgetExecutionResult | undefined;
+  public widgetExecutionResult: WidgetExecutionResult;
 
   /**
    * Constructor
@@ -22,7 +22,7 @@ export class AppComponent {
    *
    * @param widgetExecutionResult The widget execution result
    */
-  public setWidgetExecutionResult(widgetExecutionResult?: WidgetExecutionResult) {
+  public setWidgetExecutionResult(widgetExecutionResult: WidgetExecutionResult) {
     this.widgetExecutionResult = widgetExecutionResult;
   }
 }

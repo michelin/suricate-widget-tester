@@ -1,4 +1,5 @@
-﻿.idea
+﻿/.angular/cache
+.idea
 target
 *.iml
 node_modules

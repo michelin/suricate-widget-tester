@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { WidgetExecutionRequest } from '../../../shared/models/widget-execution/widget-execution-request/widget-execution-request';
 import { ProjectWidget } from '../../../shared/models/project-widget/project-widget';
 import { HttpWidgetService } from '../../../shared/services/backend/http-widget/http-widget.service';
@@ -19,32 +19,32 @@ export class WidgetConfigurationComponent implements OnInit {
    * Emit the error message of a widget
    */
   @Output()
-  public widgetExecutionResultEmitEvent = new EventEmitter<WidgetExecutionResult | undefined>();
+  public widgetExecutionResultEmitEvent = new EventEmitter<WidgetExecutionResult>();
 
   /**
    * The image as base 64
    */
-  public imgBase64: string | ArrayBuffer | undefined;
+  public imgBase64: string | ArrayBuffer;
 
   /**
    * If it's not an image we set the filename
    */
-  public filename: string | undefined;
+  public filename: string;
 
   /**
    * Form group
    */
-  public runWidgetForm!: FormGroup;
+  public runWidgetForm: UntypedFormGroup;
 
   /**
    * The error message that can be retrieved when pushing a widget path into the input field
    */
-  public onWidgetPathInputErrorMessage: string | undefined;
+  public onWidgetPathInputErrorMessage: string;
 
   /**
    * Entered widget path
    */
-  public widgetPath: string | undefined;
+  public widgetPath: string;
 
   /**
    * The widget parameters form fields
@@ -59,7 +59,7 @@ export class WidgetConfigurationComponent implements OnInit {
   /**
    * Constructor
    */
-  constructor(private formBuilder: FormBuilder, private httpWidgetService: HttpWidgetService) {}
+  constructor(private formBuilder: UntypedFormBuilder, private httpWidgetService: HttpWidgetService) {}
 
   /**
    * On init

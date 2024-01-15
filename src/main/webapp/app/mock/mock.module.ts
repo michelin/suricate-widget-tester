@@ -1,6 +1,6 @@
 /*
  *  /*
- *  * Copyright 2012-2018 the original author or authors.
+ *  * Copyright 2012-2021 the original author or authors.
  *  *
  *  * Licensed under the Apache License, Version 2.0 (the "License");
  *  * you may not use this file except in compliance with the License.
@@ -20,12 +20,12 @@ import { ElementRef, NgModule } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MockElementRef } from './models/mock-element-ref';
-import { NgGrid } from 'angular2-grid';
 import { SharedModule } from '../shared/shared.module';
+import {DashboardModule} from "../dashboard/dashboard.module";
 
 @NgModule({
-  imports: [SharedModule, HttpClientTestingModule, RouterTestingModule],
-  exports: [SharedModule, HttpClientTestingModule, RouterTestingModule],
-  providers: [{ provide: ElementRef, useClass: MockElementRef }, NgGrid]
+  imports: [SharedModule, DashboardModule, HttpClientTestingModule, RouterTestingModule],
+  exports: [SharedModule, DashboardModule, HttpClientTestingModule, RouterTestingModule],
+  providers: [{ provide: ElementRef, useClass: MockElementRef }]
 })
 export class MockModule {}
