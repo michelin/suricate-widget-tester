@@ -71,6 +71,7 @@ export class DashboardScreenComponent implements OnChanges {
    * Create the list of grid items used to display widgets on the grids
    */
   private initGrid(): void {
+    this.currentGrid = [];
     if (this.widgetExecutionResult && this.widgetExecutionResult.projectWidget) {
       this.currentGrid = this.getGridLayoutFromProjectWidgets();
     }
@@ -133,6 +134,16 @@ export class DashboardScreenComponent implements OnChanges {
       else {
         this.libraryService.emitAreJSScriptsLoaded(true);
       }
+    }
+  }
+
+  /**
+   * When the layout is updated
+   * @param layout The new layout
+   */
+  public onLayoutUpdated(layout: KtdGridLayout) {
+    if (this.isGridItemsHasMoved(layout)) {
+      this.currentGrid = layout;
     }
   }
 

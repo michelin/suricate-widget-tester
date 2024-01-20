@@ -16,6 +16,7 @@
     [gap]="gridOptions.gap"
     [compactType]="gridOptions.compactType"
     [layout]="currentGrid"
+    (layoutUpdated)="onLayoutUpdated($event)"
   >
     <span #externalJsLibraries></span>
 

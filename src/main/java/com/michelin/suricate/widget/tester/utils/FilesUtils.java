@@ -33,7 +33,7 @@ public class FilesUtils {
                 return list.map(Path::toFile)
                         .filter(File::isFile)
                         .sorted()
-                        .collect(Collectors.toList());
+                        .toList();
             }
         }
 
