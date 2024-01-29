@@ -48,12 +48,8 @@ Please note that Java 21 is required starting from version 1.1.0 (Java 8 before)
 The Suricate Widget Tester is released as a JAR archive containing both the front-end and back-end parts, so you can run the whole application in just one command:
 
 ```console
-java -Dpolyglotimpl.DisableClassPathIsolation=true -jar suricate-widget-tester.jar
+java -jar suricate-widget-tester.jar
 ```
-
-The `-Dpolyglotimpl.DisableClassPathIsolation=true` option is required to
-run [Polyglot]((https://www.graalvm.org/jdk21/reference-manual/embed-languages/))
-properly ([more details](https://github.com/oracle/graal/issues/7625)).
 
 After running the command, the application will be accessible on http://localhost:8085/.
 
