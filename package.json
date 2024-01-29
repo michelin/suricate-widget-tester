@@ -1,6 +1,6 @@
 {
   "name": "widget-tester-frontend",
-  "version": "1.1.0",
+  "version": "1.1.1-next",
   "license": "Apache-2.0",
   "scripts": {
     "ng": "ng",
