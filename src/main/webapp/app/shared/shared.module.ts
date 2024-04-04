@@ -27,6 +27,7 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { KtdGridModule } from "@katoid/angular-grid-layout";
 import {MaterialModule} from "./modules/material.module";
+import {NgOptimizedImage} from "@angular/common";
 
 @NgModule({
   imports: [
@@ -36,7 +37,8 @@ import {MaterialModule} from "./modules/material.module";
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    KtdGridModule
+    KtdGridModule,
+    NgOptimizedImage
   ],
   declarations: [SpinnerComponent, SafeHtmlPipe, WidgetHtmlDirective],
   exports: [
@@ -49,7 +51,8 @@ import {MaterialModule} from "./modules/material.module";
     KtdGridModule,
     SpinnerComponent,
     SafeHtmlPipe,
-    WidgetHtmlDirective
+    WidgetHtmlDirective,
+    NgOptimizedImage
   ]
 })
 export class SharedModule {}

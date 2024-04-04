@@ -14,7 +14,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 public class WidgetExecutionRequestDto extends AbstractDto {
-    private String path;
+    private String category;
+    private String widget;
     private String previousData = "{}";
     private List<WidgetParametersRequestDto> parameters = new ArrayList<>();
 }

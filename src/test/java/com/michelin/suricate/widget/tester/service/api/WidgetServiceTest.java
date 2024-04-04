@@ -1,0 +1,285 @@
+package com.michelin.suricate.widget.tester.service.api;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mockStatic;
+import static org.mockito.Mockito.when;
+
+import com.github.mustachejava.DefaultMustacheFactory;
+import com.github.mustachejava.MustacheException;
+import com.github.mustachejava.MustacheFactory;
+import com.michelin.suricate.widget.tester.model.dto.api.ProjectWidgetResponseDto;
+import com.michelin.suricate.widget.tester.model.dto.api.WidgetExecutionRequestDto;
+import com.michelin.suricate.widget.tester.model.dto.api.WidgetParametersRequestDto;
+import com.michelin.suricate.widget.tester.model.dto.category.CategoryDto;
+import com.michelin.suricate.widget.tester.model.dto.category.CategoryParameterDto;
+import com.michelin.suricate.widget.tester.model.dto.js.WidgetVariableResponse;
+import com.michelin.suricate.widget.tester.model.dto.widget.WidgetDto;
+import com.michelin.suricate.widget.tester.service.js.JsExecutionService;
+import com.michelin.suricate.widget.tester.util.WidgetUtils;
+import java.io.IOException;
+import java.io.StringReader;
+import java.util.Arrays;
+import java.util.Collections;
+import org.jetbrains.annotations.NotNull;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockedStatic;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+@ExtendWith(MockitoExtension.class)
+class WidgetServiceTest {
+    @Mock
+    private MustacheFactory mustacheFactory;
+
+    @Mock
+    private JsExecutionService jsExecutionService;
+
+    @InjectMocks
+    private WidgetService widgetService;
+
+    @NotNull
+    private static WidgetExecutionRequestDto getWidgetExecutionRequestDto() {
+        WidgetParametersRequestDto widgetParametersRequestDto = new WidgetParametersRequestDto();
+        widgetParametersRequestDto.setName("SURI_TITLE");
+        widgetParametersRequestDto.setValue("myTitle");
+
+        WidgetParametersRequestDto breakLineWidgetParametersRequestDto = new WidgetParametersRequestDto();
+        breakLineWidgetParametersRequestDto.setName("SURI_DESC");
+        breakLineWidgetParametersRequestDto.setValue("desc\ndesc");
+
+        WidgetExecutionRequestDto widgetExecutionRequestDto = new WidgetExecutionRequestDto();
+        widgetExecutionRequestDto.setPath("src/test/resources/repository/content/github/widgets/count-issues");
+        widgetExecutionRequestDto.setPreviousData("previousData");
+        widgetExecutionRequestDto.setParameters(
+            Arrays.asList(widgetParametersRequestDto, breakLineWidgetParametersRequestDto));
+        return widgetExecutionRequestDto;
+    }
+
+    @NotNull
+    private static WidgetExecutionRequestDto getExecutionRequestDto() {
+        WidgetParametersRequestDto widgetParametersRequestDto = new WidgetParametersRequestDto();
+        widgetParametersRequestDto.setName("name");
+        widgetParametersRequestDto.setValue("value");
+
+        WidgetExecutionRequestDto widgetExecutionRequestDto = new WidgetExecutionRequestDto();
+        widgetExecutionRequestDto.setPath("src/test/resources/repository/content/github/widgets/count-issues");
+        widgetExecutionRequestDto.setPreviousData("previousData");
+        widgetExecutionRequestDto.setParameters(Collections.singletonList(widgetParametersRequestDto));
+        return widgetExecutionRequestDto;
+    }
+
+    @Test
+    void shouldGetWidget() throws IOException {
+        try (MockedStatic<WidgetUtils> mocked = mockStatic(WidgetUtils.class)) {
+            WidgetDto widgetDto = new WidgetDto();
+            widgetDto.setId(1L);
+            widgetDto.setName("name");
+
+            CategoryParameterDto categoryParameterDto = new CategoryParameterDto();
+            categoryParameterDto.setKey("key");
+            categoryParameterDto.setValue("value");
+
+            CategoryDto categoryDto = new CategoryDto();
+            categoryDto.setId(1L);
+            categoryDto.setConfigurations(Collections.singleton(categoryParameterDto));
+
+            mocked.when(() -> WidgetUtils.getWidget(any()))
+                .thenReturn(widgetDto);
+            mocked.when(() -> WidgetUtils.getCategory(any()))
+                .thenReturn(categoryDto);
+
+            WidgetDto actual =
+                widgetService.getWidget("src/test/resources", "/repository/content/github/widgets/count-issues");
+
+            assertThat(actual.getId()).isEqualTo(1L);
+            assertThat(actual.getName()).isEqualTo("name");
+            assertThat(actual.getWidgetParams().get(0).getName()).isEqualTo("key");
+        }
+    }
+
+    @Test
+    void shouldRunWidget() throws IOException {
+        try (MockedStatic<WidgetUtils> mocked = mockStatic(WidgetUtils.class)) {
+            WidgetDto widgetDto = new WidgetDto();
+            widgetDto.setId(1L);
+            widgetDto.setName("name");
+            widgetDto.setTechnicalName("technicalName");
+            widgetDto.setBackendJs("function run () { print('title='+SURI_TITLE); return '{\"data\": \"test\"}'; }");
+            widgetDto.setCssContent("cssContent");
+            widgetDto.setDelay(10L);
+            widgetDto.setHtmlContent("<h1>{{data}}</h1><h1>{{SURI_DESC}}</h1>");
+
+            CategoryParameterDto categoryParameterDto = new CategoryParameterDto();
+            categoryParameterDto.setKey("key");
+            categoryParameterDto.setValue("value");
+
+            CategoryDto categoryDto = new CategoryDto();
+            categoryDto.setId(1L);
+            categoryDto.setConfigurations(Collections.singleton(categoryParameterDto));
+
+            WidgetVariableResponse widgetVariableResponse = new WidgetVariableResponse();
+            widgetVariableResponse.setName("name");
+
+            mocked.when(() -> WidgetUtils.getWidget(any()))
+                .thenReturn(widgetDto);
+            mocked.when(() -> WidgetUtils.getCategory(any()))
+                .thenReturn(categoryDto);
+            mocked.when(() -> WidgetUtils.getWidgetParametersForJsExecution(any()))
+                .thenReturn(Collections.singletonList(widgetVariableResponse));
+            when(jsExecutionService.isJsExecutable(any()))
+                .thenReturn(true);
+            when(mustacheFactory.compile(any(), any()))
+                .thenReturn(new DefaultMustacheFactory().compile(new StringReader(widgetDto.getHtmlContent()),
+                    widgetDto.getTechnicalName()));
+
+            WidgetExecutionRequestDto widgetExecutionRequestDto =
+                getWidgetExecutionRequestDto();
+
+            ProjectWidgetResponseDto actual = widgetService.runWidget(widgetExecutionRequestDto);
+
+            assertThat(actual.getInstantiateHtml()).isEqualTo("<h1>test</h1><h1>desc&#10;desc</h1>");
+            assertThat(actual.getTechnicalName()).isEqualTo("technicalName");
+            assertThat(actual.getCssContent()).isEqualTo("cssContent");
+        }
+    }
+
+    @Test
+    void shouldNotRunWidgetWhenRequestNotExecutable() throws IOException {
+        try (MockedStatic<WidgetUtils> mocked = mockStatic(WidgetUtils.class)) {
+            WidgetDto widgetDto = new WidgetDto();
+            widgetDto.setId(1L);
+            widgetDto.setName("name");
+            widgetDto.setTechnicalName("technicalName");
+            widgetDto.setBackendJs("backendJs");
+            widgetDto.setCssContent("cssContent");
+            widgetDto.setDelay(10L);
+            widgetDto.setHtmlContent("<h1>{{data}}</h1>");
+            widgetDto.setLibraries(new String[] {"lib"});
+
+            CategoryParameterDto categoryParameterDto = new CategoryParameterDto();
+            categoryParameterDto.setKey("key");
+            categoryParameterDto.setValue("value");
+
+            CategoryDto categoryDto = new CategoryDto();
+            categoryDto.setId(1L);
+            categoryDto.setConfigurations(Collections.singleton(categoryParameterDto));
+
+            mocked.when(() -> WidgetUtils.getWidget(any()))
+                .thenReturn(widgetDto);
+            mocked.when(() -> WidgetUtils.getCategory(any()))
+                .thenReturn(categoryDto);
+            when(jsExecutionService.isJsExecutable(any()))
+                .thenReturn(false);
+            when(mustacheFactory.compile(any(), any()))
+                .thenReturn(new DefaultMustacheFactory().compile(new StringReader(widgetDto.getHtmlContent()),
+                    widgetDto.getTechnicalName()));
+
+            WidgetExecutionRequestDto widgetExecutionRequestDto = getExecutionRequestDto();
+
+            ProjectWidgetResponseDto actual = widgetService.runWidget(widgetExecutionRequestDto);
+
+            assertThat(actual.getInstantiateHtml()).isEqualTo("<h1></h1>");
+            assertThat(actual.getTechnicalName()).isEqualTo("technicalName");
+            assertThat(actual.getCssContent()).isEqualTo("cssContent");
+            assertThat(actual.getLibrariesNames().get(0)).isEqualTo("lib");
+        }
+    }
+
+    @Test
+    void shouldNotRunWidgetWhenWrongBackendJs() throws IOException {
+        try (MockedStatic<WidgetUtils> mocked = mockStatic(WidgetUtils.class)) {
+            WidgetDto widgetDto = new WidgetDto();
+            widgetDto.setId(1L);
+            widgetDto.setName("name");
+            widgetDto.setTechnicalName("technicalName");
+            widgetDto.setBackendJs("backendJs");
+            widgetDto.setCssContent("cssContent");
+            widgetDto.setDelay(10L);
+            widgetDto.setHtmlContent("<h1>{{data}}</h1>");
+            widgetDto.setLibraries(new String[] {"lib"});
+
+            CategoryParameterDto categoryParameterDto = new CategoryParameterDto();
+            categoryParameterDto.setKey("key");
+            categoryParameterDto.setValue("value");
+
+            CategoryDto categoryDto = new CategoryDto();
+            categoryDto.setId(1L);
+            categoryDto.setConfigurations(Collections.singleton(categoryParameterDto));
+
+            mocked.when(() -> WidgetUtils.getWidget(any()))
+                .thenReturn(widgetDto);
+            mocked.when(() -> WidgetUtils.getCategory(any()))
+                .thenReturn(categoryDto);
+            when(jsExecutionService.isJsExecutable(any()))
+                .thenReturn(true);
+
+            WidgetExecutionRequestDto widgetExecutionRequestDto = getExecutionRequestDto();
+
+            ProjectWidgetResponseDto actual = widgetService.runWidget(widgetExecutionRequestDto);
+
+            assertThat(actual.getLog()).isEqualTo("ReferenceError: backendJs is not defined");
+        }
+    }
+
+    @Test
+    void shouldInstantiateProjectWidgetHtmlNoData() {
+        WidgetDto widgetDto = new WidgetDto();
+        widgetDto.setId(1L);
+        widgetDto.setHtmlContent("<h1>Titre</h1>");
+
+        String actual = widgetService.instantiateProjectWidgetHtml(widgetDto, "", "param=value");
+
+        assertThat(actual)
+            .isEqualTo("<h1>Titre</h1>");
+    }
+
+    @Test
+    void shouldInstantiateProjectWidgetHtml() {
+        WidgetDto widgetDto = new WidgetDto();
+        widgetDto.setId(1L);
+        widgetDto.setHtmlContent("<h1>{{DATA}}</h1>");
+
+        when(mustacheFactory.compile(any(), any()))
+            .thenReturn(new DefaultMustacheFactory().compile(new StringReader(widgetDto.getHtmlContent()),
+                widgetDto.getTechnicalName()));
+
+        String actual = widgetService.instantiateProjectWidgetHtml(widgetDto, "{\"DATA\": \"titre\"}", "param=value");
+
+        assertThat(actual)
+            .isEqualTo("<h1>titre</h1>");
+    }
+
+    @Test
+    void shouldThrowMustacheExceptionWhenInstantiateProjectWidgetHtml() {
+        WidgetDto widgetDto = new WidgetDto();
+        widgetDto.setId(1L);
+        widgetDto.setHtmlContent("<h1>{{DATA}}</h1>");
+
+        when(mustacheFactory.compile(any(), any()))
+            .thenThrow(new MustacheException("Error"));
+
+        String actual = widgetService.instantiateProjectWidgetHtml(widgetDto, "{\"DATA\": \"titre\"}", "param=value");
+
+        assertThat(actual).isEmpty();
+    }
+
+    @Test
+    void shouldThrowExceptionFromDataWhenInstantiateProjectWidgetHtml() {
+        WidgetDto widgetDto = new WidgetDto();
+        widgetDto.setId(1L);
+        widgetDto.setTechnicalName("technicalName");
+        widgetDto.setHtmlContent("<h1>{{DATA}}</h1>");
+
+        when(mustacheFactory.compile(any(), any()))
+            .thenReturn(new DefaultMustacheFactory().compile(new StringReader(widgetDto.getHtmlContent()),
+                widgetDto.getTechnicalName()));
+
+        String actual = widgetService.instantiateProjectWidgetHtml(widgetDto, "parseError", "param=value");
+
+        assertThat(actual)
+            .isEqualTo("<h1></h1>");
+    }
+}

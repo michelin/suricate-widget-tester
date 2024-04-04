@@ -2,7 +2,7 @@ package com.michelin.suricate.widget.tester.model.dto.error;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.michelin.suricate.widget.tester.model.dto.AbstractDto;
-import com.michelin.suricate.widget.tester.model.enums.ApiErrorEnum;
+import com.michelin.suricate.widget.tester.model.enumeration.ApiErrorEnum;
 import java.util.Date;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

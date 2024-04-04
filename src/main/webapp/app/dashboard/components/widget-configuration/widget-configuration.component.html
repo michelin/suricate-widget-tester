@@ -1,12 +1,25 @@
+<div class="title-container">
+  <img ngSrc="../../../../../assets/images/logo.png" width="75" height="75" alt="brand image"/>
+  <h1 class="title">Widget Tester</h1>
+</div>
+
 <form [formGroup]="runWidgetForm" (ngSubmit)="runWidget()">
   <div class="widget-configuration">
-    <h2>Widget configuration</h2>
+    <h2>Select a widget</h2>
+    <p>From <i>{{ repository }}</i></p>
 
     <mat-form-field appearance="fill">
-      <mat-label>Widget path</mat-label>
-      <input matInput formControlName="path" required (input)="getWidgetParameters($event)" />
+      <mat-label>Widget</mat-label>
+      <mat-select (selectionChange)="getWidgetParameters($event)" formControlName="path" required>
+        <mat-optgroup *ngFor="let categoryDirectory of categoryDirectories" [label]="categoryDirectory.name" class="bold capitalize">
+          <mat-option *ngFor="let widget of categoryDirectory.widgets" [value]="categoryDirectory.name + '/' + widget" class="capitalize">{{ widget }}</mat-option>
+        </mat-optgroup>
+      </mat-select>
+
       <mat-error *ngIf="checkError('path', 'required')">The widget path is required</mat-error>
     </mat-form-field>
+
+    <h2>Mock previous execution data</h2>
 
     <mat-form-field appearance="fill">
       <mat-label>Previous execution data</mat-label>
@@ -27,45 +40,50 @@
     <p *ngIf="widgetParamsFormField.length === 0 && !onWidgetPathInputErrorMessage">No parameters to display</p>
     <p *ngIf="onWidgetPathInputErrorMessage" class="widget-path-error-message">{{ onWidgetPathInputErrorMessage }}</p>
 
-    <div class="widget-parameters-fields" *ngFor="let widgetParameter of widgetParamsFormField">
-      <mat-form-field appearance="fill">
-        <mat-label>Name</mat-label>
-        <input matInput [formControlName]="widgetParameter.name + '-name'" />
-      </mat-form-field>
+    <div class="widget-parameters-container" *ngFor="let widgetParameter of widgetParamsFormField">
+      <div>
+        <mat-form-field appearance="fill">
+          <mat-label>Name</mat-label>
+          <input matInput [formControlName]="widgetParameter.name + '-name'" />
+        </mat-form-field>
+      </div>
 
-      <mat-form-field *ngIf="[dataType.NUMBER, dataType.TEXT, dataType.TEXTAREA, dataType.PASSWORD, dataType.COMBO, dataType.MULTIPLE].includes(widgetParameter.type)" appearance="fill">
-        <mat-label>Value</mat-label>
-        <input *ngIf="[dataType.NUMBER, dataType.TEXT, dataType.PASSWORD].includes(widgetParameter.type)" matInput [formControlName]="widgetParameter.name + '-value'"
-               [required]="widgetParameter.required" [type]="widgetParameter.type.toLowerCase()"/>
-        <textarea *ngIf="widgetParameter.type === dataType.TEXTAREA" matInput [formControlName]="widgetParameter.name + '-value'"
-                  [required]="widgetParameter.required"
-        ></textarea>
-        <mat-select *ngIf="[dataType.COMBO, dataType.MULTIPLE].includes(widgetParameter.type)" [formControlName]="widgetParameter.name + '-value'"
-                    [required]="widgetParameter.required">
-          <mat-option *ngIf="!widgetParameter.required && widgetParameter.type === dataType.COMBO" [value]="">None</mat-option>
-          <mat-option *ngFor="let possibleValue of widgetParameter.possibleValues" [value]="possibleValue.jsKey">
-            {{ possibleValue.value }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+      <div>
+        <mat-form-field *ngIf="[dataType.NUMBER, dataType.TEXT, dataType.TEXTAREA, dataType.PASSWORD, dataType.COMBO, dataType.MULTIPLE].includes(widgetParameter.type)" appearance="fill">
+          <mat-label>Value</mat-label>
+          <input *ngIf="[dataType.NUMBER, dataType.TEXT, dataType.PASSWORD].includes(widgetParameter.type)" matInput [formControlName]="widgetParameter.name + '-value'"
+                 [required]="widgetParameter.required" [type]="widgetParameter.type.toLowerCase()"/>
+          <textarea *ngIf="widgetParameter.type === dataType.TEXTAREA" matInput [formControlName]="widgetParameter.name + '-value'"
+                    [required]="widgetParameter.required"
+          ></textarea>
+          <mat-select *ngIf="[dataType.COMBO, dataType.MULTIPLE].includes(widgetParameter.type)" [formControlName]="widgetParameter.name + '-value'"
+                      [required]="widgetParameter.required">
+            <mat-option *ngIf="!widgetParameter.required && widgetParameter.type === dataType.COMBO" [value]="">None</mat-option>
+            <mat-option *ngFor="let possibleValue of widgetParameter.possibleValues" [value]="possibleValue.jsKey">
+              {{ possibleValue.value }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
 
-      <mat-checkbox *ngIf="widgetParameter.type === dataType.BOOLEAN" [formControlName]="widgetParameter.name + '-value'"
-                    [required]="widgetParameter.required">
-      </mat-checkbox>
+        <mat-checkbox *ngIf="widgetParameter.type === dataType.BOOLEAN" [formControlName]="widgetParameter.name + '-value'"
+                      [required]="widgetParameter.required">
+        </mat-checkbox>
 
-      <div *ngIf="widgetParameter.type === dataType.FILE" class="file-upload-wrapper">
-        <button mat-raised-button type="button" color="primary" (click)="file.click()">
-          <mat-icon>cloud_upload</mat-icon>
-          <span> Upload</span>
-        </button>
+        <div *ngIf="widgetParameter.type === dataType.FILE" class="file-upload-wrapper">
+          <button mat-raised-button type="button" color="primary" (click)="file.click()">
+            <mat-icon>cloud_upload</mat-icon>
+            <span>Upload</span>
+          </button>
 
-        <img *ngIf="imgBase64" [src]="imgBase64" alt="Uploaded file" />
+          <img *ngIf="isFileExisting(widgetParameter) && isBase64UrlIsAnImage(widgetParameter)" [src]="getBase64Url(widgetParameter)" alt="Uploaded file" />
 
-        <div *ngIf="filename">
-          {{ filename }}
+          <div *ngIf="isFileExisting(widgetParameter) && !isBase64UrlIsAnImage(widgetParameter)">
+            {{ getFileName(widgetParameter) }}
+          </div>
+
+          <input #file type="file" (change)="onFileChange($event, widgetParameter)" />
         </div>
-
-        <input #file type="file" (change)="onFileChange($event, widgetParameter)" />
+        <mat-error *ngIf="checkError(widgetParameter.name + '-value', 'required')" class="input-error">This field is required</mat-error>
       </div>
     </div>
   </div>

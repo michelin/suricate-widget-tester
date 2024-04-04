@@ -15,3 +15,5 @@ application:
     allowedMethods: 'GET,POST,OPTIONS,DELETE,PUT'
     allowedOrigins: '*'
     maxAge: 3600
+  widgets:
+    repository: 'D:/Projects/suricate-widgets'

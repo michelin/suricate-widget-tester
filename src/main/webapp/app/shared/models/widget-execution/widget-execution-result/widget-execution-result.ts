@@ -4,5 +4,4 @@ import { WidgetExecutionRequest } from '../widget-execution-request/widget-execu
 export interface WidgetExecutionResult {
   projectWidget?: ProjectWidget;
   widgetExecutionErrorMessage?: string;
-  widgetExecutionRequest: WidgetExecutionRequest;
 }

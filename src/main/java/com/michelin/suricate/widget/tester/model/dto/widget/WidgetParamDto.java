@@ -1,6 +1,6 @@
 package com.michelin.suricate.widget.tester.model.dto.widget;
 
-import com.michelin.suricate.widget.tester.model.enums.DataTypeEnum;
+import com.michelin.suricate.widget.tester.model.enumeration.DataTypeEnum;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.EqualsAndHashCode;

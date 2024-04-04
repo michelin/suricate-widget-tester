@@ -2,7 +2,7 @@ package com.michelin.suricate.widget.tester.model.dto.js;
 
 import com.michelin.suricate.widget.tester.model.dto.AbstractDto;
 import com.michelin.suricate.widget.tester.model.dto.api.ProjectWidgetResponseDto;
-import com.michelin.suricate.widget.tester.model.enums.JsExecutionErrorTypeEnum;
+import com.michelin.suricate.widget.tester.model.enumeration.JsExecutionErrorTypeEnum;
 import java.util.Date;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

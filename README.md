@@ -65,7 +65,7 @@ The Suricate Widget Tester executes the JavaScript file of a widget. It can be u
 - The return of the `run` method contains all the required data in the expected format.
 - The syntax of the `script.js` file is correct.
 
-In short, it ensures that the widget execution works, and helps identify issues if it doesn't.
+In short, it ensures that the widget execution works, and helps identify issues if it does not.
 
 ### Widget and Category Parameters
 

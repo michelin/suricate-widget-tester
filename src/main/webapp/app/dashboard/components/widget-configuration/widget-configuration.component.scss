@@ -1,3 +1,14 @@
+.title-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .title {
+    text-align: center;
+    font-size: 48px;
+  }
+}
+
 form {
   display: flex;
   max-width: 1250px;
@@ -31,7 +42,9 @@ form {
     }
   }
 
-  .widget-parameters-fields {
+  .widget-parameters-container {
+    display: flex;
+
     mat-form-field {
       min-width: 300px;
       margin-right: 10px;
@@ -56,9 +69,28 @@ form {
     display: block;
     max-width: 100%;
     height: auto;
+    margin-bottom: 10px;
   }
 
   input[type='file'] {
     display: none;
   }
+}
+
+.input-error {
+  top: -20px;
+  margin-bottom: -10px;
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  overflow: hidden;
+  font-size: 75%;
+}
+
+.capitalize {
+  text-transform: capitalize;
+}
+
+.bold {
+  font-weight: 500;
 }

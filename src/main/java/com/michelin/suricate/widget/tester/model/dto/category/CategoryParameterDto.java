@@ -1,7 +1,7 @@
 package com.michelin.suricate.widget.tester.model.dto.category;
 
 import com.michelin.suricate.widget.tester.model.dto.AbstractDto;
-import com.michelin.suricate.widget.tester.model.enums.DataTypeEnum;
+import com.michelin.suricate.widget.tester.model.enumeration.DataTypeEnum;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,6 +1,7 @@
 package com.michelin.suricate.widget.tester.model.dto.category;
 
 import com.michelin.suricate.widget.tester.model.dto.AbstractDto;
+import com.michelin.suricate.widget.tester.model.dto.widget.WidgetDto;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import lombok.EqualsAndHashCode;
@@ -21,4 +22,5 @@ public class CategoryDto extends AbstractDto {
     private String technicalName;
     private byte[] image;
     private Set<CategoryParameterDto> configurations = new LinkedHashSet<>();
+    private Set<WidgetDto> widgets = new LinkedHashSet<>();
 }

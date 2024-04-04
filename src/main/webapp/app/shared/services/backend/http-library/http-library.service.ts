@@ -27,7 +27,7 @@ export class HttpLibraryService {
   /**
    * Global assets endpoint
    */
-  private static readonly assetsApiEndpoint = `${AbstractHttpService.baseApiEndpoint}/v1/libraries`;
+  private static readonly librariesApiEndpoint = `${AbstractHttpService.baseApiEndpoint}/v1/libraries`;
 
   /**
    * Constructor
@@ -38,9 +38,8 @@ export class HttpLibraryService {
    * Get the library content url
    *
    * @param libraryName The library name
-   * @param widgetPath The path of the widget folder
    */
-  public static getContentUrl(libraryName: string, widgetPath: string): string {
-    return libraryName ? `${HttpLibraryService.assetsApiEndpoint}/${libraryName}/content?widgetPath=${widgetPath}` : ``;
+  public static getContentUrl(libraryName: string): string {
+    return libraryName ? `${HttpLibraryService.librariesApiEndpoint}/${libraryName}/content` : ``;
   }
 }

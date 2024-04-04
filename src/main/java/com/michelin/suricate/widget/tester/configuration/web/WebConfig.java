@@ -1,6 +1,6 @@
 package com.michelin.suricate.widget.tester.configuration.web;
 
-import com.michelin.suricate.widget.tester.properties.ApplicationProperties;
+import com.michelin.suricate.widget.tester.property.ApplicationProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
