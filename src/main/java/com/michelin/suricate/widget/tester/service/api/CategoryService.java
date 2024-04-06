@@ -38,7 +38,10 @@ public class CategoryService {
                 .toList();
 
             for (File category : categoriesFile) {
-                CategoryDirectoryDto categoryDirectoryDto = new CategoryDirectoryDto(category.getName());
+                CategoryDirectoryDto categoryDirectoryDto = CategoryDirectoryDto.builder()
+                    .name(category.getName())
+                    .build();
+
                 try (Stream<Path> list = Files.list(Paths.get(category.getCanonicalPath() + "/widgets"))) {
                     categoryDirectoryDto.getWidgets().addAll(list.map(Path::toFile)
                         .filter(File::isDirectory)

@@ -15,6 +15,7 @@ import com.michelin.suricate.widget.tester.model.dto.category.CategoryDto;
 import com.michelin.suricate.widget.tester.model.dto.category.CategoryParameterDto;
 import com.michelin.suricate.widget.tester.model.dto.js.WidgetVariableResponse;
 import com.michelin.suricate.widget.tester.model.dto.widget.WidgetDto;
+import com.michelin.suricate.widget.tester.property.ApplicationProperties;
 import com.michelin.suricate.widget.tester.service.js.JsExecutionService;
 import com.michelin.suricate.widget.tester.util.WidgetUtils;
 import java.io.IOException;
@@ -37,6 +38,9 @@ class WidgetServiceTest {
     @Mock
     private JsExecutionService jsExecutionService;
 
+    @Mock
+    private ApplicationProperties applicationProperties;
+
     @InjectMocks
     private WidgetService widgetService;
 
@@ -51,7 +55,8 @@ class WidgetServiceTest {
         breakLineWidgetParametersRequestDto.setValue("desc\ndesc");
 
         WidgetExecutionRequestDto widgetExecutionRequestDto = new WidgetExecutionRequestDto();
-        widgetExecutionRequestDto.setPath("src/test/resources/repository/content/github/widgets/count-issues");
+        widgetExecutionRequestDto.setCategory("github");
+        widgetExecutionRequestDto.setWidget("count-issues");
         widgetExecutionRequestDto.setPreviousData("previousData");
         widgetExecutionRequestDto.setParameters(
             Arrays.asList(widgetParametersRequestDto, breakLineWidgetParametersRequestDto));
@@ -65,7 +70,8 @@ class WidgetServiceTest {
         widgetParametersRequestDto.setValue("value");
 
         WidgetExecutionRequestDto widgetExecutionRequestDto = new WidgetExecutionRequestDto();
-        widgetExecutionRequestDto.setPath("src/test/resources/repository/content/github/widgets/count-issues");
+        widgetExecutionRequestDto.setCategory("github");
+        widgetExecutionRequestDto.setWidget("count-issues");
         widgetExecutionRequestDto.setPreviousData("previousData");
         widgetExecutionRequestDto.setParameters(Collections.singletonList(widgetParametersRequestDto));
         return widgetExecutionRequestDto;
@@ -74,6 +80,9 @@ class WidgetServiceTest {
     @Test
     void shouldGetWidget() throws IOException {
         try (MockedStatic<WidgetUtils> mocked = mockStatic(WidgetUtils.class)) {
+            when(applicationProperties.getWidgets())
+                .thenReturn(new ApplicationProperties.Widgets());
+
             WidgetDto widgetDto = new WidgetDto();
             widgetDto.setId(1L);
             widgetDto.setName("name");
@@ -92,7 +101,7 @@ class WidgetServiceTest {
                 .thenReturn(categoryDto);
 
             WidgetDto actual =
-                widgetService.getWidget("src/test/resources", "/repository/content/github/widgets/count-issues");
+                widgetService.getWidget("category", "widget");
 
             assertThat(actual.getId()).isEqualTo(1L);
             assertThat(actual.getName()).isEqualTo("name");
@@ -129,6 +138,8 @@ class WidgetServiceTest {
                 .thenReturn(categoryDto);
             mocked.when(() -> WidgetUtils.getWidgetParametersForJsExecution(any()))
                 .thenReturn(Collections.singletonList(widgetVariableResponse));
+            when(applicationProperties.getWidgets())
+                .thenReturn(new ApplicationProperties.Widgets());
             when(jsExecutionService.isJsExecutable(any()))
                 .thenReturn(true);
             when(mustacheFactory.compile(any(), any()))
@@ -171,6 +182,8 @@ class WidgetServiceTest {
                 .thenReturn(widgetDto);
             mocked.when(() -> WidgetUtils.getCategory(any()))
                 .thenReturn(categoryDto);
+            when(applicationProperties.getWidgets())
+                .thenReturn(new ApplicationProperties.Widgets());
             when(jsExecutionService.isJsExecutable(any()))
                 .thenReturn(false);
             when(mustacheFactory.compile(any(), any()))
@@ -213,6 +226,8 @@ class WidgetServiceTest {
                 .thenReturn(widgetDto);
             mocked.when(() -> WidgetUtils.getCategory(any()))
                 .thenReturn(categoryDto);
+            when(applicationProperties.getWidgets())
+                .thenReturn(new ApplicationProperties.Widgets());
             when(jsExecutionService.isJsExecutable(any()))
                 .thenReturn(true);
 

@@ -1,6 +1,7 @@
 package com.michelin.suricate.widget.tester.integration;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.http.HttpMethod.GET;
 
 import com.michelin.suricate.widget.tester.model.dto.error.ApiErrorDto;
@@ -34,9 +35,8 @@ class WidgetIntegrationTest {
     @Test
     void shouldGetWidgetParams() {
         ResponseEntity<List<WidgetParamDto>> response = restTemplate.exchange("http://localhost:" + port
-                + "/api/v1/parameters?widgetPath=src/test/resources/repository/content/github/widgets/count-issues",
-            GET, HttpEntity.EMPTY, new ParameterizedTypeReference<List<WidgetParamDto>>() {
-            });
+                + "/api/v1/widgets/parameters?category=github&widget=count-issues",
+            GET, HttpEntity.EMPTY, new ParameterizedTypeReference<>() {});
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isNotNull();
@@ -47,23 +47,20 @@ class WidgetIntegrationTest {
     }
 
     @Test
-    void shouldNotGetWidgetParamsWhenFileDoesNotExist() {
+    void shouldNotGetWidgetParamsWhenCategoryDoesNotExist() {
         ResponseEntity<ApiErrorDto> response = restTemplate.exchange("http://localhost:" + port
-                + "/api/v1/parameters?widgetPath=src/test/resources/error/repository/"
-                + "content/github/widgets/count-issues",
+                + "/api/v1/widgets/parameters?category=unknown&widget=count-issues",
             GET, HttpEntity.EMPTY, ApiErrorDto.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
         assertThat(response.getBody()).isNotNull();
 
         String expectedFileName = "src"
-            + File.separator + "test" + File.separator + "resources" + File.separator + "error" + File.separator
-            + "repository"
-            + File.separator + "content" + File.separator + "github" + File.separator + "widgets" + File.separator
-            + "count-issues";
+            + File.separator + "test" + File.separator + "resources" + File.separator + "repository"
+            + File.separator + "content" + File.separator + "unknown";
 
-        assertThat(response.getBody().getMessage()).contains("The file");
-        assertThat(response.getBody().getMessage()).contains(expectedFileName);
-        assertThat(response.getBody().getMessage()).contains("does not exist");
+        assertTrue(response.getBody().getMessage().contains("The file"));
+        assertTrue(response.getBody().getMessage().contains(expectedFileName));
+        assertTrue(response.getBody().getMessage().contains("does not exist"));
     }
 }

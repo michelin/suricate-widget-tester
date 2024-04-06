@@ -29,8 +29,7 @@ class LibraryIntegrationTest {
     @Test
     void shouldThrowNotFoundExceptionWhenLibraryNotFound() {
         ResponseEntity<ApiErrorDto> response = restTemplate.exchange("http://localhost:" + port
-                + "/api/v1/libraries/doesNotExist/content?widgetPath=src/test/resources"
-                + "/repository/content/github/widgets/count-issues",
+                + "/api/v1/libraries/doesNotExist/content",
             GET, HttpEntity.EMPTY, ApiErrorDto.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
@@ -41,8 +40,7 @@ class LibraryIntegrationTest {
     @Test
     void shouldGetLibrary() {
         ResponseEntity<byte[]> response = restTemplate.exchange("http://localhost:" + port
-                + "/api/v1/libraries/test.js/content?widgetPath=src/test/resources/"
-                + "repository/content/github/widgets/count-issues",
+                + "/api/v1/libraries/test.js/content",
             GET, HttpEntity.EMPTY, byte[].class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);

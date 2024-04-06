@@ -11,13 +11,10 @@ import lombok.EqualsAndHashCode;
  * Category directory DTO.
  */
 @Data
+@Builder
 @EqualsAndHashCode(callSuper = false)
 public class CategoryDirectoryDto extends AbstractDto {
     private String name;
-    private Set<String> widgets;
-
-    public CategoryDirectoryDto(String name) {
-        this.name = name;
-        this.widgets = new LinkedHashSet<>();
-    }
+    @Builder.Default
+    private Set<String> widgets = new LinkedHashSet<>();
 }
