@@ -16,4 +16,4 @@ application:
     allowedOrigins: '*'
     maxAge: 3600
   widgets:
-    repository: 'D:/Projects/suricate-widgets'
+    repository: '/tmp'
