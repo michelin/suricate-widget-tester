@@ -1,6 +1,9 @@
 package com.michelin.suricate.widget.tester.util;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.michelin.suricate.widget.tester.model.dto.category.CategoryDto;
 import com.michelin.suricate.widget.tester.model.dto.js.WidgetVariableResponse;
@@ -14,38 +17,36 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class WidgetUtilsTest {
     @Test
     void shouldParseLibraryFolderNull() {
         List<LibraryDto> actual = WidgetUtils.parseLibraryFolder(null);
-        assertThat(actual).isNull();
+        assertNull(actual);
     }
 
     @Test
     void shouldParseLibraryFolderEmpty() {
         List<LibraryDto> actual = WidgetUtils.parseLibraryFolder(new File("src/test/resources/repository"));
-        assertThat(actual).isNull();
+        assertNull(actual);
     }
 
     @Test
     void shouldParseLibraryFolder() {
         List<LibraryDto> actual = WidgetUtils.parseLibraryFolder(new File("src/test/resources/repository/libraries"));
-        assertThat(actual).hasSize(1);
-        assertThat(actual.get(0).getTechnicalName()).isEqualTo("test.js");
+        assertEquals(1, actual.size());
+        assertEquals("test.js", actual.get(0).getTechnicalName());
     }
 
     @Test
     void shouldGetCategoryNull() throws IOException {
-        assertThat(WidgetUtils.getCategory(null)).isNull();
+        assertNull(WidgetUtils.getCategory(null));
     }
 
     @Test
     void shouldGetCategoryWithNoName() throws IOException {
-        assertThat(
-            WidgetUtils.getCategory(new File("src/test/resources/specific-repository/content/no-name"))).isNull();
+        assertNull(WidgetUtils.getCategory(new File("src/test/resources/specific-repository/content/no-name")));
     }
 
     @Test
@@ -53,48 +54,45 @@ class WidgetUtilsTest {
         CategoryDto actual =
             WidgetUtils.getCategory(new File("src/test/resources/specific-repository/content/no-widgets"));
 
-        assertThat(actual.getId()).isNull();
-        assertThat(actual.getName()).isEqualTo("noWidgets");
-        assertThat(actual.getTechnicalName()).isEqualTo("noWidgets");
-        assertThat(actual.getImage()).isNotNull();
+        assertNull(actual.getId());
+        assertEquals("noWidgets", actual.getName());
+        assertEquals("noWidgets", actual.getTechnicalName());
+        assertNotNull(actual.getImage());
     }
 
     @Test
     void shouldGetCategory() throws IOException {
         CategoryDto actual = WidgetUtils.getCategory(new File("src/test/resources/repository/content/github"));
 
-        assertThat(actual.getId()).isNull();
-        assertThat(actual.getName()).isEqualTo("GitHub");
-        assertThat(actual.getTechnicalName()).isEqualTo("github");
-        assertThat(actual.getImage()).isNotNull();
+        assertNull(actual.getId());
+        assertEquals("GitHub", actual.getName());
+        assertEquals("github", actual.getTechnicalName());
+        assertNotNull(actual.getImage());
     }
 
     @Test
     void shouldGetWidgetNull() throws IOException {
-        Assertions.assertThat(WidgetUtils.getWidget(null)).isNull();
+        assertNull(WidgetUtils.getWidget(null));
     }
 
     @Test
     void shouldGetWidgetNoDelay() throws IOException {
-        Assertions.assertThat(WidgetUtils.getWidget(
-                new File("src/test/resources/specific-repository/content/specific-widgets/widgets/no-delay")))
-            .isNull();
+        assertNull(WidgetUtils.getWidget(
+                new File("src/test/resources/specific-repository/content/specific-widgets/widgets/no-delay")));
     }
 
     @Test
     void shouldGetWidgetDelayButNoScript() throws IOException {
-        Assertions.assertThat(WidgetUtils.getWidget(
+        assertNull(WidgetUtils.getWidget(
                 new File("src/test/resources/specific-repository/content/"
-                    + "specific-widgets/widgets/delay-but-no-script")))
-            .isNull();
+                    + "specific-widgets/widgets/delay-but-no-script")));
     }
 
     @Test
     void shouldGetWidgetNoTechnicalName() throws IOException {
-        Assertions.assertThat(WidgetUtils.getWidget(
+        assertNull(WidgetUtils.getWidget(
                 new File("src/test/resources/specific-repository/content/"
-                    + "specific-widgets/widgets/no-technical-name")))
-            .isNull();
+                    + "specific-widgets/widgets/no-technical-name")));
     }
 
     @Test
@@ -102,32 +100,32 @@ class WidgetUtilsTest {
         WidgetDto actual =
             WidgetUtils.getWidget(new File("src/test/resources/repository/content/github/widgets/count-issues"));
 
-        assertThat(actual.getId()).isNull();
-        assertThat(actual.getName()).isEqualTo("Number of issues");
-        assertThat(actual.getDescription()).isEqualTo("Display the number of issues of a GitHub project");
-        assertThat(actual.getTechnicalName()).isEqualTo("githubOpenedIssues");
-        assertThat(actual.getDelay()).isEqualTo(600L);
-        assertThat(actual.getHtmlContent()).isNotNull();
-        assertThat(actual.getCssContent()).isNotNull();
-        assertThat(actual.getBackendJs()).isNotNull();
-        assertThat(actual.getImage()).isNotNull();
-        assertThat(actual.getWidgetParams()).hasSize(3);
+        assertNull(actual.getId());
+        assertEquals("Number of issues", actual.getName());
+        assertEquals("Display the number of issues of a GitHub project", actual.getDescription());
+        assertEquals("githubOpenedIssues", actual.getTechnicalName());
+        assertEquals(600L, actual.getDelay());
+        assertNotNull(actual.getHtmlContent());
+        assertNotNull(actual.getCssContent());
+        assertNotNull(actual.getBackendJs());
+        assertNotNull(actual.getImage());
+        assertEquals(3, actual.getWidgetParams().size());
     }
 
     @Test
     void shouldGetWidgetClockWithNoParams() throws IOException {
         WidgetDto actual = WidgetUtils.getWidget(new File("src/test/resources/repository/content/other/widgets/clock"));
 
-        assertThat(actual.getId()).isNull();
-        assertThat(actual.getName()).isEqualTo("Clock");
-        assertThat(actual.getDescription()).isEqualTo("Display the current date and time with a clock");
-        assertThat(actual.getTechnicalName()).isEqualTo("clock");
-        assertThat(actual.getDelay()).isEqualTo(-1L);
-        assertThat(actual.getHtmlContent()).isNotNull();
-        assertThat(actual.getCssContent()).isNotNull();
-        assertThat(actual.getBackendJs()).isNull();
-        assertThat(actual.getImage()).isNotNull();
-        assertThat(actual.getWidgetParams()).isEmpty();
+        assertNull(actual.getId());
+        assertEquals("Clock", actual.getName());
+        assertEquals("Display the current date and time with a clock", actual.getDescription());
+        assertEquals("clock", actual.getTechnicalName());
+        assertEquals(-1L, actual.getDelay());
+        assertNotNull(actual.getHtmlContent());
+        assertNotNull(actual.getCssContent());
+        assertNull(actual.getBackendJs());
+        assertNotNull(actual.getImage());
+        assertTrue(actual.getWidgetParams().isEmpty());
     }
 
     @Test
@@ -165,7 +163,6 @@ class WidgetUtilsTest {
         widget.setWidgetParams(Arrays.asList(widgetParam, widgetParamTwo, widgetParamThree, widgetParamFour));
 
         List<WidgetVariableResponse> actual = WidgetUtils.getWidgetParametersForJsExecution(widget);
-
-        assertThat(actual).hasSize(4);
+        assertEquals(4, actual.size());
     }
 }

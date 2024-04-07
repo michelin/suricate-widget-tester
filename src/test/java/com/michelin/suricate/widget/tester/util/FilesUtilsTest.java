@@ -1,6 +1,7 @@
 package com.michelin.suricate.widget.tester.util;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,14 +13,13 @@ class FilesUtilsTest {
     void shouldGetFiles() throws IOException {
         List<File> actual = FilesUtils.getFiles(new File("src/test/resources/repository/libraries"));
 
-        assertThat(actual).hasSize(1);
-        assertThat(actual.get(0).getName()).contains("test.js");
+        assertEquals(1, actual.size());
+        assertEquals("test.js", actual.get(0).getName());
     }
 
     @Test
     void shouldGetNoFile() throws IOException {
         List<File> actual = FilesUtils.getFiles(null);
-
-        assertThat(actual).isEmpty();
+        assertTrue(actual.isEmpty());
     }
 }

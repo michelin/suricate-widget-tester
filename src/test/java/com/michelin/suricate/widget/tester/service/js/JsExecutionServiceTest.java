@@ -1,9 +1,9 @@
 package com.michelin.suricate.widget.tester.service.js;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.michelin.suricate.widget.tester.model.dto.js.JsExecutionDto;
-import com.michelin.suricate.widget.tester.service.js.JsExecutionService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -20,8 +20,7 @@ class JsExecutionServiceTest {
         jsExecutionDto.setProjectId(1L);
 
         boolean actual = jsExecutionService.isJsExecutable(jsExecutionDto);
-
-        assertThat(actual).isFalse();
+        assertFalse(actual);
     }
 
     @Test
@@ -32,8 +31,7 @@ class JsExecutionServiceTest {
         jsExecutionDto.setPreviousData("invalid");
 
         boolean actual = jsExecutionService.isJsExecutable(jsExecutionDto);
-
-        assertThat(actual).isFalse();
+        assertFalse(actual);
     }
 
     @Test
@@ -44,8 +42,7 @@ class JsExecutionServiceTest {
         jsExecutionDto.setPreviousData("{\"key\": \"value\"}");
 
         boolean actual = jsExecutionService.isJsExecutable(jsExecutionDto);
-
-        assertThat(actual).isFalse();
+        assertFalse(actual);
     }
 
     @Test
@@ -57,8 +54,7 @@ class JsExecutionServiceTest {
         jsExecutionDto.setDelay(-10L);
 
         boolean actual = jsExecutionService.isJsExecutable(jsExecutionDto);
-
-        assertThat(actual).isFalse();
+        assertFalse(actual);
     }
 
     @Test
@@ -70,7 +66,6 @@ class JsExecutionServiceTest {
         jsExecutionDto.setDelay(10L);
 
         boolean actual = jsExecutionService.isJsExecutable(jsExecutionDto);
-
-        assertThat(actual).isTrue();
+        assertTrue(actual);
     }
 }

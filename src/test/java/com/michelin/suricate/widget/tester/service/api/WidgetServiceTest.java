@@ -1,6 +1,8 @@
 package com.michelin.suricate.widget.tester.service.api;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.when;
@@ -103,10 +105,24 @@ class WidgetServiceTest {
             WidgetDto actual =
                 widgetService.getWidget("category", "widget");
 
-            assertThat(actual.getId()).isEqualTo(1L);
-            assertThat(actual.getName()).isEqualTo("name");
-            assertThat(actual.getWidgetParams().get(0).getName()).isEqualTo("key");
+            assertEquals(1L, actual.getId());
+            assertEquals("name", actual.getName());
+            assertEquals("key", actual.getWidgetParams().get(0).getName());
         }
+    }
+
+    @Test
+    void shouldThrowIoExceptionWhenGetWidgetOutsideOfWidgetsRepository() {
+        ApplicationProperties.Widgets widgetsProperties = new ApplicationProperties.Widgets();
+        widgetsProperties.setRepository("/tmp/widgets");
+
+        when(applicationProperties.getWidgets())
+            .thenReturn(widgetsProperties);
+
+        IOException exception = assertThrows(IOException.class,
+            () -> widgetService.getWidget("../../outside/category", "widget"));
+
+        assertEquals("Requested widget is outside of the widgets directory", exception.getMessage());
     }
 
     @Test
@@ -151,9 +167,9 @@ class WidgetServiceTest {
 
             ProjectWidgetResponseDto actual = widgetService.runWidget(widgetExecutionRequestDto);
 
-            assertThat(actual.getInstantiateHtml()).isEqualTo("<h1>test</h1><h1>desc&#10;desc</h1>");
-            assertThat(actual.getTechnicalName()).isEqualTo("technicalName");
-            assertThat(actual.getCssContent()).isEqualTo("cssContent");
+            assertEquals("<h1>test</h1><h1>desc&#10;desc</h1>", actual.getInstantiateHtml());
+            assertEquals("technicalName", actual.getTechnicalName());
+            assertEquals("cssContent", actual.getCssContent());
         }
     }
 
@@ -194,10 +210,10 @@ class WidgetServiceTest {
 
             ProjectWidgetResponseDto actual = widgetService.runWidget(widgetExecutionRequestDto);
 
-            assertThat(actual.getInstantiateHtml()).isEqualTo("<h1></h1>");
-            assertThat(actual.getTechnicalName()).isEqualTo("technicalName");
-            assertThat(actual.getCssContent()).isEqualTo("cssContent");
-            assertThat(actual.getLibrariesNames().get(0)).isEqualTo("lib");
+            assertEquals("<h1></h1>", actual.getInstantiateHtml());
+            assertEquals("technicalName", actual.getTechnicalName());
+            assertEquals("cssContent", actual.getCssContent());
+            assertEquals("lib", actual.getLibrariesNames().get(0));
         }
     }
 
@@ -235,7 +251,7 @@ class WidgetServiceTest {
 
             ProjectWidgetResponseDto actual = widgetService.runWidget(widgetExecutionRequestDto);
 
-            assertThat(actual.getLog()).isEqualTo("ReferenceError: backendJs is not defined");
+            assertEquals("ReferenceError: backendJs is not defined", actual.getLog());
         }
     }
 
@@ -247,8 +263,7 @@ class WidgetServiceTest {
 
         String actual = widgetService.instantiateProjectWidgetHtml(widgetDto, "", "param=value");
 
-        assertThat(actual)
-            .isEqualTo("<h1>Titre</h1>");
+        assertEquals("<h1>Titre</h1>", actual);
     }
 
     @Test
@@ -263,8 +278,7 @@ class WidgetServiceTest {
 
         String actual = widgetService.instantiateProjectWidgetHtml(widgetDto, "{\"DATA\": \"titre\"}", "param=value");
 
-        assertThat(actual)
-            .isEqualTo("<h1>titre</h1>");
+        assertEquals("<h1>titre</h1>", actual);
     }
 
     @Test
@@ -278,7 +292,7 @@ class WidgetServiceTest {
 
         String actual = widgetService.instantiateProjectWidgetHtml(widgetDto, "{\"DATA\": \"titre\"}", "param=value");
 
-        assertThat(actual).isEmpty();
+        assertTrue(actual.isEmpty());
     }
 
     @Test
@@ -294,7 +308,6 @@ class WidgetServiceTest {
 
         String actual = widgetService.instantiateProjectWidgetHtml(widgetDto, "parseError", "param=value");
 
-        assertThat(actual)
-            .isEqualTo("<h1></h1>");
+        assertEquals("<h1></h1>", actual);
     }
 }

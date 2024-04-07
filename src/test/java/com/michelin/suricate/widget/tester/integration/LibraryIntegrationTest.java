@@ -1,6 +1,7 @@
 package com.michelin.suricate.widget.tester.integration;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.http.HttpMethod.GET;
 
 import com.michelin.suricate.widget.tester.model.dto.error.ApiErrorDto;
@@ -32,9 +33,9 @@ class LibraryIntegrationTest {
                 + "/api/v1/libraries/doesNotExist/content",
             GET, HttpEntity.EMPTY, ApiErrorDto.class);
 
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
-        assertThat(response.getBody()).isNotNull();
-        assertThat(response.getBody().getMessage()).isEqualTo("LibraryDto 'doesNotExist' not found");
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertEquals("LibraryDto 'doesNotExist' not found", response.getBody().getMessage());
     }
 
     @Test
@@ -43,7 +44,7 @@ class LibraryIntegrationTest {
                 + "/api/v1/libraries/test.js/content",
             GET, HttpEntity.EMPTY, byte[].class);
 
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(response.getBody()).isNotNull();
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
     }
 }

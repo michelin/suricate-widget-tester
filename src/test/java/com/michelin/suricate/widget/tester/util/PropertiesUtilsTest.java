@@ -1,6 +1,8 @@
 package com.michelin.suricate.widget.tester.util;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Map;
 import java.util.Properties;
@@ -11,40 +13,44 @@ class PropertiesUtilsTest {
     @Test
     void shouldConvertStringWidgetPropertiesToMapNull() {
         Map<String, String> actual = PropertiesUtils.convertStringWidgetPropertiesToMap(null);
-        assertThat(actual).isEmpty();
+        assertTrue(actual.isEmpty());
     }
 
     @Test
     void shouldConvertStringWidgetPropertiesToMapEmpty() {
         Map<String, String> actual = PropertiesUtils.convertStringWidgetPropertiesToMap(StringUtils.EMPTY);
-        assertThat(actual).isEmpty();
+        assertTrue(actual.isEmpty());
     }
 
     @Test
     void shouldConvertStringWidgetPropertiesToMap() {
         Map<String, String> actual = PropertiesUtils.convertStringWidgetPropertiesToMap("key=test\nkey2=test2");
-        assertThat(actual)
-            .containsEntry("key", "test")
-            .containsEntry("key2", "test2");
+
+        assertTrue(actual.containsKey("key"));
+        assertEquals("test", actual.get("key"));
+        assertTrue(actual.containsKey("key2"));
+        assertEquals("test2", actual.get("key2"));
     }
 
     @Test
     void shouldConvertStringWidgetPropertiesToPropertiesNull() {
         Properties actual = PropertiesUtils.convertStringWidgetPropertiesToProperties(null);
-        assertThat(actual).isNull();
+        assertNull(actual);
     }
 
     @Test
     void shouldConvertStringWidgetPropertiesToPropertiesEmpty() {
         Properties actual = PropertiesUtils.convertStringWidgetPropertiesToProperties(StringUtils.EMPTY);
-        assertThat(actual).isNull();
+        assertNull(actual);
     }
 
     @Test
     void shouldConvertStringWidgetPropertiesToProperties() {
         Properties actual = PropertiesUtils.convertStringWidgetPropertiesToProperties("key=test\nkey2=test2");
-        assertThat(actual)
-            .containsEntry("key", "test")
-            .containsEntry("key2", "test2");
+
+        assertTrue(actual.containsKey("key"));
+        assertEquals("test", actual.get("key"));
+        assertTrue(actual.containsKey("key2"));
+        assertEquals("test2", actual.get("key2"));
     }
 }

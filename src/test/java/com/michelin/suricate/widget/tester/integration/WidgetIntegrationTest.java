@@ -1,13 +1,14 @@
 package com.michelin.suricate.widget.tester.integration;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertIterableEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.http.HttpMethod.GET;
 
 import com.michelin.suricate.widget.tester.model.dto.error.ApiErrorDto;
 import com.michelin.suricate.widget.tester.model.dto.widget.WidgetParamDto;
 import java.io.File;
-import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -38,12 +39,12 @@ class WidgetIntegrationTest {
                 + "/api/v1/widgets/parameters?category=github&widget=count-issues",
             GET, HttpEntity.EMPTY, new ParameterizedTypeReference<>() {});
 
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(response.getBody()).isNotNull();
-        assertThat(response.getBody()).hasSize(4);
-        assertThat(response.getBody().stream().map(WidgetParamDto::getName)).containsAll(
-            Arrays.asList("SURI_GITHUB_ORG", "SURI_GITHUB_PROJECT", "SURI_ISSUES_STATE",
-                "WIDGET_CONFIG_GITHUB_TOKEN"));
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertEquals(4, response.getBody().size());
+        assertIterableEquals(List.of("SURI_GITHUB_ORG", "SURI_GITHUB_PROJECT", "SURI_ISSUES_STATE",
+            "WIDGET_CONFIG_GITHUB_TOKEN"),
+            response.getBody().stream().map(WidgetParamDto::getName).toList());
     }
 
     @Test
@@ -52,8 +53,8 @@ class WidgetIntegrationTest {
                 + "/api/v1/widgets/parameters?category=unknown&widget=count-issues",
             GET, HttpEntity.EMPTY, ApiErrorDto.class);
 
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
-        assertThat(response.getBody()).isNotNull();
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+        assertNotNull(response.getBody());
 
         String expectedFileName = "src"
             + File.separator + "test" + File.separator + "resources" + File.separator + "repository"
