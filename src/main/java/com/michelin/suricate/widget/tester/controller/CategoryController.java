@@ -2,7 +2,6 @@ package com.michelin.suricate.widget.tester.controller;
 
 import com.michelin.suricate.widget.tester.model.dto.category.CategoryDirectoryDto;
 import com.michelin.suricate.widget.tester.service.api.CategoryService;
-import com.michelin.suricate.widget.tester.service.api.WidgetService;
 import java.io.IOException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
