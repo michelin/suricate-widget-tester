@@ -38,7 +38,8 @@ public class WidgetController {
      * @throws IOException Exception thrown if an error occurred while reading the widget file
      */
     @GetMapping(value = "/v1/widgets/parameters")
-    public ResponseEntity<List<WidgetParamDto>> getWidgetParameters(@RequestParam String category, @RequestParam String widget)
+    public ResponseEntity<List<WidgetParamDto>> getWidgetParameters(@RequestParam String category,
+                                                                    @RequestParam String widget)
         throws IOException {
         WidgetDto widgetDto = widgetService.getWidget(category, widget);
 

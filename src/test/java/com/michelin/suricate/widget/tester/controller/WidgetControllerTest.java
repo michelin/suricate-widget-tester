@@ -75,7 +75,8 @@ class WidgetControllerTest {
         when(widgetService.runWidget(any()))
             .thenReturn(projectWidgetResponseDto);
 
-        ApiException actual = assertThrows(ApiException.class, () -> widgetController.runWidget(widgetExecutionRequestDto));
+        ApiException actual = assertThrows(ApiException.class, () ->
+            widgetController.runWidget(widgetExecutionRequestDto));
 
         assertEquals("Error", actual.getMessage());
     }

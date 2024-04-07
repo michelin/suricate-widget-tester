@@ -17,6 +17,9 @@ public class ApplicationProperties {
     private CorsConfiguration cors;
     private Widgets widgets;
 
+    /**
+     * Widgets properties.
+     */
     @Getter
     @Setter
     public static class Widgets {

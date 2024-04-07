@@ -18,6 +18,11 @@ public class ConfigurationController {
     @Autowired
     private ApplicationProperties applicationProperties;
 
+    /**
+     * Get the widgets repository configuration.
+     *
+     * @return The widgets repository configuration
+     */
     @GetMapping(value = "/v1/configurations/repository")
     public ResponseEntity<ConfigurationDto> getRepository() {
         return ResponseEntity
