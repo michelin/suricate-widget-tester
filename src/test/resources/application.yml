@@ -1,0 +1,3 @@
+application:
+  widgets:
+    repository: src/test/resources/repository

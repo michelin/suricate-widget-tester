@@ -117,12 +117,10 @@ export class DashboardScreenComponent implements OnChanges {
       if (this.widgetExecutionResult.projectWidget.librariesNames) {
         this.libraryService.numberOfExternalLibrariesToLoad = this.widgetExecutionResult.projectWidget.librariesNames.length;
 
-        const widgetFolderPath = this.widgetExecutionResult.widgetExecutionRequest.path;
-
         this.widgetExecutionResult.projectWidget.librariesNames.forEach(libraryName => {
           const script: HTMLScriptElement = document.createElement('script');
           script.type = 'text/javascript';
-          script.src = HttpLibraryService.getContentUrl(libraryName, encodeURIComponent(widgetFolderPath));
+          script.src = HttpLibraryService.getContentUrl(libraryName);
           script.onload = () => this.libraryService.markScriptAsLoaded(libraryName);
           script.async = false;
 

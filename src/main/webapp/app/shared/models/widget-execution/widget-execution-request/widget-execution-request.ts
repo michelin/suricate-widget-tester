@@ -2,9 +2,14 @@ import { WidgetParameterRequest } from '../../widget-parameter/widget-parameter-
 
 export interface WidgetExecutionRequest {
   /**
-   * Path of the widget
+   * Category directory name
    */
-  path: string;
+  category: string;
+
+  /**
+   * Widget directory name
+   */
+  widget: string;
 
   /**
    * Data of the previous execution of the widget

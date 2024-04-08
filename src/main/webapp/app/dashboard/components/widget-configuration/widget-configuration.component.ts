@@ -8,6 +8,12 @@ import { WidgetParameter } from '../../../shared/models/widget-parameter/widget-
 import { DataTypeEnum } from '../../../shared/enums/data-type.enum';
 import { FormField } from '../../../shared/services/frontend/form/form-field';
 import { FileUtils } from '../../services/utils/file.utils';
+import {WidgetDirectory} from "../../../shared/models/widget/widget-directory";
+import {HttpConfigurationService} from "../../../shared/services/backend/http-configuration/http-configuration.service";
+import {Configuration} from "../../../shared/models/config/configuration";
+import {HttpCategoryService} from "../../../shared/services/backend/http-category/http-category.service";
+import {CategoryDirectory} from "../../../shared/models/category/category";
+import {MatSelectChange} from "@angular/material/select";
 
 @Component({
   selector: 'suricate-widget-configuration',
@@ -20,6 +26,8 @@ export class WidgetConfigurationComponent implements OnInit {
    */
   @Output()
   public widgetExecutionResultEmitEvent = new EventEmitter<WidgetExecutionResult>();
+
+  public files: { [formFieldName: string]: { fileName: string; base64Url: string }; } = {};
 
   /**
    * The image as base 64
@@ -42,9 +50,14 @@ export class WidgetConfigurationComponent implements OnInit {
   public onWidgetPathInputErrorMessage: string;
 
   /**
-   * Entered widget path
+   * The category directories
    */
-  public widgetPath: string;
+  public categoryDirectories: CategoryDirectory[];
+
+  /**
+   * The repository name
+   */
+  public repository: string;
 
   /**
    * The widget parameters form fields
@@ -57,14 +70,38 @@ export class WidgetConfigurationComponent implements OnInit {
   public dataType = DataTypeEnum;
 
   /**
-   * Constructor
+   * The selected category
    */
-  constructor(private formBuilder: UntypedFormBuilder, private httpWidgetService: HttpWidgetService) {}
+  public selectedCategory: string;
+
+  /**
+   * The selected widget
+   */
+  public selectedWidget: string;
+
+  /**
+   * Constructor
+   *
+   * @param formBuilder The form builder service
+   * @param httpWidgetService The http widget service
+   * @param httpConfigurationService The http configuration service
+   * @param httpCategoryService The http category service
+   */
+  constructor(private formBuilder: UntypedFormBuilder, private httpWidgetService: HttpWidgetService,
+              private httpConfigurationService: HttpConfigurationService, private httpCategoryService: HttpCategoryService) {}
 
   /**
    * On init
    */
   ngOnInit(): void {
+    this.httpConfigurationService.getRepository().subscribe((config: Configuration) => {
+      this.repository = config.repository;
+    });
+
+    this.httpCategoryService.getCategoryDirectories().subscribe((categoryDirectories: CategoryDirectory[]) => {
+      this.categoryDirectories = categoryDirectories;
+    });
+
     this.runWidgetForm = this.formBuilder.group({
       path: ['', Validators.required],
       previousData: ['']
@@ -80,55 +117,55 @@ export class WidgetConfigurationComponent implements OnInit {
    *
    * @param event The input event
    */
-  public getWidgetParameters(event?: Event): void {
+  public getWidgetParameters(event?: MatSelectChange): void {
     if (event) {
-      this.widgetPath = (<HTMLInputElement>event.target).value;
+      this.selectedCategory = event.value.split("/")[0];
+      this.selectedWidget = event.value.split("/")[1];
     }
 
-    if (this.widgetPath) {
-      this.httpWidgetService.getWidgetParameters(this.widgetPath).subscribe(
-        (widgetParameters: WidgetParameter[]) => {
-          if (widgetParameters && widgetParameters.length > 0) {
-            this.resetScreen();
-
-            widgetParameters.forEach((widgetParameter: WidgetParameter) => {
-              this.widgetParamsFormField.push({
-                name: widgetParameter.name,
-                type: widgetParameter.type,
-                required: widgetParameter.required,
-                possibleValues: widgetParameter.possibleValuesMap
-              });
-
-              this.runWidgetForm.registerControl(widgetParameter.name + '-name', this.formBuilder.control(widgetParameter.name));
-
-              this.runWidgetForm.registerControl(
-                widgetParameter.name + '-value',
-                this.formBuilder.control(
-                  this.runWidgetForm.controls[widgetParameter.name + '-value']
-                    ? this.runWidgetForm.controls[widgetParameter.name + '-value'].value
-                    : widgetParameter.defaultValue
-                )
-              );
-            });
-          }
-        },
-        error => {
+    this.httpWidgetService.getWidgetParameters(this.selectedCategory, this.selectedWidget).subscribe(
+      (widgetParameters: WidgetParameter[]) => {
+        if (widgetParameters && widgetParameters.length > 0) {
           this.resetScreen();
-          this.onWidgetPathInputErrorMessage = error.error.message;
+
+          widgetParameters.forEach((widgetParameter: WidgetParameter) => {
+            this.widgetParamsFormField.push({
+              name: widgetParameter.name,
+              type: widgetParameter.type,
+              required: widgetParameter.required,
+              possibleValues: widgetParameter.possibleValuesMap
+            });
+
+            this.runWidgetForm.registerControl(widgetParameter.name + '-name', this.formBuilder.control(widgetParameter.name));
+
+            this.runWidgetForm.registerControl(
+              widgetParameter.name + '-value',
+              this.formBuilder.control(
+                this.runWidgetForm.controls[widgetParameter.name + '-value']
+                  ? this.runWidgetForm.controls[widgetParameter.name + '-value'].value
+                  : widgetParameter.defaultValue
+              )
+            );
+          });
         }
-      );
-    } else {
-      this.resetScreen();
-    }
+      },
+      error => {
+        this.resetScreen();
+        this.onWidgetPathInputErrorMessage = error.error.message;
+      }
+    );
   }
 
   /**
    * Run the widget by validating the form
    */
   public runWidget(): void {
+    this.runWidgetForm.markAllAsTouched();
+
     if (!this.runWidgetForm.invalid) {
       const widgetExecutionRequest: WidgetExecutionRequest = {
-        path: this.runWidgetForm.value.path
+        category: this.selectedCategory,
+        widget: this.selectedWidget
       };
 
       if (this.isNotBlank(this.runWidgetForm.value.previousData)) {
@@ -151,16 +188,14 @@ export class WidgetConfigurationComponent implements OnInit {
       this.httpWidgetService.runWidget(widgetExecutionRequest).subscribe(
         (projectWidget: ProjectWidget) => {
           const widgetExecutionResult: WidgetExecutionResult = {
-            projectWidget: projectWidget,
-            widgetExecutionRequest: widgetExecutionRequest
+            projectWidget: projectWidget
           };
 
           this.widgetExecutionResultEmitEvent.emit(widgetExecutionResult);
         },
         error => {
           const widgetExecutionResult: WidgetExecutionResult = {
-            widgetExecutionErrorMessage: error.error.message,
-            widgetExecutionRequest: widgetExecutionRequest
+            widgetExecutionErrorMessage: error.error.message
           };
 
           this.widgetExecutionResultEmitEvent.emit(widgetExecutionResult);
@@ -205,11 +240,31 @@ export class WidgetConfigurationComponent implements OnInit {
       const base64String = base64Url as string;
       const fileName = file.name;
 
-      this.setBase64File(base64String, fileName);
+      this.files[formField.name] = {
+        fileName: fileName,
+        base64Url: base64String
+      };
+
       this.runWidgetForm.controls[formField.name + '-value'].setValue(base64String);
       this.runWidgetForm.markAsDirty();
       this.runWidgetForm.markAsTouched();
     });
+  }
+
+  public isBase64UrlIsAnImage(formField: FormField): boolean {
+    return FileUtils.isBase64UrlIsAnImage(this.files[formField.name].base64Url);
+  }
+
+  public getBase64Url(formField: FormField) {
+    return this.files[formField.name].base64Url;
+  }
+
+  public getFileName(formField: FormField) {
+    return this.files[formField.name].fileName;
+  }
+
+  public isFileExisting(formField: FormField): boolean {
+    return this.files[formField.name] != null;
   }
 
   /**
@@ -219,7 +274,7 @@ export class WidgetConfigurationComponent implements OnInit {
    * @param errorName The error to check
    */
   public checkError(formFieldName: string, errorName: string): boolean | undefined {
-    return this.runWidgetForm.get(formFieldName)?.hasError(errorName);
+    return this.runWidgetForm.get(formFieldName)?.hasError(errorName) && (this.runWidgetForm.get(formFieldName)?.touched || this.runWidgetForm.get(formFieldName)?.dirty)
   }
 
   /**
@@ -229,21 +284,5 @@ export class WidgetConfigurationComponent implements OnInit {
    */
   public isNotBlank(value: string): boolean {
     return value != null && value !== '';
-  }
-
-  /**
-   * Use to display image or filename
-   *
-   * @param base64Url The base64 url of the image
-   * @param filename The filename if the file is not an image
-   */
-  private setBase64File(base64Url: string, filename: string): void {
-    if (FileUtils.isBase64UrlIsAnImage(base64Url)) {
-      this.imgBase64 = base64Url;
-      this.filename = undefined;
-    } else {
-      this.imgBase64 = undefined;
-      this.filename = filename;
-    }
   }
 }

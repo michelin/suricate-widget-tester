@@ -22,10 +22,9 @@ This repository contains the source code of the Suricate Widget Tester applicati
 * [Introduction](#introduction)
 * [Download](#download)
 * [Install](#install)
-* [Testing a Widget](#testing-a-widget)
-  * [JavaScript Execution](#javascript-execution)
-  * [Widget and Category Parameters](#widget-and-category-parameters)
-  * [Display](#display)
+* [Configuration](#configuration)
+  * [Widgets](#widgets)
+    * [Repository](#repository)
 * [Contribution](#contribution)
 
 ## Introduction
@@ -35,8 +34,6 @@ The Suricate Widget Tester allows developers to test a widget before deploying i
 - It makes the development and testing of widgets easier and faster.
 - It is fully independent of Suricate. A local Suricate instance is not required for it to work.
 
-The widget tester is able to test the following points.
-
 ## Download
 
 You can download the Suricate Widget Tester as a fat jar from the [GitHub releases page](https://github.com/michelin/suricate-widget-tester/releases). 
@@ -45,43 +42,36 @@ Please note that Java 21 is required starting from version 1.1.0 (Java 8 before)
 
 ## Install
 
-The Suricate Widget Tester is released as a JAR archive containing both the front-end and back-end parts, so you can run the whole application in just one command:
+The Suricate Widget Tester is built on the [Spring Boot framework](https://spring.io/) and can be configured using a Spring Boot
+configuration file, which includes a sample file located at `src/main/resources/application.properties`.
+
+If necessary, you can override the properties from the default `application.properties` file by following
+the [Spring Boot externalized configuration guide](https://docs.spring.io/spring-boot/docs/1.4.1.RELEASE/reference/html/boot-features-external-config.html).
+For example, you can create a custom  `/config/application.properties` or set the `--spring.config.location` system
+property when running the fat jar file:
 
 ```console
-java -jar suricate-widget-tester.jar
+java -jar suricate-widget-tester.jar --spring.config.location=classpath:\,file:C:\myCustomLocation\
 ```
 
 After running the command, the application will be accessible on http://localhost:8085/.
 
-## Testing a Widget
+## Configuration
 
-### JavaScript Execution
+### Widgets
 
-The Suricate Widget Tester executes the JavaScript file of a widget. It can be used to ensure that:
+#### Repository
 
-- The calls to REST APIs provide the expected responses.
-- The processing of REST API responses works as expected.
-- The widget and category parameters work as expected.
-- The return of the `run` method contains all the required data in the expected format.
-- The syntax of the `script.js` file is correct.
+The Suricate Widget Tester reads the content of a widget repository. 
+The repository must follow the required structure (see the [official open-source widgets GitHub repository](https://github.com/michelin/suricate-widgets)).
 
-In short, it ensures that the widget execution works, and helps identify issues if it doesn't.
+The repository location can be configured with the following property:
 
-### Widget and Category Parameters
+```yml
+application.widgets.repository: <path-to-repository>
+```
 
-The Suricate Widget Tester is able to read the widget and category parameters and display them in the user interface. Users can fill them before they are injected into the JavaScript part for widget execution.
-
-This ensures that the parameters work as expected during widget execution.
-
-### Display
-
-The Suricate Widget Tester displays the widget directly in the user interface so that the user can see what it looks like. It can be used to ensure that:
-
-- The widget rendering meets expectations.
-- The computed data is displayed as expected.
-- The resizing and moving of the widget work as expected.
-
-If JavaScript libraries are defined in the `description.yml` file, they will be picked up from the `libraries` folder and injected into the DOM so that they are available for the widget.
+It is set to `/tmp` by default.
 
 ## Contribution
 

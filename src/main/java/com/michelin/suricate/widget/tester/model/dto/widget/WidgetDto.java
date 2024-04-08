@@ -1,7 +1,7 @@
 package com.michelin.suricate.widget.tester.model.dto.widget;
 
 import com.michelin.suricate.widget.tester.model.dto.AbstractDto;
-import com.michelin.suricate.widget.tester.model.enums.WidgetAvailabilityEnum;
+import com.michelin.suricate.widget.tester.model.enumeration.WidgetAvailabilityEnum;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.EqualsAndHashCode;
