@@ -35,9 +35,10 @@ public class LibraryController {
      */
     @GetMapping(path = "/v1/libraries/{libraryName}/content")
     public ResponseEntity<byte[]> getLibrary(@PathVariable("libraryName") String libraryName) {
-        File librariesFolder = new File(applicationProperties.getWidgets().getRepository() + "/libraries");
+        String rootFolder = applicationProperties.getWidgets().getRepository();
+        File librariesFolder = new File(rootFolder + "/libraries");
 
-        LibraryDto libraryDto = WidgetUtils.parseLibraryFolder(librariesFolder)
+        LibraryDto libraryDto = WidgetUtils.parseLibraryFolder(rootFolder, librariesFolder)
             .stream()
             .filter(library -> library.getTechnicalName().equals(libraryName))
             .findFirst()

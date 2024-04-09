@@ -12,6 +12,7 @@ import com.michelin.suricate.widget.tester.model.dto.library.LibraryDto;
 import com.michelin.suricate.widget.tester.model.dto.widget.WidgetDto;
 import com.michelin.suricate.widget.tester.model.dto.widget.WidgetParamDto;
 import com.michelin.suricate.widget.tester.model.dto.widget.WidgetParamValueDto;
+import com.michelin.suricate.widget.tester.property.ApplicationProperties;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -42,14 +43,15 @@ public final class WidgetUtils {
     /**
      * Method used to parse library folder.
      *
-     * @param rootFolder the root library folder
+     * @param rootFolder the root folder
+     * @param libraryFolder the library folder
      * @return the list of library
      */
-    public static List<LibraryDto> parseLibraryFolder(File rootFolder) {
+    public static List<LibraryDto> parseLibraryFolder(String rootFolder, File libraryFolder) {
         List<LibraryDto> libraries = null;
 
         try {
-            List<File> list = FilesUtils.getFiles(rootFolder);
+            List<File> list = FilesUtils.getFiles(rootFolder, libraryFolder);
 
             if (!list.isEmpty()) {
                 libraries = new ArrayList<>();
@@ -71,17 +73,19 @@ public final class WidgetUtils {
     /**
      * Method used to get category from Folder.
      *
-     * @param folderCategory folder category
+     * @param rootFolder root folder
+     * @param categoryFolder folder category
      * @return the category bean
      * @throws IOException Triggered exception during the files reading
      */
-    public static CategoryDto getCategory(File folderCategory) throws IOException {
-        if (folderCategory == null) {
+    public static CategoryDto getCategory(String rootFolder, File categoryFolder) throws IOException {
+        if (categoryFolder == null) {
             return null;
         }
 
         CategoryDto category = new CategoryDto();
-        List<File> files = FilesUtils.getFiles(folderCategory);
+
+        List<File> files = FilesUtils.getFiles(rootFolder, categoryFolder);
 
         if (files.isEmpty()) {
             return category;
@@ -97,7 +101,7 @@ public final class WidgetUtils {
 
         // Avoid not well formatted category
         if (StringUtils.isBlank(category.getName())) {
-            log.error("Category {} invalid it's name must not be empty", folderCategory.getPath());
+            log.error("Category {} invalid it's name must not be empty", categoryFolder.getPath());
             return null;
         }
 
@@ -107,17 +111,18 @@ public final class WidgetUtils {
     /**
      * Get widget from a given folder.
      *
-     * @param folder The folder from which to retrieve the widget
+     * @param rootFolder The root folder
+     * @param widgetFolder The folder from which to retrieve the widget
      * @return The built widget from the folder
      * @throws IOException Triggered exception during the widget files reading
      */
-    public static WidgetDto getWidget(File folder) throws IOException {
-        if (folder == null) {
+    public static WidgetDto getWidget(String rootFolder, File widgetFolder) throws IOException {
+        if (widgetFolder == null) {
             return null;
         }
 
         WidgetDto widget = new WidgetDto();
-        List<File> files = FilesUtils.getFiles(folder);
+        List<File> files = FilesUtils.getFiles(rootFolder, widgetFolder);
 
         if (!files.isEmpty()) {
             for (File file : files) {
@@ -125,18 +130,18 @@ public final class WidgetUtils {
             }
 
             if (widget.getDelay() == null) {
-                log.error("Widget delay must no be null: {}", folder.getPath());
+                log.error("Widget delay must no be null: {}", widgetFolder.getPath());
                 return null;
             }
 
             if (widget.getDelay() > 0 && StringUtils.isBlank(widget.getBackendJs())) {
-                log.error("Widget script must not be empty when delay > 0: {}", folder.getPath());
+                log.error("Widget script must not be empty when delay > 0: {}", widgetFolder.getPath());
                 return null;
             }
 
             if (StringUtils.isAnyBlank(widget.getCssContent(), widget.getDescription(), widget.getHtmlContent(),
                 widget.getTechnicalName(), widget.getName())) {
-                log.error("Widget is not well formatted: {}", folder.getPath());
+                log.error("Widget is not well formatted: {}", widgetFolder.getPath());
                 return null;
             }
         }

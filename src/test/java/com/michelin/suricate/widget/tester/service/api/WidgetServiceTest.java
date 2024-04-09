@@ -97,9 +97,9 @@ class WidgetServiceTest {
             categoryDto.setId(1L);
             categoryDto.setConfigurations(Collections.singleton(categoryParameterDto));
 
-            mocked.when(() -> WidgetUtils.getWidget(any()))
+            mocked.when(() -> WidgetUtils.getWidget(any(), any()))
                 .thenReturn(widgetDto);
-            mocked.when(() -> WidgetUtils.getCategory(any()))
+            mocked.when(() -> WidgetUtils.getCategory(any(), any()))
                 .thenReturn(categoryDto);
 
             WidgetDto actual =
@@ -109,20 +109,6 @@ class WidgetServiceTest {
             assertEquals("name", actual.getName());
             assertEquals("key", actual.getWidgetParams().get(0).getName());
         }
-    }
-
-    @Test
-    void shouldThrowIoExceptionWhenGetWidgetOutsideOfWidgetsRepository() {
-        ApplicationProperties.Widgets widgetsProperties = new ApplicationProperties.Widgets();
-        widgetsProperties.setRepository("/tmp/widgets");
-
-        when(applicationProperties.getWidgets())
-            .thenReturn(widgetsProperties);
-
-        IOException exception = assertThrows(IOException.class,
-            () -> widgetService.getWidget("../../outside/category", "widget"));
-
-        assertEquals("Requested widget is outside of the widgets directory", exception.getMessage());
     }
 
     @Test
@@ -148,9 +134,9 @@ class WidgetServiceTest {
             WidgetVariableResponse widgetVariableResponse = new WidgetVariableResponse();
             widgetVariableResponse.setName("name");
 
-            mocked.when(() -> WidgetUtils.getWidget(any()))
+            mocked.when(() -> WidgetUtils.getWidget(any(), any()))
                 .thenReturn(widgetDto);
-            mocked.when(() -> WidgetUtils.getCategory(any()))
+            mocked.when(() -> WidgetUtils.getCategory(any(), any()))
                 .thenReturn(categoryDto);
             mocked.when(() -> WidgetUtils.getWidgetParametersForJsExecution(any()))
                 .thenReturn(Collections.singletonList(widgetVariableResponse));
@@ -194,9 +180,9 @@ class WidgetServiceTest {
             categoryDto.setId(1L);
             categoryDto.setConfigurations(Collections.singleton(categoryParameterDto));
 
-            mocked.when(() -> WidgetUtils.getWidget(any()))
+            mocked.when(() -> WidgetUtils.getWidget(any(), any()))
                 .thenReturn(widgetDto);
-            mocked.when(() -> WidgetUtils.getCategory(any()))
+            mocked.when(() -> WidgetUtils.getCategory(any(), any()))
                 .thenReturn(categoryDto);
             when(applicationProperties.getWidgets())
                 .thenReturn(new ApplicationProperties.Widgets());
@@ -238,9 +224,9 @@ class WidgetServiceTest {
             categoryDto.setId(1L);
             categoryDto.setConfigurations(Collections.singleton(categoryParameterDto));
 
-            mocked.when(() -> WidgetUtils.getWidget(any()))
+            mocked.when(() -> WidgetUtils.getWidget(any(), any()))
                 .thenReturn(widgetDto);
-            mocked.when(() -> WidgetUtils.getCategory(any()))
+            mocked.when(() -> WidgetUtils.getCategory(any(), any()))
                 .thenReturn(categoryDto);
             when(applicationProperties.getWidgets())
                 .thenReturn(new ApplicationProperties.Widgets());
