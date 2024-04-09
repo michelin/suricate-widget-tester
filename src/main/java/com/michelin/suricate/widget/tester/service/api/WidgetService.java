@@ -62,16 +62,11 @@ public class WidgetService {
      * @return The widget
      */
     public WidgetDto getWidget(String category, String widget) throws IOException {
-        String categoriesPath = applicationProperties.getWidgets().getRepository() + "/content/" + category;
-        File categoryFile = new File(categoriesPath);
-        File widgetFile = new File(categoriesPath + "/widgets/" + widget);
+        String rootFolder = applicationProperties.getWidgets().getRepository();
+        String categoryFolder = rootFolder + "/content/" + category;
 
-        if (!widgetFile.toPath().normalize().startsWith(applicationProperties.getWidgets().getRepository())) {
-            throw new IOException("Requested widget is outside of the widgets directory");
-        }
-
-        CategoryDto categoryDto = WidgetUtils.getCategory(categoryFile);
-        WidgetDto widgetDto = WidgetUtils.getWidget(widgetFile);
+        CategoryDto categoryDto = WidgetUtils.getCategory(rootFolder, new File(categoryFolder));
+        WidgetDto widgetDto = WidgetUtils.getWidget(rootFolder, new File(categoryFolder + "/widgets/" + widget));
 
         categoryDto.getConfigurations().forEach(categoryParameterDto -> {
             WidgetParamDto widgetParamDto = new WidgetParamDto();

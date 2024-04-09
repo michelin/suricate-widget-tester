@@ -21,12 +21,17 @@ public class FilesUtils {
     /**
      * Get all the files inside a given folder.
      *
+     * @param rootPath The root path
      * @param folder The folder containing the files
      * @return The list of files
      * @throws IOException Exception triggered during the files fetching
      */
-    public static List<File> getFiles(File folder) throws IOException {
+    public static List<File> getFiles(String rootPath, File folder) throws IOException {
         if (folder != null) {
+            if (!folder.toPath().normalize().startsWith(rootPath)) {
+                throw new IOException("Entry is outside of the target director");
+            }
+
             try (Stream<Path> list = Files.list(Paths.get(folder.getCanonicalPath()))) {
                 return list.map(Path::toFile)
                         .filter(File::isFile)

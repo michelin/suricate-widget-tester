@@ -35,7 +35,7 @@ class LibraryControllerTest {
             .thenReturn(new ApplicationProperties.Widgets());
 
         try (MockedStatic<WidgetUtils> mocked = mockStatic(WidgetUtils.class)) {
-            mocked.when(() -> WidgetUtils.parseLibraryFolder(any()))
+            mocked.when(() -> WidgetUtils.parseLibraryFolder(any(), any()))
                 .thenReturn(List.of(LibraryDto.builder()
                     .technicalName("libraryName")
                     .asset(new byte[10])
@@ -55,7 +55,7 @@ class LibraryControllerTest {
             .thenReturn(new ApplicationProperties.Widgets());
 
         try (MockedStatic<WidgetUtils> mocked = mockStatic(WidgetUtils.class)) {
-            mocked.when(() -> WidgetUtils.parseLibraryFolder(any()))
+            mocked.when(() -> WidgetUtils.parseLibraryFolder(any(), any()))
                 .thenReturn(List.of(LibraryDto.builder()
                     .technicalName("libraryName")
                     .asset(new byte[10])
