@@ -28,8 +28,9 @@ public class FilesUtils {
      */
     public static List<File> getFiles(String rootPath, File folder) throws IOException {
         if (folder != null) {
-            if (!folder.toPath().endsWith("/")) {
-                folder = new File(folder.toPath() + "/");
+            if (!folder.toPath().endsWith(File.separator)) {
+                String newPath = folder.toPath() + File.separator;
+                folder = new File(newPath);
             }
 
             if (!folder.toPath().normalize().startsWith(rootPath)) {
