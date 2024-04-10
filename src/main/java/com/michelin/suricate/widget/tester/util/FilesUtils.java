@@ -36,7 +36,8 @@ public class FilesUtils {
                 throw new IOException("Entry is outside of the target director");
             }
 
-            try (Stream<Path> list = Files.list(Paths.get(folder.getCanonicalPath()))) {
+            String folderPath = folder.getCanonicalPath();
+            try (Stream<Path> list = Files.list(Paths.get(folderPath))) {
                 return list.map(Path::toFile)
                         .filter(File::isFile)
                         .sorted()
