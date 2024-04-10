@@ -28,6 +28,10 @@ public class FilesUtils {
      */
     public static List<File> getFiles(String rootPath, File folder) throws IOException {
         if (folder != null) {
+            if (!folder.toPath().endsWith("/")) {
+                folder = new File(folder.toPath() + "/");
+            }
+
             if (!folder.toPath().normalize().startsWith(rootPath)) {
                 throw new IOException("Entry is outside of the target director");
             }
