@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 class FilesUtilsTest {
     @Test
     void shouldGetFiles() throws IOException {
-        List<File> actual = FilesUtils.getFiles("src/test/resources/repository",
+        List<File> actual = FilesUtils.getFiles("src/test/resources/repository/",
             new File("src/test/resources/repository/libraries"));
 
         assertEquals(1, actual.size());
