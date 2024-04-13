@@ -3,7 +3,7 @@
   <h1 class="title">Widget Tester</h1>
 </div>
 
-<form [formGroup]="runWidgetForm" (ngSubmit)="runWidget()">
+<form [formGroup]="runWidgetForm" (ngSubmit)="runWidget()" #widgetForm="ngForm">
   <div class="widget-configuration">
     <h2>Select a widget</h2>
     <p>From <i>{{ repository }}</i></p>
@@ -16,7 +16,7 @@
         </mat-optgroup>
       </mat-select>
 
-      <mat-error *ngIf="checkError('path', 'required')">The widget path is required</mat-error>
+      <mat-error *ngIf="checkError('path', 'required')">The widget is required</mat-error>
     </mat-form-field>
 
     <h2>Mock previous execution data</h2>
