@@ -35,7 +35,7 @@
     <maven-checkstyle-plugin>3.4.0</maven-checkstyle-plugin>
     <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
     <mockito.version>5.2.0</mockito.version>
-    <mustache.version>0.9.13</mustache.version>
+    <mustache.version>0.9.14</mustache.version>
     <sonar.organization>michelin</sonar.organization>
     <sonar.projectKey>michelin_suricate-widget-tester</sonar.projectKey>
     <sonar.host.url>https://sonarcloud.io</sonar.host.url>
