@@ -1,10 +1,10 @@
 # Suricate Widget Tester
 
 <div align="center">
-  <img src="src/main/webapp/assets/images/logo.png" height="100"  alt="suricate logo"/>
+  <img src="src/main/webapp/assets/images/logo.png" height="100" alt="suricate logo"/>
 </div>
 
-[![GitHub Build](https://img.shields.io/github/actions/workflow/status/michelin/suricate-widget-tester/continuous_integration.yml?branch=master&logo=github&style=for-the-badge)](https://img.shields.io/github/actions/workflow/status/michelin/suricate-widget-tester/continuous_integration.yml)
+[![GitHub Build](https://img.shields.io/github/actions/workflow/status/michelin/suricate-widget-tester/push_master.yml?branch=master&logo=github&style=for-the-badge)](https://img.shields.io/github/actions/workflow/status/michelin/suricate-widget-tester/push_master.yml)
 [![GitHub release](https://img.shields.io/github/v/release/michelin/suricate-widget-tester?logo=github&style=for-the-badge)](https://github.com/michelin/suricate-widget-tester/releases)
 [![GitHub commits since latest release (by SemVer)](https://img.shields.io/github/commits-since/michelin/suricate-widget-tester/latest?logo=github&style=for-the-badge)](https://github.com/michelin/suricate-widget-tester/commits/master)
 [![GitHub Stars](https://img.shields.io/github/stars/michelin/suricate-widget-tester?logo=github&style=for-the-badge)](https://github.com/michelin/suricate)
