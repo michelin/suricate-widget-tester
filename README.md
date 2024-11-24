@@ -36,9 +36,7 @@ The Suricate Widget Tester allows developers to test a widget before deploying i
 
 ## Download
 
-You can download the Suricate Widget Tester as a fat jar from the [GitHub releases page](https://github.com/michelin/suricate-widget-tester/releases). 
-
-Please note that Java 21 is required starting from version 1.1.0 (Java 8 before).
+You can download the Suricate Widget Tester as a fat jar from the [GitHub releases page](https://github.com/michelin/suricate-widget-tester/releases) (requires Java 21).
 
 ## Install
 
@@ -46,7 +44,7 @@ The Suricate Widget Tester is built on the [Spring Boot framework](https://sprin
 configuration file, which includes a sample file located at `src/main/resources/application.properties`.
 
 If necessary, you can override the properties from the default `application.properties` file by following
-the [Spring Boot externalized configuration guide](https://docs.spring.io/spring-boot/docs/1.4.1.RELEASE/reference/html/boot-features-external-config.html).
+the [Spring Boot externalized configuration guide](https://docs.spring.io/spring-boot/reference/features/external-config.html).
 For example, you can create a custom  `/config/application.properties` or set the `--spring.config.location` system
 property when running the fat jar file:
 
