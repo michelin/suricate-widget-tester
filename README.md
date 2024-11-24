@@ -23,8 +23,7 @@ This repository contains the source code of the Suricate Widget Tester applicati
 * [Download](#download)
 * [Install](#install)
 * [Configuration](#configuration)
-  * [Widgets](#widgets)
-    * [Repository](#repository)
+  * [Repository](#repository)
 * [Contribution](#contribution)
 
 ## Introduction
@@ -56,9 +55,7 @@ After running the command, the application will be accessible on http://localhos
 
 ## Configuration
 
-### Widgets
-
-#### Repository
+### Repository
 
 The Suricate Widget Tester reads the content of a widget repository. 
 The repository must follow the required structure (see the [official open-source widgets GitHub repository](https://github.com/michelin/suricate-widgets)).
