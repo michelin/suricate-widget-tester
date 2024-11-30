@@ -1,6 +1,6 @@
 <div align="center">
-  <img src="src/main/webapp/assets/images/logo.png" height="150" alt="suricate logo"/>
-</div>
+
+<img src=".readme/logo.png" alt="suricate logo"/>
 
 # Suricate Widget Tester
 
@@ -13,25 +13,21 @@
 [![SonarCloud Tests](https://img.shields.io/sonar/tests/michelin_suricate-widget-tester/master?server=https%3A%2F%2Fsonarcloud.io&style=for-the-badge&logo=sonarcloud)](https://sonarcloud.io/component_measures?metric=tests&view=list&id=michelin_suricate-widget-tester)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg?logo=apache&style=for-the-badge)](https://opensource.org/licenses/Apache-2.0)
 
-This repository contains the source code of the Suricate Widget Tester application.
+[Install](#install) • [Suricate](https://github.com/michelin/suricate) • [Widgets](https://github.com/michelin/suricate-widgets)
+
+Build and validate your Suricate widget in a sandboxed setup before integrating it into a Suricate instance.
 
 ![Suricate widget tester](.readme/dashboard.png)
 
+</div>
+
 ## Table of Contents
 
-* [Introduction](#introduction)
 * [Download](#download)
 * [Install](#install)
 * [Configuration](#configuration)
   * [Repository](#repository)
 * [Contribution](#contribution)
-
-## Introduction
-
-The Suricate Widget Tester allows developers to test a widget before deploying it to a Suricate instance. It has multiple advantages:
-- It is fast and easy to set up and use.
-- It makes the development and testing of widgets easier and faster.
-- It is fully independent of Suricate. A local Suricate instance is not required for it to work.
 
 ## Download
 
