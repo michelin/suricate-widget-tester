@@ -15,7 +15,7 @@
 
 [Install](#install) • [Suricate](https://github.com/michelin/suricate) • [Widgets](https://github.com/michelin/suricate-widgets)
 
-Build and validate your Suricate widget in a sandboxed setup before integrating it into a Suricate instance.
+Build and validate your Suricate widgets in a sandboxed setup before integrating it into a Suricate instance.
 
 ![Suricate widget tester](.readme/dashboard.png)
 
