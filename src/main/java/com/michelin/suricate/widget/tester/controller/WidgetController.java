@@ -2,7 +2,6 @@ package com.michelin.suricate.widget.tester.controller;
 
 import com.michelin.suricate.widget.tester.model.dto.api.ProjectWidgetResponseDto;
 import com.michelin.suricate.widget.tester.model.dto.api.WidgetExecutionRequestDto;
-import com.michelin.suricate.widget.tester.model.dto.category.CategoryDirectoryDto;
 import com.michelin.suricate.widget.tester.model.dto.widget.WidgetDto;
 import com.michelin.suricate.widget.tester.model.dto.widget.WidgetParamDto;
 import com.michelin.suricate.widget.tester.model.enumeration.ApiErrorEnum;
@@ -39,8 +38,7 @@ public class WidgetController {
      */
     @GetMapping(value = "/v1/widgets/parameters")
     public ResponseEntity<List<WidgetParamDto>> getWidgetParameters(@RequestParam String category,
-                                                                    @RequestParam String widget)
-        throws IOException {
+                                                                    @RequestParam String widget) throws IOException {
         WidgetDto widgetDto = widgetService.getWidget(category, widget);
 
         return ResponseEntity

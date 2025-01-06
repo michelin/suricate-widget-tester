@@ -46,7 +46,8 @@ public final class JavaScriptUtils {
         return injectInterrupt(
             StringUtils.trimToEmpty(data).replace(
                 JavaScriptUtils.PACKAGES_LITERAL,
-                JavaScriptUtils.PACKAGES_LITERAL + JsEndpoints.class.getName() + "."));
+                JavaScriptUtils.PACKAGES_LITERAL + JsEndpoints.class.getName() + ".")
+        );
     }
 
     /**

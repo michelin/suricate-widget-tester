@@ -56,7 +56,9 @@
           <textarea *ngIf="widgetParameter.type === dataType.TEXTAREA" matInput [formControlName]="widgetParameter.name + '-value'"
                     [required]="widgetParameter.required"
           ></textarea>
-          <mat-select *ngIf="[dataType.COMBO, dataType.MULTIPLE].includes(widgetParameter.type)" [formControlName]="widgetParameter.name + '-value'"
+          <mat-select *ngIf="[dataType.COMBO, dataType.MULTIPLE].includes(widgetParameter.type)"
+                      [formControlName]="widgetParameter.name + '-value'"
+                      [multiple]="widgetParameter.type === dataType.MULTIPLE"
                       [required]="widgetParameter.required">
             <mat-option *ngIf="!widgetParameter.required && widgetParameter.type === dataType.COMBO" [value]="">None</mat-option>
             <mat-option *ngFor="let possibleValue of widgetParameter.possibleValues" [value]="possibleValue.jsKey">
