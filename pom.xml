@@ -18,7 +18,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>3.2.1</version>
+    <version>3.4.1</version>
   </parent>
 
   <properties>
@@ -36,6 +36,7 @@
     <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
     <mockito.version>5.2.0</mockito.version>
     <mustache.version>0.9.14</mustache.version>
+    <okhttp3.version>4.12.0</okhttp3.version>
     <sonar.organization>michelin</sonar.organization>
     <sonar.projectKey>michelin_suricate-widget-tester</sonar.projectKey>
     <sonar.host.url>https://sonarcloud.io</sonar.host.url>
@@ -114,11 +115,13 @@
     <dependency>
       <groupId>com.squareup.okhttp3</groupId>
       <artifactId>okhttp</artifactId>
+      <version>${okhttp3.version}</version>
     </dependency>
 
     <dependency>
       <groupId>com.squareup.okhttp3</groupId>
       <artifactId>logging-interceptor</artifactId>
+      <version>${okhttp3.version}</version>
     </dependency>
 
     <dependency>
