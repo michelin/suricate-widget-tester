@@ -38,7 +38,7 @@ configuration file, which includes a sample file located at `src/main/resources/
 
 If necessary, you can override the properties from the default `application.yml` file by following
 the [Spring Boot externalized configuration guide](https://docs.spring.io/spring-boot/reference/features/external-config.html).
-For example, you can create a custom  `/config/application.properties` or set the `--spring.config.location` system
+For example, you can create a custom  `/config/application.yml` or set the `--spring.config.location` system
 property when running the fat jar file:
 
 ```console
