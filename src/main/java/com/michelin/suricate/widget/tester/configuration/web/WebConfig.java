@@ -42,17 +42,17 @@ public class WebConfig implements WebMvcConfigurer {
 
         return http
             .cors(corsConfigurer -> corsConfigurer
-                    .configurationSource(corsConfiguration()))
+                .configurationSource(corsConfiguration()))
             .sessionManagement(sessionManagementConfigurer -> sessionManagementConfigurer
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .csrf(AbstractHttpConfigurer::disable)
             .headers(headersConfigurer -> headersConfigurer
-                    .frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
+                .frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
             .authorizeHttpRequests(authorizeRequestsConfigurer -> authorizeRequestsConfigurer
-                    .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-                    .requestMatchers(mvcMatcherBuilder.pattern("/api/**")).permitAll()
-                    // Front-End
-                    .requestMatchers(mvcMatcherBuilder.pattern(HttpMethod.GET, "/**")).permitAll())
+                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
+                .requestMatchers(mvcMatcherBuilder.pattern("/api/**")).permitAll()
+                // Front-End
+                .requestMatchers(mvcMatcherBuilder.pattern(HttpMethod.GET, "/**")).permitAll())
             .build();
     }
 

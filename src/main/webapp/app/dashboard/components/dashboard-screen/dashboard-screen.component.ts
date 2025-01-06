@@ -46,7 +46,7 @@ export class DashboardScreenComponent implements OnChanges {
    * @param renderer The renderer Angular entity
    * @param libraryService Front-End service used to manage the libraries
    */
-  constructor(private renderer: Renderer2, private readonly libraryService: LibraryService) {}
+  constructor(private readonly renderer: Renderer2, private readonly libraryService: LibraryService) {}
 
   /**
    * Changes method
@@ -72,7 +72,7 @@ export class DashboardScreenComponent implements OnChanges {
    */
   private initGrid(): void {
     this.currentGrid = [];
-    if (this.widgetExecutionResult && this.widgetExecutionResult.projectWidget) {
+    if (this.widgetExecutionResult?.projectWidget) {
       this.currentGrid = this.getGridLayoutFromProjectWidgets();
     }
   }
@@ -113,7 +113,7 @@ export class DashboardScreenComponent implements OnChanges {
    * and a callback which notify subscribers when the library is loaded.
    */
   public addExternalJSLibrariesToTheDOM(): void {
-    if (this.widgetExecutionResult && this.widgetExecutionResult.projectWidget) {
+    if (this.widgetExecutionResult?.projectWidget) {
       if (this.widgetExecutionResult.projectWidget.librariesNames) {
         this.libraryService.numberOfExternalLibrariesToLoad = this.widgetExecutionResult.projectWidget.librariesNames.length;
 

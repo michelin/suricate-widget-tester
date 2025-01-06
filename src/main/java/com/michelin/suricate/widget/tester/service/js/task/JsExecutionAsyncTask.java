@@ -101,16 +101,13 @@ public class JsExecutionAsyncTask implements Callable<JsResultDto> {
                     jsResultDto.setData(json);
                     jsResultDto.setLog(StringUtils.trimToNull(output.toString()));
                 } else {
-                    log.debug(
-                        "The JSON response obtained after the JavaScript execution of "
-                            + "the widget instance {} is invalid",
-                        jsExecutionDto.getProjectWidgetId());
+                    log.debug("The JSON response obtained after the JavaScript execution of "
+                            + "the widget instance {} is invalid", jsExecutionDto.getProjectWidgetId());
                     log.debug("The JSON response is: {}", json);
 
                     jsResultDto.setLog(StringUtils.trimToNull(output + "\nThe JSON response is not valid - " + json));
-                    jsResultDto.setError(
-                        jsExecutionDto.isAlreadySuccess() ? JsExecutionErrorTypeEnum.ERROR :
-                            JsExecutionErrorTypeEnum.FATAL);
+                    jsResultDto.setError(jsExecutionDto.isAlreadySuccess()
+                        ? JsExecutionErrorTypeEnum.ERROR : JsExecutionErrorTypeEnum.FATAL);
                 }
             }
         } catch (Exception exception) {

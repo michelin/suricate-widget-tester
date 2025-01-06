@@ -7,7 +7,6 @@ import com.github.mustachejava.MustacheException;
 import com.github.mustachejava.MustacheFactory;
 import com.michelin.suricate.widget.tester.model.dto.api.ProjectWidgetResponseDto;
 import com.michelin.suricate.widget.tester.model.dto.api.WidgetExecutionRequestDto;
-import com.michelin.suricate.widget.tester.model.dto.category.CategoryDirectoryDto;
 import com.michelin.suricate.widget.tester.model.dto.category.CategoryDto;
 import com.michelin.suricate.widget.tester.model.dto.js.JsExecutionDto;
 import com.michelin.suricate.widget.tester.model.dto.js.JsResultDto;
@@ -24,15 +23,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -108,13 +101,20 @@ public class WidgetService {
 
         String data = "{}";
 
-        JsExecutionDto jsExecutionDto = new JsExecutionDto(propertiesBuilder.toString(), widget.getBackendJs(),
-            widgetExecutionRequestDto.getPreviousData(), 1L, 1L, widget.getDelay(), new Date());
+        JsExecutionDto jsExecutionDto = new JsExecutionDto(
+            propertiesBuilder.toString(),
+            widget.getBackendJs(),
+            widgetExecutionRequestDto.getPreviousData(),
+            1L,
+            1L,
+            widget.getDelay(), new Date()
+        );
 
         if (jsExecutionService.isJsExecutable(jsExecutionDto)) {
             JsExecutionAsyncTask jsExecutionAsyncTask = new JsExecutionAsyncTask(
                 jsExecutionDto,
-                WidgetUtils.getWidgetParametersForJsExecution(widget));
+                WidgetUtils.getWidgetParametersForJsExecution(widget)
+            );
 
             JsResultDto jsResultDto = jsExecutionAsyncTask.call();
 
@@ -131,7 +131,8 @@ public class WidgetService {
 
         // Success
         projectWidgetResponseDto.setInstantiateHtml(
-            instantiateProjectWidgetHtml(widget, data, propertiesBuilder.toString()));
+            instantiateProjectWidgetHtml(widget, data, propertiesBuilder.toString())
+        );
 
         return projectWidgetResponseDto;
     }
@@ -152,10 +153,7 @@ public class WidgetService {
         String instantiateHtml = widget.getHtmlContent();
         if (StringUtils.isNotEmpty(data)) {
             try {
-                map = objectMapper.readValue(data,
-                    new TypeReference<Map<String, Object>>() {
-                    }
-                );
+                map = objectMapper.readValue(data, new TypeReference<>() {});
 
                 // Add backend config
                 map.putAll(PropertiesUtils.convertStringWidgetPropertiesToMap(backendConfig));
@@ -173,8 +171,10 @@ public class WidgetService {
 
             StringWriter stringWriter = new StringWriter();
             try {
-                Mustache mustache =
-                    mustacheFactory.compile(new StringReader(instantiateHtml), widget.getTechnicalName());
+                Mustache mustache = mustacheFactory.compile(
+                    new StringReader(instantiateHtml),
+                    widget.getTechnicalName()
+                );
                 mustache.execute(stringWriter, map);
             } catch (MustacheException me) {
                 log.error("Error with mustache template for widget {}", widget.getTechnicalName(), me);

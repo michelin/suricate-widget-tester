@@ -88,8 +88,10 @@ export class WidgetConfigurationComponent implements OnInit {
    * @param httpConfigurationService The http configuration service
    * @param httpCategoryService The http category service
    */
-  constructor(private formBuilder: UntypedFormBuilder, private httpWidgetService: HttpWidgetService,
-              private httpConfigurationService: HttpConfigurationService, private httpCategoryService: HttpCategoryService) {}
+  constructor(private readonly formBuilder: UntypedFormBuilder,
+              private readonly httpWidgetService: HttpWidgetService,
+              private readonly httpConfigurationService: HttpConfigurationService,
+              private readonly httpCategoryService: HttpCategoryService) {}
 
   /**
    * On init
@@ -194,7 +196,7 @@ export class WidgetConfigurationComponent implements OnInit {
 
           widgetExecutionRequest.parameters.push({
             name: field.name,
-            value: this.runWidgetForm.controls[field.name + '-value'].value
+            value: String(this.runWidgetForm.controls[field.name + '-value'].value)
           });
         }
       });
