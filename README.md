@@ -34,9 +34,9 @@ You can download the Suricate Widget Tester as a fat jar from the [GitHub releas
 ## Install
 
 The Suricate Widget Tester is built on the [Spring Boot framework](https://spring.io/) and can be configured using a Spring Boot
-configuration file, which includes a sample file located at `src/main/resources/application.properties`.
+configuration file, which includes a sample file located at `src/main/resources/application.yml`.
 
-If necessary, you can override the properties from the default `application.properties` file by following
+If necessary, you can override the properties from the default `application.yml` file by following
 the [Spring Boot externalized configuration guide](https://docs.spring.io/spring-boot/reference/features/external-config.html).
 For example, you can create a custom  `/config/application.properties` or set the `--spring.config.location` system
 property when running the fat jar file:
@@ -57,7 +57,9 @@ The repository must follow the required structure (see the [official open-source
 The repository location can be configured with the following property:
 
 ```yml
-application.widgets.repository: <path-to-repository>
+application:
+  widgets:
+    repository: <path-to-repository>
 ```
 
 It is set to `/tmp` by default.

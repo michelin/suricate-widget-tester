@@ -1,22 +1,3 @@
-#######################################################################################################################
-##                                                 SERVER                                                            ##
-#######################################################################################################################
-
-server:
-  port: 8085
-
-#######################################################################################################################
-##                                                 SPRING                                                            ##
-#######################################################################################################################
-
-spring:
-  autoconfigure:
-    exclude: org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
-
-#######################################################################################################################
-##                                               APPLICATION                                                         ##
-#######################################################################################################################
-
 application:
   cors:
     allowedHeaders: 'Content-Type, Accept, Authorization, X-Requested-With'
@@ -25,3 +6,8 @@ application:
     maxAge: 3600
   widgets:
     repository: '/tmp'
+server:
+  port: 8085
+spring:
+  autoconfigure:
+    exclude: 'org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration'
