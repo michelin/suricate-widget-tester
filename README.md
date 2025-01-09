@@ -59,7 +59,7 @@ The repository location can be configured with the following property:
 ```yml
 application:
   widgets:
-    repository: <path-to-repository>
+    repository: '<path-to-repository>'
 ```
 
 It is set to `/tmp` by default.
