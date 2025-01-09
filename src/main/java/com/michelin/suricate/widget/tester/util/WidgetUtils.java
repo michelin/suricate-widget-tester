@@ -1,3 +1,22 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
 package com.michelin.suricate.widget.tester.util;
 
 import static com.michelin.suricate.widget.tester.model.enumeration.DataTypeEnum.COMBO;
@@ -12,7 +31,6 @@ import com.michelin.suricate.widget.tester.model.dto.library.LibraryDto;
 import com.michelin.suricate.widget.tester.model.dto.widget.WidgetDto;
 import com.michelin.suricate.widget.tester.model.dto.widget.WidgetParamDto;
 import com.michelin.suricate.widget.tester.model.dto.widget.WidgetParamValueDto;
-import com.michelin.suricate.widget.tester.property.ApplicationProperties;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -43,7 +61,7 @@ public final class WidgetUtils {
     /**
      * Method used to parse library folder.
      *
-     * @param rootFolder the root folder
+     * @param rootFolder    the root folder
      * @param libraryFolder the library folder
      * @return the list of library
      */
@@ -73,7 +91,7 @@ public final class WidgetUtils {
     /**
      * Method used to get category from Folder.
      *
-     * @param rootFolder root folder
+     * @param rootFolder     root folder
      * @param categoryFolder folder category
      * @return the category bean
      * @throws IOException Triggered exception during the files reading
@@ -111,7 +129,7 @@ public final class WidgetUtils {
     /**
      * Get widget from a given folder.
      *
-     * @param rootFolder The root folder
+     * @param rootFolder   The root folder
      * @param widgetFolder The folder from which to retrieve the widget
      * @return The built widget from the folder
      * @throws IOException Triggered exception during the widget files reading
