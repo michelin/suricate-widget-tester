@@ -11,7 +11,7 @@
 [![SonarCloud Tests](https://img.shields.io/sonar/tests/michelin_suricate-widget-tester/master?server=https%3A%2F%2Fsonarcloud.io&style=for-the-badge&logo=sonarcloud)](https://sonarcloud.io/component_measures?metric=tests&view=list&id=michelin_suricate-widget-tester)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg?logo=apache&style=for-the-badge)](https://opensource.org/licenses/Apache-2.0)
 
-[Install](#install) • [Suricate](https://github.com/michelin/suricate) • [Widgets](https://github.com/michelin/suricate-widgets)
+[Download](#download) • [Install](#install) • [Suricate](https://github.com/michelin/suricate) • [Widgets](https://github.com/michelin/suricate-widgets)
 
 Build and validate your Suricate widgets in a sandboxed setup before integrating it into a Suricate instance.
 
