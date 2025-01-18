@@ -9,10 +9,8 @@ describe('HttpCategoryService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
     });
-
     service = TestBed.inject(HttpCategoryService);
   });
 

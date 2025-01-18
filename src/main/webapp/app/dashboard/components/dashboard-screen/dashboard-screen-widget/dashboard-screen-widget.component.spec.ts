@@ -1,28 +1,34 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MockModule } from '../../../../mock/mock.module';
-import { MockedModelBuilderService } from '../../../../mock/services/mocked-model-builder/mocked-model-builder.service';
+import { ProjectWidget } from '../../../../shared/models/project-widget/project-widget';
 import { DashboardScreenWidgetComponent } from './dashboard-screen-widget.component';
 
 describe('DashboardScreenWidgetComponent', () => {
   let component: DashboardScreenWidgetComponent;
   let fixture: ComponentFixture<DashboardScreenWidgetComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [MockModule, DashboardScreenWidgetComponent]
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [DashboardScreenWidgetComponent]
     }).compileComponents();
-
-    const mockedModelBuilderService = TestBed.inject(MockedModelBuilderService);
 
     fixture = TestBed.createComponent(DashboardScreenWidgetComponent);
     component = fixture.componentInstance;
-    component.projectWidget = mockedModelBuilderService.buildMockedProjectWidget();
+    component.projectWidget = buildMockedProjectWidget();
 
     fixture.detectChanges();
-  }));
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  function buildMockedProjectWidget(): ProjectWidget {
+    return {
+      id: 1,
+      instantiateHtml: '',
+      technicalName: '',
+      cssContent: ''
+    };
+  }
 });

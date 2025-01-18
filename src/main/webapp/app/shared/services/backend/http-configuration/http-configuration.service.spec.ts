@@ -9,10 +9,8 @@ describe('HttpConfigurationService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
     });
-
     service = TestBed.inject(HttpConfigurationService);
   });
 

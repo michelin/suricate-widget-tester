@@ -16,21 +16,21 @@
  *
  */
 
-import {} from '@angular/common/http/testing';
-import { inject, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
-import { MockModule } from '../../../../mock/mock.module';
 import { HttpLibraryService } from './http-library.service';
 
-describe('HttpAssetService', () => {
+describe('HttpLibraryService', () => {
+  let service: HttpLibraryService;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [MockModule],
       providers: [HttpLibraryService]
     });
+    service = TestBed.inject(HttpLibraryService);
   });
 
-  it('should create', inject([HttpLibraryService], (service: HttpLibraryService) => {
+  it('should create', () => {
     expect(service).toBeTruthy();
-  }));
+  });
 });

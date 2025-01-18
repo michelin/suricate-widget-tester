@@ -1,6 +1,8 @@
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
-import { MockModule } from '../../../mock/mock.module';
 import { WidgetConfigurationComponent } from './widget-configuration.component';
 
 describe('WidgetConfigurationComponent', () => {
@@ -9,11 +11,10 @@ describe('WidgetConfigurationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MockModule, WidgetConfigurationComponent]
+      imports: [WidgetConfigurationComponent],
+      providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting(), provideAnimationsAsync()]
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(WidgetConfigurationComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

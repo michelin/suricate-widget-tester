@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
+import { ElementRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
-import { MockModule } from '../../mock/mock.module';
 import { WidgetHtmlDirective } from './widget-html.directive';
 
 describe('WidgetJsScriptsDirective', () => {
@@ -24,8 +24,7 @@ describe('WidgetJsScriptsDirective', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [MockModule],
-      providers: [WidgetHtmlDirective]
+      providers: [WidgetHtmlDirective, { provide: ElementRef, useClass: MockElementRef }]
     });
 
     directive = TestBed.inject(WidgetHtmlDirective);
@@ -35,3 +34,5 @@ describe('WidgetJsScriptsDirective', () => {
     expect(directive).toBeTruthy();
   });
 });
+
+class MockElementRef extends ElementRef {}

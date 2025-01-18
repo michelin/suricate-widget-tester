@@ -9,7 +9,6 @@ describe('SafeHtmlPipe', () => {
     TestBed.configureTestingModule({
       providers: [SafeHtmlPipe]
     });
-
     pipe = TestBed.inject(SafeHtmlPipe);
   });
 
