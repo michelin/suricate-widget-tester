@@ -32,15 +32,15 @@
 @import 'sass/themes/light-theme/dashboard-light-palette';
 
 // Suricate typography
-$suricate-typography: mat.define-typography-config(
+$suricate-typography: mat.m2-define-typography-config(
   $font-family: Roboto
 );
 
 // Suricate Light Theme
-$light-primary: mat.define-palette($suricate-palette-light-primary);
-$light-accent: mat.define-palette($suricate-palette-light-accent);
-$light-warn: mat.define-palette($suricate-palette-light-warn);
-$light-theme: mat.define-light-theme(
+$light-primary: mat.m2-define-palette($suricate-palette-light-primary);
+$light-accent: mat.m2-define-palette($suricate-palette-light-accent);
+$light-warn: mat.m2-define-palette($suricate-palette-light-warn);
+$light-theme: mat.m2-define-light-theme(
   (
     color: (
       primary: $light-primary,
