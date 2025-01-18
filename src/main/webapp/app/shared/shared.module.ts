@@ -24,12 +24,10 @@ import { KtdGridModule } from '@katoid/angular-grid-layout';
 
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { WidgetHtmlDirective } from './directives/widget-html.directive';
-import { MaterialModule } from './modules/material.module';
 import { SafeHtmlPipe } from './pipes/safe-html/safe-html.pipe';
 
 @NgModule({
   exports: [
-    MaterialModule,
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
@@ -41,7 +39,6 @@ import { SafeHtmlPipe } from './pipes/safe-html/safe-html.pipe';
     NgOptimizedImage
   ],
   imports: [
-    MaterialModule,
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,

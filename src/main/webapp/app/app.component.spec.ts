@@ -6,8 +6,7 @@ import { MockModule } from './mock/mock.module';
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MockModule],
-      declarations: [AppComponent]
+      imports: [MockModule, AppComponent]
     }).compileComponents();
   });
 

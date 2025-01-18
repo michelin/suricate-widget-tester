@@ -1,11 +1,15 @@
 import { Component } from '@angular/core';
 
+import { DashboardScreenComponent } from './dashboard/components/dashboard-screen/dashboard-screen.component';
+import { WidgetConfigurationComponent } from './dashboard/components/widget-configuration/widget-configuration.component';
 import { WidgetExecutionResult } from './shared/models/widget-execution/widget-execution-result/widget-execution-result';
 
 @Component({
   selector: 'suricate-widget-tester-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  standalone: true,
+  imports: [WidgetConfigurationComponent, DashboardScreenComponent]
 })
 export class AppComponent {
   /**
