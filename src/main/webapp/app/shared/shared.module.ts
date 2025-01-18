@@ -28,7 +28,6 @@ import { MaterialModule } from './modules/material.module';
 import { SafeHtmlPipe } from './pipes/safe-html/safe-html.pipe';
 
 @NgModule({
-  declarations: [SpinnerComponent, SafeHtmlPipe, WidgetHtmlDirective],
   exports: [
     MaterialModule,
     BrowserModule,
@@ -48,7 +47,10 @@ import { SafeHtmlPipe } from './pipes/safe-html/safe-html.pipe';
     FormsModule,
     ReactiveFormsModule,
     KtdGridModule,
-    NgOptimizedImage
+    NgOptimizedImage,
+    SpinnerComponent,
+    SafeHtmlPipe,
+    WidgetHtmlDirective
   ],
   providers: [provideHttpClient(withInterceptorsFromDi())]
 })

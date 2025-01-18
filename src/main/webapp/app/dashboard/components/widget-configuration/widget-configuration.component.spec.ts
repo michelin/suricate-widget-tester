@@ -9,8 +9,7 @@ describe('WidgetConfigurationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MockModule],
-      declarations: [WidgetConfigurationComponent]
+      imports: [MockModule, WidgetConfigurationComponent]
     }).compileComponents();
   });
 

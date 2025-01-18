@@ -1,11 +1,19 @@
+import { NgFor, NgIf } from '@angular/common';
 import { Component, ElementRef, Input, OnChanges, Renderer2, SimpleChanges, ViewChild } from '@angular/core';
-import { KtdGridLayout } from '@katoid/angular-grid-layout';
+import { MatIcon } from '@angular/material/icon';
+import {
+  KtdGridComponent,
+  KtdGridItemComponent,
+  KtdGridItemPlaceholder,
+  KtdGridLayout
+} from '@katoid/angular-grid-layout';
 
 import { GridOptions } from '../../../shared/models/grid/grid-options';
 import { WidgetExecutionResult } from '../../../shared/models/widget-execution/widget-execution-result/widget-execution-result';
 import { HttpLibraryService } from '../../../shared/services/backend/http-library/http-library.service';
 import { GridItemUtils } from '../../../shared/utils/grid-item.utils';
 import { LibraryService } from '../../services/library/library.service';
+import { DashboardScreenWidgetComponent } from './dashboard-screen-widget/dashboard-screen-widget.component';
 
 declare global {
   interface Window {
@@ -16,7 +24,17 @@ declare global {
 @Component({
   selector: 'suricate-dashboard-screen',
   templateUrl: './dashboard-screen.component.html',
-  styleUrls: ['./dashboard-screen.component.scss']
+  styleUrls: ['./dashboard-screen.component.scss'],
+  standalone: true,
+  imports: [
+    NgIf,
+    MatIcon,
+    KtdGridComponent,
+    NgFor,
+    KtdGridItemComponent,
+    DashboardScreenWidgetComponent,
+    KtdGridItemPlaceholder
+  ]
 })
 export class DashboardScreenComponent implements OnChanges {
   /**

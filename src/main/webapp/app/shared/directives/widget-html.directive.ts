@@ -3,7 +3,10 @@ import { Directive, ElementRef, OnInit } from '@angular/core';
 /**
  * Directive for Widget's JS scripts
  */
-@Directive({ selector: '[widgetHtmlDirective]' })
+@Directive({
+  selector: '[widgetHtmlDirective]',
+  standalone: true
+})
 export class WidgetHtmlDirective implements OnInit {
   /**
    * Constructor

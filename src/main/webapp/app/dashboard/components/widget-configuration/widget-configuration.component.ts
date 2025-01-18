@@ -1,6 +1,20 @@
+import { NgFor, NgIf, NgOptimizedImage } from '@angular/common';
 import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
-import { NgForm, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatSelectChange } from '@angular/material/select';
+import {
+  FormsModule,
+  NgForm,
+  ReactiveFormsModule,
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators
+} from '@angular/forms';
+import { MatButton } from '@angular/material/button';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { MatOptgroup, MatOption } from '@angular/material/core';
+import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatIcon } from '@angular/material/icon';
+import { MatInput } from '@angular/material/input';
+import { MatSelect, MatSelectChange } from '@angular/material/select';
 
 import { DataTypeEnum } from '../../../shared/enums/data-type.enum';
 import { CategoryDirectory } from '../../../shared/models/category/category';
@@ -18,7 +32,25 @@ import { FileUtils } from '../../services/utils/file.utils';
 @Component({
   selector: 'suricate-widget-configuration',
   templateUrl: './widget-configuration.component.html',
-  styleUrls: ['./widget-configuration.component.scss']
+  styleUrls: ['./widget-configuration.component.scss'],
+  standalone: true,
+  imports: [
+    NgOptimizedImage,
+    FormsModule,
+    ReactiveFormsModule,
+    MatFormField,
+    MatLabel,
+    MatSelect,
+    NgFor,
+    MatOptgroup,
+    MatOption,
+    NgIf,
+    MatError,
+    MatInput,
+    MatButton,
+    MatCheckbox,
+    MatIcon
+  ]
 })
 export class WidgetConfigurationComponent implements OnInit {
   @ViewChild('widgetForm')

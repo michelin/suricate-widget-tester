@@ -9,8 +9,7 @@ describe('WidgetResponseComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MockModule],
-      declarations: [DashboardScreenComponent]
+      imports: [MockModule, DashboardScreenComponent]
     }).compileComponents();
   });
 
