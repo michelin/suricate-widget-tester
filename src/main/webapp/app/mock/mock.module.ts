@@ -17,15 +17,12 @@
  */
 
 import { ElementRef, NgModule } from '@angular/core';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MockElementRef } from './models/mock-element-ref';
 import { SharedModule } from '../shared/shared.module';
 import {DashboardModule} from "../dashboard/dashboard.module";
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
-@NgModule({
-  imports: [SharedModule, DashboardModule, HttpClientTestingModule, RouterTestingModule],
-  exports: [SharedModule, DashboardModule, HttpClientTestingModule, RouterTestingModule],
-  providers: [{ provide: ElementRef, useClass: MockElementRef }]
-})
+@NgModule({ exports: [SharedModule, DashboardModule, HttpClientTestingModule, RouterTestingModule], imports: [SharedModule, DashboardModule, RouterTestingModule], providers: [{ provide: ElementRef, useClass: MockElementRef }, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()] })
 export class MockModule {}

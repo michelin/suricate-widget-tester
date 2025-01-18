@@ -15,7 +15,7 @@
  */
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -29,30 +29,24 @@ import { KtdGridModule } from "@katoid/angular-grid-layout";
 import {MaterialModule} from "./modules/material.module";
 import {NgOptimizedImage} from "@angular/common";
 
-@NgModule({
-  imports: [
-    MaterialModule,
-    BrowserModule,
-    BrowserAnimationsModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    KtdGridModule,
-    NgOptimizedImage
-  ],
-  declarations: [SpinnerComponent, SafeHtmlPipe, WidgetHtmlDirective],
-  exports: [
-    MaterialModule,
-    BrowserModule,
-    BrowserAnimationsModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    KtdGridModule,
-    SpinnerComponent,
-    SafeHtmlPipe,
-    WidgetHtmlDirective,
-    NgOptimizedImage
-  ]
-})
+@NgModule({ declarations: [SpinnerComponent, SafeHtmlPipe, WidgetHtmlDirective],
+    exports: [
+        MaterialModule,
+        BrowserModule,
+        BrowserAnimationsModule,
+        FormsModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        KtdGridModule,
+        SpinnerComponent,
+        SafeHtmlPipe,
+        WidgetHtmlDirective,
+        NgOptimizedImage
+    ], imports: [MaterialModule,
+        BrowserModule,
+        BrowserAnimationsModule,
+        FormsModule,
+        ReactiveFormsModule,
+        KtdGridModule,
+        NgOptimizedImage], providers: [provideHttpClient(withInterceptorsFromDi())] })
 export class SharedModule {}
