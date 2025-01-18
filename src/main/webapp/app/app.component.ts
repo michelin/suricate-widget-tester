@@ -9,7 +9,6 @@ import { WidgetExecutionResult } from './shared/models/widget-execution/widget-e
   selector: 'suricate-widget-tester-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  standalone: true,
   imports: [WidgetConfigurationComponent, DashboardScreenComponent, MatDivider]
 })
 export class AppComponent {

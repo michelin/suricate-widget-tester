@@ -11,7 +11,6 @@ import { LibraryService } from '../../../services/library/library.service';
   selector: 'suricate-dashboard-screen-widget',
   templateUrl: './dashboard-screen-widget.component.html',
   styleUrls: ['./dashboard-screen-widget.component.scss'],
-  standalone: true,
   imports: [NgClass, SpinnerComponent, WidgetHtmlDirective, SafeHtmlPipe]
 })
 export class DashboardScreenWidgetComponent implements OnInit {

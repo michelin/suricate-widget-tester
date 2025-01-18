@@ -33,7 +33,6 @@ import { FileUtils } from '../../services/utils/file.utils';
   selector: 'suricate-widget-configuration',
   templateUrl: './widget-configuration.component.html',
   styleUrls: ['./widget-configuration.component.scss'],
-  standalone: true,
   imports: [
     NgOptimizedImage,
     FormsModule,
