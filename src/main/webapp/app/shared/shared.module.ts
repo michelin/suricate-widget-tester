@@ -35,7 +35,6 @@ import { SafeHtmlPipe } from './pipes/safe-html/safe-html.pipe';
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule,
     KtdGridModule,
     SpinnerComponent,
     SafeHtmlPipe,

@@ -1,6 +1,6 @@
 <div class="title-container">
   <img ngSrc="../../../../../assets/images/logo.png" width="75" height="75" alt="brand image"/>
-  <h1 class="title">Widget Tester</h1>
+  <h1 class="title">Suricate Widget Tester</h1>
 </div>
 
 <form [formGroup]="runWidgetForm" (ngSubmit)="runWidget()" #widgetForm="ngForm">
@@ -19,7 +19,7 @@
       <mat-error *ngIf="checkError('path', 'required')">The widget is required</mat-error>
     </mat-form-field>
 
-    <h2>Mock previous execution data</h2>
+    <h2>Previous execution data</h2>
 
     <mat-form-field appearance="fill">
       <mat-label>Previous execution data</mat-label>
