@@ -1,11 +1,9 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { AbstractHttpService } from '../abstract-http/abstract-http.service';
-import { WidgetExecutionRequest } from '../../../models/widget-execution/widget-execution-request/widget-execution-request';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { WidgetParameter } from '../../../models/widget-parameter/widget-parameter';
-import {WidgetDirectory} from "../../../models/widget/widget-directory";
-import {CategoryDirectory} from "../../../models/category/category";
+
+import { CategoryDirectory } from '../../../models/category/category';
+import { AbstractHttpService } from '../abstract-http/abstract-http.service';
 
 @Injectable({
   providedIn: 'root'

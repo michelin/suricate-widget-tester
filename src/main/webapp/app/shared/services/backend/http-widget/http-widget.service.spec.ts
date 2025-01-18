@@ -1,16 +1,16 @@
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
 import { HttpWidgetService } from './http-widget.service';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('HttpWidgetService', () => {
   let service: HttpWidgetService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule]
+      providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
     });
-
     service = TestBed.inject(HttpWidgetService);
   });
 

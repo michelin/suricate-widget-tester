@@ -18,6 +18,7 @@
 
 import { Component, Input } from '@angular/core';
 import { ThemePalette } from '@angular/material/core';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 /**
  * Components used to display the spinner
@@ -25,7 +26,9 @@ import { ThemePalette } from '@angular/material/core';
 @Component({
   selector: 'suricate-spinner',
   templateUrl: './spinner.component.html',
-  styleUrls: ['./spinner.component.scss']
+  styleUrls: ['./spinner.component.scss'],
+  standalone: true,
+  imports: [MatProgressSpinner]
 })
 export class SpinnerComponent {
   /**
@@ -33,9 +36,4 @@ export class SpinnerComponent {
    */
   @Input()
   public color: ThemePalette;
-
-  /**
-   * Constructor
-   */
-  constructor() {}
 }

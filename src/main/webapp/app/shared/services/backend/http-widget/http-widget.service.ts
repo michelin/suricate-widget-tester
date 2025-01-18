@@ -1,10 +1,11 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { AbstractHttpService } from '../abstract-http/abstract-http.service';
-import { WidgetExecutionRequest } from '../../../models/widget-execution/widget-execution-request/widget-execution-request';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+
+import { ProjectWidget } from '../../../models/project-widget/project-widget';
+import { WidgetExecutionRequest } from '../../../models/widget-execution/widget-execution-request/widget-execution-request';
 import { WidgetParameter } from '../../../models/widget-parameter/widget-parameter';
-import {WidgetDirectory} from "../../../models/widget/widget-directory";
+import { AbstractHttpService } from '../abstract-http/abstract-http.service';
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +29,7 @@ export class HttpWidgetService {
    * @param category The category
    * @param widget The widget
    */
-  public getWidgetParameters(category: string, widget: string): Observable<any> {
+  public getWidgetParameters(category: string, widget: string): Observable<WidgetParameter[]> {
     const url = `${HttpWidgetService.widgetsApiEndpoint}/widgets/parameters?category=${category}&widget=${widget}`;
 
     return this.httpClient.get<WidgetParameter[]>(url);
@@ -37,9 +38,9 @@ export class HttpWidgetService {
   /**
    * Run the widget according to the given parameters
    */
-  public runWidget(widgetExecutionRequest: WidgetExecutionRequest): Observable<any> {
+  public runWidget(widgetExecutionRequest: WidgetExecutionRequest): Observable<ProjectWidget> {
     const url = `${HttpWidgetService.widgetsApiEndpoint}/widgets/run`;
 
-    return this.httpClient.post<any>(url, widgetExecutionRequest);
+    return this.httpClient.post<ProjectWidget>(url, widgetExecutionRequest);
   }
 }

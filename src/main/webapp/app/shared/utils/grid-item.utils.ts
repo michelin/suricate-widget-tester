@@ -1,7 +1,7 @@
 /**
  * Class that manage the utility function for grid items management
  */
-import {KtdGridLayoutItem} from "@katoid/angular-grid-layout";
+import { KtdGridLayoutItem } from '@katoid/angular-grid-layout';
 
 export class GridItemUtils {
   /**

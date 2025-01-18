@@ -17,6 +17,7 @@
  */
 
 import { Injectable } from '@angular/core';
+
 import { AbstractHttpService } from '../abstract-http/abstract-http.service';
 
 /**
@@ -28,11 +29,6 @@ export class HttpLibraryService {
    * Global assets endpoint
    */
   private static readonly librariesApiEndpoint = `${AbstractHttpService.baseApiEndpoint}/v1/libraries`;
-
-  /**
-   * Constructor
-   */
-  constructor() {}
 
   /**
    * Get the library content url

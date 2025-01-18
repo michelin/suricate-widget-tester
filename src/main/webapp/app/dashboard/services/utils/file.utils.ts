@@ -50,7 +50,7 @@ export class FileUtils {
 
   /**
    * Test if the base 64 url is an image
-   * @param base64Url
+   * @param base64Url The base 64 url to test
    */
   public static isBase64UrlIsAnImage(base64Url: string) {
     const base64ImagePattern = '^data:image/(gif|jpe?g|png);base64,.+$';

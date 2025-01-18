@@ -15,7 +15,10 @@
  *  * limitations under the License.
  *
  */
-@use "@angular/material" as mat;
+
+@use '@angular/material' as mat;
+
+@include mat.core();
 
 // Font Awesome icons for widgets
 @import '@fortawesome/fontawesome-free/scss/fontawesome';
@@ -23,32 +26,13 @@
 @import '@fortawesome/fontawesome-free/scss/regular';
 @import '@fortawesome/fontawesome-free/scss/solid';
 
-@include mat.core();
+@import 'scss/global-styles';
+@import 'scss/dashboard-screen';
 
-@import 'sass/global-styles';
-@import 'sass/dashboard-screen';
+@import 'scss/themes/light-and-dark-themes';
 
-@import 'sass/themes/suricate-theme';
-@import 'sass/themes/light-theme/dashboard-light-palette';
-
-// Suricate typography
-$suricate-typography: mat.define-typography-config(
-  $font-family: Roboto
-);
-
-// Suricate Light Theme
-$light-primary: mat.define-palette($suricate-palette-light-primary);
-$light-accent: mat.define-palette($suricate-palette-light-accent);
-$light-warn: mat.define-palette($suricate-palette-light-warn);
-$light-theme: mat.define-light-theme(
-  (
-    color: (
-      primary: $light-primary,
-      accent: $light-accent,
-      warn: $light-warn
-    ),
-    typography: $suricate-typography
-  )
-);
-@include mat.all-component-themes($light-theme);
-@include suricate-theme($light-theme);
+html {
+  @include mat.core-theme($light-theme);
+  @include mat.all-component-themes($light-theme);
+  @include mat.system-level-colors($light-theme);
+}

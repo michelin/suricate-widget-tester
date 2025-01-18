@@ -14,20 +14,19 @@
  * limitations under the License.
  */
 
-import { inject, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
 import { LibraryService } from './library.service';
-import { MockModule } from '../../../mock/mock.module';
 
 describe('LibraryService', () => {
+  let service: LibraryService;
+
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [MockModule],
-      providers: [LibraryService]
-    });
+    TestBed.configureTestingModule({});
+    service = TestBed.inject(LibraryService);
   });
 
-  it('should create', inject([LibraryService], (service: LibraryService) => {
+  it('should create', () => {
     expect(service).toBeTruthy();
-  }));
+  });
 });
