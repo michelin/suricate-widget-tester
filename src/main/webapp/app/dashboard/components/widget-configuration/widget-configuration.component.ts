@@ -53,6 +53,9 @@ import { FileUtils } from '../../services/utils/file.utils';
   ]
 })
 export class WidgetConfigurationComponent implements OnInit {
+  /**
+   * The widget form
+   */
   @ViewChild('widgetForm')
   widgetForm: NgForm;
 

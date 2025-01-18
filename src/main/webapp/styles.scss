@@ -36,10 +36,3 @@ html {
   @include mat.all-component-themes($light-theme);
   @include mat.system-level-colors($light-theme);
 }
-
-.dark-theme {
-  @media (prefers-color-scheme: dark) {
-    @include mat.all-component-colors($dark-theme);
-    @include mat.system-level-colors($dark-theme);
-  }
-}

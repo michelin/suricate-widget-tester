@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { MatDivider } from '@angular/material/divider';
 
 import { DashboardScreenComponent } from './dashboard/components/dashboard-screen/dashboard-screen.component';
 import { WidgetConfigurationComponent } from './dashboard/components/widget-configuration/widget-configuration.component';
@@ -9,7 +10,7 @@ import { WidgetExecutionResult } from './shared/models/widget-execution/widget-e
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   standalone: true,
-  imports: [WidgetConfigurationComponent, DashboardScreenComponent]
+  imports: [WidgetConfigurationComponent, DashboardScreenComponent, MatDivider]
 })
 export class AppComponent {
   /**

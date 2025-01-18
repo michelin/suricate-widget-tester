@@ -1,11 +1,11 @@
 <div class="title-container">
-  <img ngSrc="../../../../../assets/images/logo.png" width="75" height="75" alt="brand image"/>
+  <img ngSrc="../../../../../assets/images/logo.png" width="59" height="59" alt="Suricate"/>
   <h1 class="title">Suricate Widget Tester</h1>
 </div>
 
 <form [formGroup]="runWidgetForm" (ngSubmit)="runWidget()" #widgetForm="ngForm">
   <div class="widget-configuration">
-    <h2>Select a widget</h2>
+    <h2>Widget repository</h2>
     <p>From <i>{{ repository }}</i></p>
 
     <mat-form-field appearance="fill">
@@ -27,14 +27,14 @@
     </mat-form-field>
 
     <div class="run-widget-button-div">
-      <button mat-stroked-button color="primary">Run widget</button>
+      <button mat-flat-button color="primary">Run widget</button>
     </div>
   </div>
 
   <div class="widget-parameters">
     <div>
       <h2>Widget parameters</h2>
-      <button mat-stroked-button color="primary" type="button" (click)="getWidgetParameters()">Reload</button>
+      <button mat-flat-button color="primary" type="button" (click)="getWidgetParameters()">Reload</button>
     </div>
 
     <p *ngIf="widgetParamsFormField.length === 0 && !onWidgetPathInputErrorMessage">No parameters to display</p>
@@ -72,7 +72,7 @@
         </mat-checkbox>
 
         <div *ngIf="widgetParameter.type === dataType.FILE" class="file-upload-wrapper">
-          <button mat-raised-button type="button" color="primary" (click)="file.click()">
+          <button mat-flat-button type="button" color="primary" (click)="file.click()">
             <mat-icon>cloud_upload</mat-icon>
             <span>Upload</span>
           </button>
