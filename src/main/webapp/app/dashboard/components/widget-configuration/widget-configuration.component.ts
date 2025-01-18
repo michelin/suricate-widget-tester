@@ -1,4 +1,4 @@
-import { NgFor, NgIf, NgOptimizedImage } from '@angular/common';
+import { NgOptimizedImage } from '@angular/common';
 import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import {
   FormsModule,
@@ -33,7 +33,6 @@ import { FileUtils } from '../../services/utils/file.utils';
   selector: 'suricate-widget-configuration',
   templateUrl: './widget-configuration.component.html',
   styleUrls: ['./widget-configuration.component.scss'],
-  standalone: true,
   imports: [
     NgOptimizedImage,
     FormsModule,
@@ -41,10 +40,8 @@ import { FileUtils } from '../../services/utils/file.utils';
     MatFormField,
     MatLabel,
     MatSelect,
-    NgFor,
     MatOptgroup,
     MatOption,
-    NgIf,
     MatError,
     MatInput,
     MatButton,

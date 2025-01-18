@@ -1,19 +1,20 @@
 <div
   class="widget"
   [ngClass]="projectWidget?.technicalName + ' widget-1'">
-  <suricate-spinner *ngIf="loading" color="accent"></suricate-spinner>
+  @if (loading) {
+    <suricate-spinner color="accent"></suricate-spinner>
+  }
 
-  <ng-container *ngIf="!loading">
+  @if (!loading) {
     <!--------------------------------------------------->
     <!--                 WIDGET CSS                    -->
     <!--------------------------------------------------->
     <span [innerHTML]="'<style>' + projectWidget?.cssContent + '</style>' | safeHtml"> </span>
-
     <!--------------------------------------------------->
     <!--                 WIDGET HTML                   -->
     <!--------------------------------------------------->
     <div class="grid-stack-item-content">
       <div class="widget-html-content" widgetHtmlDirective [innerHTML]="projectWidget?.instantiateHtml! | safeHtml"></div>
     </div>
-  </ng-container>
+  }
 </div>

@@ -128,19 +128,15 @@ body .grid {
   }
 
   .widget {
-    & {
-      text-align: center;
-      cursor: move;
-      background-color: #dfdfdf;
-    }
+    text-align: center;
+    cursor: move;
+    background-color: #dfdfdf;
 
     &.status-warning {
-      & {
-        background-color: #eeae32;
-        -webkit-animation: status-warning-background 2s ease infinite;
-        -moz-animation: status-warning-background 2s ease infinite;
-        -ms-animation: status-warning-background 2s ease infinite;
-      }
+      background-color: #eeae32;
+      -webkit-animation: status-warning-background 2s ease infinite;
+      -moz-animation: status-warning-background 2s ease infinite;
+      -ms-animation: status-warning-background 2s ease infinite;
 
       .icon-warning-sign {
         display: inline-block;
