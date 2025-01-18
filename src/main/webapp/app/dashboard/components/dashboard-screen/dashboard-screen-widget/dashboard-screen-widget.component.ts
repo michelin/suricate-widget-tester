@@ -1,4 +1,4 @@
-import { NgClass, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 
 import { SpinnerComponent } from '../../../../shared/components/spinner/spinner.component';
@@ -12,7 +12,7 @@ import { LibraryService } from '../../../services/library/library.service';
   templateUrl: './dashboard-screen-widget.component.html',
   styleUrls: ['./dashboard-screen-widget.component.scss'],
   standalone: true,
-  imports: [NgClass, NgIf, SpinnerComponent, WidgetHtmlDirective, SafeHtmlPipe]
+  imports: [NgClass, SpinnerComponent, WidgetHtmlDirective, SafeHtmlPipe]
 })
 export class DashboardScreenWidgetComponent implements OnInit {
   /**

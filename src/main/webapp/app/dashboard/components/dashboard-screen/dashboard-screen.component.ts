@@ -1,4 +1,3 @@
-import { NgFor, NgIf } from '@angular/common';
 import { Component, ElementRef, Input, OnChanges, Renderer2, SimpleChanges, ViewChild } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import {
@@ -26,15 +25,7 @@ declare global {
   templateUrl: './dashboard-screen.component.html',
   styleUrls: ['./dashboard-screen.component.scss'],
   standalone: true,
-  imports: [
-    NgIf,
-    MatIcon,
-    KtdGridComponent,
-    NgFor,
-    KtdGridItemComponent,
-    DashboardScreenWidgetComponent,
-    KtdGridItemPlaceholder
-  ]
+  imports: [MatIcon, KtdGridComponent, KtdGridItemComponent, DashboardScreenWidgetComponent, KtdGridItemPlaceholder]
 })
 export class DashboardScreenComponent implements OnChanges {
   /**
