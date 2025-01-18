@@ -16,8 +16,8 @@
 
 import { inject, TestBed } from '@angular/core/testing';
 
-import { LibraryService } from './library.service';
 import { MockModule } from '../../../mock/mock.module';
+import { LibraryService } from './library.service';
 
 describe('LibraryService', () => {
   beforeEach(() => {

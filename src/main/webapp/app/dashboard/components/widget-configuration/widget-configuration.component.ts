@@ -1,18 +1,19 @@
-import {Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
-import {NgForm, UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
-import { WidgetExecutionRequest } from '../../../shared/models/widget-execution/widget-execution-request/widget-execution-request';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { NgForm, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { MatSelectChange } from '@angular/material/select';
+
+import { DataTypeEnum } from '../../../shared/enums/data-type.enum';
+import { CategoryDirectory } from '../../../shared/models/category/category';
+import { Configuration } from '../../../shared/models/config/configuration';
 import { ProjectWidget } from '../../../shared/models/project-widget/project-widget';
-import { HttpWidgetService } from '../../../shared/services/backend/http-widget/http-widget.service';
+import { WidgetExecutionRequest } from '../../../shared/models/widget-execution/widget-execution-request/widget-execution-request';
 import { WidgetExecutionResult } from '../../../shared/models/widget-execution/widget-execution-result/widget-execution-result';
 import { WidgetParameter } from '../../../shared/models/widget-parameter/widget-parameter';
-import { DataTypeEnum } from '../../../shared/enums/data-type.enum';
+import { HttpCategoryService } from '../../../shared/services/backend/http-category/http-category.service';
+import { HttpConfigurationService } from '../../../shared/services/backend/http-configuration/http-configuration.service';
+import { HttpWidgetService } from '../../../shared/services/backend/http-widget/http-widget.service';
 import { FormField } from '../../../shared/services/frontend/form/form-field';
 import { FileUtils } from '../../services/utils/file.utils';
-import { HttpConfigurationService} from '../../../shared/services/backend/http-configuration/http-configuration.service';
-import { Configuration} from '../../../shared/models/config/configuration';
-import { HttpCategoryService } from '../../../shared/services/backend/http-category/http-category.service';
-import { CategoryDirectory } from '../../../shared/models/category/category';
-import { MatSelectChange } from '@angular/material/select';
 
 @Component({
   selector: 'suricate-widget-configuration',
@@ -20,7 +21,7 @@ import { MatSelectChange } from '@angular/material/select';
   styleUrls: ['./widget-configuration.component.scss']
 })
 export class WidgetConfigurationComponent implements OnInit {
-  @ViewChild("widgetForm")
+  @ViewChild('widgetForm')
   widgetForm: NgForm;
 
   /**
@@ -33,7 +34,7 @@ export class WidgetConfigurationComponent implements OnInit {
    * The files that have been uploaded
    * The key is the form field name
    */
-  public files: { [formFieldName: string]: { fileName: string; base64Url: string }; } = {};
+  public files: Record<string, { fileName: string; base64Url: string }> = {};
 
   /**
    * If it's not an image we set the filename
@@ -88,10 +89,12 @@ export class WidgetConfigurationComponent implements OnInit {
    * @param httpConfigurationService The http configuration service
    * @param httpCategoryService The http category service
    */
-  constructor(private readonly formBuilder: UntypedFormBuilder,
-              private readonly httpWidgetService: HttpWidgetService,
-              private readonly httpConfigurationService: HttpConfigurationService,
-              private readonly httpCategoryService: HttpCategoryService) {}
+  constructor(
+    private readonly formBuilder: UntypedFormBuilder,
+    private readonly httpWidgetService: HttpWidgetService,
+    private readonly httpConfigurationService: HttpConfigurationService,
+    private readonly httpCategoryService: HttpCategoryService
+  ) {}
 
   /**
    * On init
@@ -122,8 +125,8 @@ export class WidgetConfigurationComponent implements OnInit {
    */
   public getWidgetParameters(event?: MatSelectChange): void {
     if (event) {
-      this.selectedCategory = event.value.split("/")[0];
-      this.selectedWidget = event.value.split("/")[1];
+      this.selectedCategory = event.value.split('/')[0];
+      this.selectedWidget = event.value.split('/')[1];
     }
 
     this.httpWidgetService.getWidgetParameters(this.selectedCategory, this.selectedWidget).subscribe(
@@ -132,12 +135,12 @@ export class WidgetConfigurationComponent implements OnInit {
           const oldPath = this.runWidgetForm.controls['path'].value;
           const oldPreviousData = this.runWidgetForm.controls['previousData'].value;
 
-          const oldControls: { [formFieldName: string]: { value: string; }; } = {};
+          const oldControls: Record<string, { value: string }> = {};
           this.widgetParamsFormField.forEach((field: FormField) => {
             if (this.runWidgetForm.controls[field.name + '-value'].value) {
               oldControls[field.name + '-value'] = { value: this.runWidgetForm.controls[field.name + '-value'].value };
             }
-          })
+          });
 
           this.resetScreen();
 
@@ -152,7 +155,10 @@ export class WidgetConfigurationComponent implements OnInit {
               possibleValues: widgetParameter.possibleValuesMap
             });
 
-            this.runWidgetForm.registerControl(widgetParameter.name + '-name', this.formBuilder.control(widgetParameter.name));
+            this.runWidgetForm.registerControl(
+              widgetParameter.name + '-name',
+              this.formBuilder.control(widgetParameter.name)
+            );
 
             this.runWidgetForm.registerControl(
               widgetParameter.name + '-value',
@@ -165,7 +171,7 @@ export class WidgetConfigurationComponent implements OnInit {
           });
         }
       },
-      error => {
+      (error) => {
         this.resetScreen();
         this.onWidgetPathInputErrorMessage = error.error.message;
       }
@@ -209,7 +215,7 @@ export class WidgetConfigurationComponent implements OnInit {
 
           this.widgetExecutionResultEmitEvent.emit(widgetExecutionResult);
         },
-        error => {
+        (error) => {
           const widgetExecutionResult: WidgetExecutionResult = {
             widgetExecutionErrorMessage: error.error.message
           };
@@ -318,7 +324,10 @@ export class WidgetConfigurationComponent implements OnInit {
    * @param errorName The error to check
    */
   public checkError(formFieldName: string, errorName: string): boolean | undefined {
-    return this.runWidgetForm.get(formFieldName)?.hasError(errorName) && (this.runWidgetForm.get(formFieldName)?.touched || this.runWidgetForm.get(formFieldName)?.dirty)
+    return (
+      this.runWidgetForm.get(formFieldName)?.hasError(errorName) &&
+      (this.runWidgetForm.get(formFieldName)?.touched || this.runWidgetForm.get(formFieldName)?.dirty)
+    );
   }
 
   /**

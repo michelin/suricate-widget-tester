@@ -25,9 +25,9 @@ export class WidgetHtmlDirective implements OnInit {
    * This is called once the HTML of the widget is fully loaded.
    */
   private reloadJSScripts(): void {
-    const scripts: HTMLScriptElement[] = (<HTMLScriptElement[]>(
-      Array.from(this.elementRef.nativeElement.getElementsByTagName('script'))
-    )).filter(currentScript => currentScript.src || currentScript.innerHTML);
+    const scripts: HTMLScriptElement[] = (
+      Array.from(this.elementRef.nativeElement.getElementsByTagName('script')) as HTMLScriptElement[]
+    ).filter((currentScript) => currentScript.src || currentScript.innerHTML);
 
     Array.from(Array(scripts.length).keys()).forEach((index: number) => {
       const script = scripts[index];

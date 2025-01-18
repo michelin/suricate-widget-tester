@@ -16,11 +16,11 @@
  *
  */
 
+import {} from '@angular/common/http/testing';
 import { inject, TestBed } from '@angular/core/testing';
 
-import { HttpLibraryService } from './http-library.service';
-import {} from '@angular/common/http/testing';
 import { MockModule } from '../../../../mock/mock.module';
+import { HttpLibraryService } from './http-library.service';
 
 describe('HttpAssetService', () => {
   beforeEach(() => {

@@ -17,20 +17,18 @@
             "index": "src/main/webapp/index.html",
             "tsConfig": "src/main/webapp/tsconfig.app.json",
             "polyfills": [
-              "zone.js",
-              "src/main/webapp/polyfills.ts"
+              "zone.js"
             ],
             "assets": [
               "src/main/webapp/assets"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
-                "node_modules/normalize-scss/sass",
                 "node_modules/@fortawesome/fontawesome-free/scss"
               ]
             },
             "styles": [
-              "src/main/webapp/sass/styles.scss"
+              "src/main/webapp/styles.scss"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
@@ -104,12 +102,11 @@
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
-                "node_modules/normalize-scss/sass",
                 "node_modules/@fortawesome/fontawesome-free/scss"
               ]
             },
             "styles": [
-              "src/main/webapp/sass/styles.scss"
+              "src/main/webapp/styles.scss"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",

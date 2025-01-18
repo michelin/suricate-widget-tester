@@ -15,9 +15,10 @@
  */
 
 import { NgModule } from '@angular/core';
-import { DashboardScreenWidgetComponent } from './components/dashboard-screen/dashboard-screen-widget/dashboard-screen-widget.component';
-import { DashboardScreenComponent } from './components/dashboard-screen/dashboard-screen.component';
+
 import { SharedModule } from '../shared/shared.module';
+import { DashboardScreenComponent } from './components/dashboard-screen/dashboard-screen.component';
+import { DashboardScreenWidgetComponent } from './components/dashboard-screen/dashboard-screen-widget/dashboard-screen-widget.component';
 import { WidgetConfigurationComponent } from './components/widget-configuration/widget-configuration.component';
 
 @NgModule({

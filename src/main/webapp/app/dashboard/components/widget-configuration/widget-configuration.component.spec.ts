@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { WidgetConfigurationComponent } from './widget-configuration.component';
 import { MockModule } from '../../../mock/mock.module';
+import { WidgetConfigurationComponent } from './widget-configuration.component';
 
 describe('WidgetConfigurationComponent', () => {
   let component: WidgetConfigurationComponent;

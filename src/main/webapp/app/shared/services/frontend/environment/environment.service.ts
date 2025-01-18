@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+
 import { environment } from '../../../../../environments/environment';
 
 @Injectable({
@@ -9,9 +10,4 @@ export class EnvironmentService {
    * Base url for http/ws calls
    */
   public static readonly baseEndpoint = `${environment.baseUrl}`;
-
-  /**
-   * The constructor
-   */
-  constructor() {}
 }

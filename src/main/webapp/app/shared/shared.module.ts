@@ -14,39 +14,43 @@
  * limitations under the License.
  */
 
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgOptimizedImage } from '@angular/common';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-import { SafeHtmlPipe } from './pipes/safe-html/safe-html.pipe';
-import { AppRoutingModule } from '../app-routing.module';
-import { WidgetHtmlDirective } from './directives/widget-html.directive';
-import { SpinnerComponent } from './components/spinner/spinner.component';
-import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
-import { KtdGridModule } from "@katoid/angular-grid-layout";
-import {MaterialModule} from "./modules/material.module";
-import {NgOptimizedImage} from "@angular/common";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { KtdGridModule } from '@katoid/angular-grid-layout';
 
-@NgModule({ declarations: [SpinnerComponent, SafeHtmlPipe, WidgetHtmlDirective],
-    exports: [
-        MaterialModule,
-        BrowserModule,
-        BrowserAnimationsModule,
-        FormsModule,
-        ReactiveFormsModule,
-        HttpClientModule,
-        KtdGridModule,
-        SpinnerComponent,
-        SafeHtmlPipe,
-        WidgetHtmlDirective,
-        NgOptimizedImage
-    ], imports: [MaterialModule,
-        BrowserModule,
-        BrowserAnimationsModule,
-        FormsModule,
-        ReactiveFormsModule,
-        KtdGridModule,
-        NgOptimizedImage], providers: [provideHttpClient(withInterceptorsFromDi())] })
+import { SpinnerComponent } from './components/spinner/spinner.component';
+import { WidgetHtmlDirective } from './directives/widget-html.directive';
+import { MaterialModule } from './modules/material.module';
+import { SafeHtmlPipe } from './pipes/safe-html/safe-html.pipe';
+
+@NgModule({
+  declarations: [SpinnerComponent, SafeHtmlPipe, WidgetHtmlDirective],
+  exports: [
+    MaterialModule,
+    BrowserModule,
+    BrowserAnimationsModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    KtdGridModule,
+    SpinnerComponent,
+    SafeHtmlPipe,
+    WidgetHtmlDirective,
+    NgOptimizedImage
+  ],
+  imports: [
+    MaterialModule,
+    BrowserModule,
+    BrowserAnimationsModule,
+    FormsModule,
+    ReactiveFormsModule,
+    KtdGridModule,
+    NgOptimizedImage
+  ],
+  providers: [provideHttpClient(withInterceptorsFromDi())]
+})
 export class SharedModule {}

@@ -1,12 +1,12 @@
-import {NgModule} from "@angular/core";
-import {MatIconModule} from "@angular/material/icon";
-import {MatButtonModule} from "@angular/material/button";
-import {MatDividerModule} from "@angular/material/divider";
-import {MatSelectModule} from "@angular/material/select";
-import {MatCheckboxModule} from "@angular/material/checkbox";
-import {MatFormFieldModule} from "@angular/material/form-field";
-import {MatInputModule} from "@angular/material/input";
-import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import { NgModule } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   imports: [
@@ -17,7 +17,7 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
     MatCheckboxModule,
     MatFormFieldModule,
     MatInputModule,
-    MatProgressSpinnerModule,
+    MatProgressSpinnerModule
   ],
   exports: [
     MatIconModule,
@@ -27,7 +27,7 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
     MatCheckboxModule,
     MatFormFieldModule,
     MatInputModule,
-    MatProgressSpinnerModule,
+    MatProgressSpinnerModule
   ]
 })
 export class MaterialModule {}

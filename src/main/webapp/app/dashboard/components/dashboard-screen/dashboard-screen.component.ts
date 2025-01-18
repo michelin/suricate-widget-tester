@@ -1,10 +1,17 @@
 import { Component, ElementRef, Input, OnChanges, Renderer2, SimpleChanges, ViewChild } from '@angular/core';
-import { LibraryService } from '../../services/library/library.service';
-import { HttpLibraryService } from '../../../shared/services/backend/http-library/http-library.service';
+import { KtdGridLayout } from '@katoid/angular-grid-layout';
+
+import { GridOptions } from '../../../shared/models/grid/grid-options';
 import { WidgetExecutionResult } from '../../../shared/models/widget-execution/widget-execution-result/widget-execution-result';
+import { HttpLibraryService } from '../../../shared/services/backend/http-library/http-library.service';
 import { GridItemUtils } from '../../../shared/utils/grid-item.utils';
-import {GridOptions} from "../../../shared/models/grid/grid-options";
-import {KtdGridLayout} from "@katoid/angular-grid-layout";
+import { LibraryService } from '../../services/library/library.service';
+
+declare global {
+  interface Window {
+    page_loaded: boolean;
+  }
+}
 
 @Component({
   selector: 'suricate-dashboard-screen',
@@ -46,7 +53,10 @@ export class DashboardScreenComponent implements OnChanges {
    * @param renderer The renderer Angular entity
    * @param libraryService Front-End service used to manage the libraries
    */
-  constructor(private readonly renderer: Renderer2, private readonly libraryService: LibraryService) {}
+  constructor(
+    private readonly renderer: Renderer2,
+    private readonly libraryService: LibraryService
+  ) {}
 
   /**
    * Changes method
@@ -54,10 +64,10 @@ export class DashboardScreenComponent implements OnChanges {
    * @param changes The changes event
    */
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.widgetExecutionResult) {
-      if (!changes.widgetExecutionResult.previousValue) {
+    if (changes['widgetExecutionResult']) {
+      if (!changes['widgetExecutionResult'].previousValue) {
         // Inject this variable in the window scope because some widgets use it to init the js
-        (window as any).page_loaded = true;
+        window.page_loaded = true;
       }
 
       this.initGridStackOptions();
@@ -115,9 +125,10 @@ export class DashboardScreenComponent implements OnChanges {
   public addExternalJSLibrariesToTheDOM(): void {
     if (this.widgetExecutionResult?.projectWidget) {
       if (this.widgetExecutionResult.projectWidget.librariesNames) {
-        this.libraryService.numberOfExternalLibrariesToLoad = this.widgetExecutionResult.projectWidget.librariesNames.length;
+        this.libraryService.numberOfExternalLibrariesToLoad =
+          this.widgetExecutionResult.projectWidget.librariesNames.length;
 
-        this.widgetExecutionResult.projectWidget.librariesNames.forEach(libraryName => {
+        this.widgetExecutionResult.projectWidget.librariesNames.forEach((libraryName) => {
           const script: HTMLScriptElement = document.createElement('script');
           script.type = 'text/javascript';
           script.src = HttpLibraryService.getContentUrl(libraryName);
@@ -151,8 +162,8 @@ export class DashboardScreenComponent implements OnChanges {
   private isGridItemsHasMoved(layout: KtdGridLayout): boolean {
     let itemHaveBeenMoved = false;
 
-    this.currentGrid.forEach(currentGridItem => {
-      const gridItemFound = layout.find(newGridItem => {
+    this.currentGrid.forEach((currentGridItem) => {
+      const gridItemFound = layout.find((newGridItem) => {
         return currentGridItem.id === newGridItem.id;
       });
 

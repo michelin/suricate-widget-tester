@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DashboardScreenComponent } from './dashboard-screen.component';
 import { MockModule } from '../../../mock/mock.module';
+import { DashboardScreenComponent } from './dashboard-screen.component';
 
 describe('WidgetResponseComponent', () => {
   let component: DashboardScreenComponent;

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+
 import { WidgetExecutionResult } from './shared/models/widget-execution/widget-execution-result/widget-execution-result';
 
 @Component({
@@ -11,11 +12,6 @@ export class AppComponent {
    * The widget execution result
    */
   public widgetExecutionResult: WidgetExecutionResult;
-
-  /**
-   * Constructor
-   */
-  constructor() {}
 
   /**
    * Set the widget execution result from the child component

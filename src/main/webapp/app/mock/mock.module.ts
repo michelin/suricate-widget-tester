@@ -16,13 +16,22 @@
  *
  */
 
-import { ElementRef, NgModule } from '@angular/core';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { MockElementRef } from './models/mock-element-ref';
-import { SharedModule } from '../shared/shared.module';
-import {DashboardModule} from "../dashboard/dashboard.module";
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { ElementRef, NgModule } from '@angular/core';
+import { RouterTestingModule } from '@angular/router/testing';
 
-@NgModule({ exports: [SharedModule, DashboardModule, HttpClientTestingModule, RouterTestingModule], imports: [SharedModule, DashboardModule, RouterTestingModule], providers: [{ provide: ElementRef, useClass: MockElementRef }, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()] })
+import { DashboardModule } from '../dashboard/dashboard.module';
+import { SharedModule } from '../shared/shared.module';
+import { MockElementRef } from './models/mock-element-ref';
+
+@NgModule({
+  exports: [SharedModule, DashboardModule, HttpClientTestingModule, RouterTestingModule],
+  imports: [SharedModule, DashboardModule, RouterTestingModule],
+  providers: [
+    { provide: ElementRef, useClass: MockElementRef },
+    provideHttpClient(withInterceptorsFromDi()),
+    provideHttpClientTesting()
+  ]
+})
 export class MockModule {}

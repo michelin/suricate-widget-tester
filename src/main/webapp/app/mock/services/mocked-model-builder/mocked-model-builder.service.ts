@@ -1,15 +1,11 @@
 import { Injectable } from '@angular/core';
+
 import { ProjectWidget } from '../../../shared/models/project-widget/project-widget';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MockedModelBuilderService {
-  /**
-   * Constructor
-   */
-  constructor() {}
-
   /**
    * Build a mocked project widget for the unit tests
    */
