@@ -15,9 +15,9 @@ If you find an existing issue that matches your problem, please:
 - Use reactions (e.g., 👍) on the issue to signal that it affects more users. [GitHub reactions](https://github.blog/news-insights/product-news/add-reactions-to-pull-requests-issues-and-comments/) help maintainers prioritize issues based on user impact.
 
 If no open issue addresses your problem, please open a new one and include:
-- A **clear title** and **detailed description** of the issue.
-- Relevant **environment details** (e.g., version, OS, configurations).
-- A **code sample** or **executable test case** demonstrating the expected behavior that is not occurring.
+- A clear title and detailed description of the issue.
+- Relevant environment details (e.g., version, OS, configurations).
+- A code sample or executable test case demonstrating the expected behavior that is not occurring.
 
 ### Pull Requests
 

@@ -186,7 +186,6 @@
                             <sortProperties>true</sortProperties>
                             <sortModules>true</sortModules>
                             <endWithNewline />
-                            <sortExecutions>true</sortExecutions>
                         </sortPom>
                     </pom>
                 </configuration>
@@ -281,22 +280,22 @@
                             </execution>
 
                             <execution>
-                                <id>npm run build</id>
-                                <goals>
-                                    <goal>npm</goal>
-                                </goals>
-                                <configuration>
-                                    <arguments>run build -- --configuration production</arguments>
-                                </configuration>
-                            </execution>
-
-                            <execution>
                                 <id>npm run install</id>
                                 <goals>
                                     <goal>npm</goal>
                                 </goals>
                                 <configuration>
                                     <arguments>install</arguments>
+                                </configuration>
+                            </execution>
+
+                            <execution>
+                                <id>npm run build</id>
+                                <goals>
+                                    <goal>npm</goal>
+                                </goals>
+                                <configuration>
+                                    <arguments>run build -- --configuration production</arguments>
                                 </configuration>
                             </execution>
                         </executions>
