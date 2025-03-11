@@ -16,7 +16,6 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
 package com.michelin.suricate.widget.tester.util;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -31,8 +30,8 @@ import org.junit.jupiter.api.Test;
 class FilesUtilsTest {
     @Test
     void shouldGetFiles() throws IOException {
-        List<File> actual = FilesUtils.getFiles("src/test/resources/repository/",
-            new File("src/test/resources/repository/libraries"));
+        List<File> actual = FilesUtils.getFiles(
+                "src/test/resources/repository/", new File("src/test/resources/repository/libraries"));
 
         assertEquals(1, actual.size());
         assertEquals("test.js", actual.get(0).getName());
@@ -46,13 +45,17 @@ class FilesUtilsTest {
 
     @Test
     void shouldThrowIoExceptionWhenOutside() {
-        assertThrows(IOException.class, () -> FilesUtils.getFiles("src/test/resources/repository",
-            new File("src/test/resources/repository/../accessing-resources")));
+        assertThrows(
+                IOException.class,
+                () -> FilesUtils.getFiles(
+                        "src/test/resources/repository",
+                        new File("src/test/resources/repository/../accessing-resources")));
     }
 
     @Test
     void shouldThrowIoExceptionOnPartialPathTraversal() {
-        assertThrows(IOException.class, () -> FilesUtils.getFiles("src/test/resources/repo",
-            new File("src/test/resources/repository/")));
+        assertThrows(
+                IOException.class,
+                () -> FilesUtils.getFiles("src/test/resources/repo", new File("src/test/resources/repository/")));
     }
 }

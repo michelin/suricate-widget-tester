@@ -16,7 +16,6 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
 package com.michelin.suricate.widget.tester.controller;
 
 import com.michelin.suricate.widget.tester.model.dto.category.CategoryDirectoryDto;
@@ -30,9 +29,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * Category controller.
- */
+/** Category controller. */
 @RestController
 @RequestMapping("/api")
 public class CategoryController {
@@ -47,9 +44,8 @@ public class CategoryController {
      */
     @GetMapping(value = "/v1/categories/directories")
     public ResponseEntity<List<CategoryDirectoryDto>> getCategoryDirectories() throws IOException {
-        return ResponseEntity
-            .ok()
-            .contentType(MediaType.APPLICATION_JSON)
-            .body(categoryService.getCategoryDirectories());
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(categoryService.getCategoryDirectories());
     }
 }

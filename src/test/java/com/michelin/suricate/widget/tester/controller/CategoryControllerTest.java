@@ -16,7 +16,6 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
 package com.michelin.suricate.widget.tester.controller;
 
 import static org.junit.jupiter.api.Assertions.assertIterableEquals;
@@ -43,12 +42,10 @@ class CategoryControllerTest {
 
     @Test
     void shouldGetCategoryDirectories() throws IOException {
-        CategoryDirectoryDto categoryDirectoryDto = CategoryDirectoryDto.builder()
-            .name("categoryName")
-            .build();
+        CategoryDirectoryDto categoryDirectoryDto =
+                CategoryDirectoryDto.builder().name("categoryName").build();
 
-        when(categoryService.getCategoryDirectories())
-            .thenReturn(List.of(categoryDirectoryDto));
+        when(categoryService.getCategoryDirectories()).thenReturn(List.of(categoryDirectoryDto));
 
         ResponseEntity<List<CategoryDirectoryDto>> actual = categoryController.getCategoryDirectories();
 

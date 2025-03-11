@@ -16,7 +16,6 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
 package com.michelin.suricate.widget.tester.model.dto.js;
 
 import com.michelin.suricate.widget.tester.model.dto.AbstractDto;
@@ -28,9 +27,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-/**
- * Widget variable response DTO.
- */
+/** Widget variable response DTO. */
 @Getter
 @Setter
 @NoArgsConstructor

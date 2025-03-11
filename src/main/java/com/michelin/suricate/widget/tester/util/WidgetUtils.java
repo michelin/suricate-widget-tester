@@ -16,7 +16,6 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
 package com.michelin.suricate.widget.tester.util;
 
 import static com.michelin.suricate.widget.tester.model.enumeration.DataTypeEnum.COMBO;
@@ -45,9 +44,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 
-/**
- * Widget utils.
- */
+/** Widget utils. */
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class WidgetUtils {
@@ -61,7 +58,7 @@ public final class WidgetUtils {
     /**
      * Method used to parse library folder.
      *
-     * @param rootFolder    the root folder
+     * @param rootFolder the root folder
      * @param libraryFolder the library folder
      * @return the list of library
      */
@@ -91,7 +88,7 @@ public final class WidgetUtils {
     /**
      * Method used to get category from Folder.
      *
-     * @param rootFolder     root folder
+     * @param rootFolder root folder
      * @param categoryFolder folder category
      * @return the category bean
      * @throws IOException Triggered exception during the files reading
@@ -129,7 +126,7 @@ public final class WidgetUtils {
     /**
      * Get widget from a given folder.
      *
-     * @param rootFolder   The root folder
+     * @param rootFolder The root folder
      * @param widgetFolder The folder from which to retrieve the widget
      * @return The built widget from the folder
      * @throws IOException Triggered exception during the widget files reading
@@ -157,8 +154,12 @@ public final class WidgetUtils {
                 return null;
             }
 
-            if (StringUtils.isAnyBlank(widget.getCssContent(), widget.getDescription(), widget.getHtmlContent(),
-                widget.getTechnicalName(), widget.getName())) {
+            if (StringUtils.isAnyBlank(
+                    widget.getCssContent(),
+                    widget.getDescription(),
+                    widget.getHtmlContent(),
+                    widget.getTechnicalName(),
+                    widget.getName())) {
                 log.error("Widget is not well formatted: {}", widgetFolder.getPath());
                 return null;
             }
@@ -168,11 +169,11 @@ public final class WidgetUtils {
     }
 
     /**
-     * Read the given file. According to the name of the file,
-     * fill the widget with the information contained in the file
+     * Read the given file. According to the name of the file, fill the widget with the information contained in the
+     * file
      *
      * @param widget The widget
-     * @param file   The file containing information to set to the widget
+     * @param file The file containing information to set to the widget
      * @throws IOException Exception triggered during file reading
      */
     private static void readWidgetConfig(WidgetDto widget, File file) throws IOException {
@@ -207,10 +208,8 @@ public final class WidgetUtils {
             widgetVariableResponse.setType(widgetParameter.getType());
             widgetVariableResponse.setDefaultValue(widgetParameter.getDefaultValue());
 
-            if (widgetVariableResponse.getType() == COMBO
-                || widgetVariableResponse.getType() == MULTIPLE) {
-                widgetVariableResponse.setValues(
-                    getWidgetParamValuesAsMap(widgetParameter.getPossibleValuesMap()));
+            if (widgetVariableResponse.getType() == COMBO || widgetVariableResponse.getType() == MULTIPLE) {
+                widgetVariableResponse.setValues(getWidgetParamValuesAsMap(widgetParameter.getPossibleValuesMap()));
             } else {
                 widgetVariableResponse.setData(StringUtils.trimToNull(widgetParameter.getDefaultValue()));
             }
@@ -228,8 +227,7 @@ public final class WidgetUtils {
      * @return The list
      */
     public static Map<String, String> getWidgetParamValuesAsMap(List<WidgetParamValueDto> widgetParamValues) {
-        return widgetParamValues
-            .stream()
-            .collect(Collectors.toMap(WidgetParamValueDto::getJsKey, WidgetParamValueDto::getValue));
+        return widgetParamValues.stream()
+                .collect(Collectors.toMap(WidgetParamValueDto::getJsKey, WidgetParamValueDto::getValue));
     }
 }

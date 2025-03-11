@@ -16,7 +16,6 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
 package com.michelin.suricate.widget.tester.model.dto.config;
 
 import com.michelin.suricate.widget.tester.model.dto.AbstractDto;
@@ -24,9 +23,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-/**
- * Configuration DTO.
- */
+/** Configuration DTO. */
 @Data
 @Builder
 @EqualsAndHashCode(callSuper = false)

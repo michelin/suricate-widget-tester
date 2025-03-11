@@ -16,7 +16,6 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
 package com.michelin.suricate.widget.tester.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -53,8 +52,7 @@ class WidgetControllerTest {
         WidgetDto widgetDto = new WidgetDto();
         widgetDto.setWidgetParams(List.of(new WidgetParamDto()));
 
-        when(widgetService.getWidget("category", "widget"))
-            .thenReturn(widgetDto);
+        when(widgetService.getWidget("category", "widget")).thenReturn(widgetDto);
 
         ResponseEntity<List<WidgetParamDto>> actual = widgetController.getWidgetParameters("category", "widget");
 
@@ -71,8 +69,7 @@ class WidgetControllerTest {
         ProjectWidgetResponseDto projectWidgetResponseDto = new ProjectWidgetResponseDto();
         projectWidgetResponseDto.setTechnicalName("technicalName");
 
-        when(widgetService.runWidget(any()))
-            .thenReturn(projectWidgetResponseDto);
+        when(widgetService.runWidget(any())).thenReturn(projectWidgetResponseDto);
 
         ResponseEntity<ProjectWidgetResponseDto> actual = widgetController.runWidget(widgetExecutionRequestDto);
 
@@ -89,11 +86,10 @@ class WidgetControllerTest {
         ProjectWidgetResponseDto projectWidgetResponseDto = new ProjectWidgetResponseDto();
         projectWidgetResponseDto.setLog("Error");
 
-        when(widgetService.runWidget(any()))
-            .thenReturn(projectWidgetResponseDto);
+        when(widgetService.runWidget(any())).thenReturn(projectWidgetResponseDto);
 
-        ApiException actual = assertThrows(ApiException.class, () ->
-            widgetController.runWidget(widgetExecutionRequestDto));
+        ApiException actual =
+                assertThrows(ApiException.class, () -> widgetController.runWidget(widgetExecutionRequestDto));
 
         assertEquals("Error", actual.getMessage());
     }

@@ -16,7 +16,6 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
 package com.michelin.suricate.widget.tester.util;
 
 import java.io.File;
@@ -31,9 +30,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-/**
- * Files utils.
- */
+/** Files utils. */
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class FilesUtils {
@@ -41,7 +38,7 @@ public class FilesUtils {
      * Get all the files inside a given folder.
      *
      * @param rootPath The root path
-     * @param folder   The folder containing the files
+     * @param folder The folder containing the files
      * @return The list of files
      * @throws IOException Exception triggered during the files fetching
      */
@@ -57,10 +54,7 @@ public class FilesUtils {
 
             String folderPath = folder.getCanonicalPath();
             try (Stream<Path> list = Files.list(Paths.get(folderPath))) {
-                return list.map(Path::toFile)
-                    .filter(File::isFile)
-                    .sorted()
-                    .toList();
+                return list.map(Path::toFile).filter(File::isFile).sorted().toList();
             }
         }
 

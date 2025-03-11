@@ -16,7 +16,6 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
 package com.michelin.suricate.widget.tester.service.js.task;
 
 import com.michelin.suricate.widget.tester.model.dto.js.JsExecutionDto;
@@ -45,9 +44,7 @@ import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.HostAccess;
 import org.graalvm.polyglot.Value;
 
-/**
- * Task that execute the Javascript script of a widget instance.
- */
+/** Task that execute the Javascript script of a widget instance. */
 @Slf4j
 @AllArgsConstructor
 public class JsExecutionAsyncTask implements Callable<JsResultDto> {
@@ -55,19 +52,12 @@ public class JsExecutionAsyncTask implements Callable<JsResultDto> {
     private final List<WidgetVariableResponse> widgetParameters;
 
     /**
-     * Method automatically called by the scheduler after the given delay.
-     * Convert the widget properties set by the user to a map. Then, decrypt
-     * the secret properties and set default value to unset properties.
-     * Then, set the mandatory variables to the engine script.
-     * - The widget properties
-     * - The data of the previous widget execution
-     * - The widget instance ID
-     * Compile the Javascript script of the widget, evaluate it and get
-     * the JSON result
-     * The method handles multiple types of exceptions:
-     * - InterruptedIOException: triggered when the execution of the widget
-     * is interrupted because the Js execution has been canceled (because the
-     * user left the dashboard, or because of a timeout, etc...)
+     * Method automatically called by the scheduler after the given delay. Convert the widget properties set by the user
+     * to a map. Then, decrypt the secret properties and set default value to unset properties. Then, set the mandatory
+     * variables to the engine script. - The widget properties - The data of the previous widget execution - The widget
+     * instance ID Compile the Javascript script of the widget, evaluate it and get the JSON result The method handles
+     * multiple types of exceptions: - InterruptedIOException: triggered when the execution of the widget is interrupted
+     * because the Js execution has been canceled (because the user left the dashboard, or because of a timeout, etc...)
      *
      * @return The response from Js result
      */
@@ -80,16 +70,16 @@ public class JsExecutionAsyncTask implements Callable<JsResultDto> {
 
         try (OutputStream output = new ByteArrayOutputStream()) {
             try (Context context = Context.newBuilder("js")
-                .out(output)
-                .err(output)
-                .options(Map.of("engine.WarnInterpreterOnly", "false"))
-                .allowHostAccess(HostAccess.ALL)
-                .allowHostClassLookup(className -> className.equals(JsEndpoints.class.getName()))
-                .build()) {
+                    .out(output)
+                    .err(output)
+                    .options(Map.of("engine.WarnInterpreterOnly", "false"))
+                    .allowHostAccess(HostAccess.ALL)
+                    .allowHostClassLookup(className -> className.equals(JsEndpoints.class.getName()))
+                    .build()) {
 
                 // Get widget parameters values set by the user
                 Map<String, String> widgetProperties =
-                    PropertiesUtils.convertStringWidgetPropertiesToMap(jsExecutionDto.getProperties());
+                        PropertiesUtils.convertStringWidgetPropertiesToMap(jsExecutionDto.getProperties());
 
                 // Set default value to widget properties
                 setDefaultValueToWidgetProperties(widgetProperties);
@@ -120,13 +110,17 @@ public class JsExecutionAsyncTask implements Callable<JsResultDto> {
                     jsResultDto.setData(json);
                     jsResultDto.setLog(StringUtils.trimToNull(output.toString()));
                 } else {
-                    log.debug("The JSON response obtained after the JavaScript execution of "
-                        + "the widget instance {} is invalid", jsExecutionDto.getProjectWidgetId());
+                    log.debug(
+                            "The JSON response obtained after the JavaScript execution of "
+                                    + "the widget instance {} is invalid",
+                            jsExecutionDto.getProjectWidgetId());
                     log.debug("The JSON response is: {}", json);
 
                     jsResultDto.setLog(StringUtils.trimToNull(output + "\nThe JSON response is not valid - " + json));
-                    jsResultDto.setError(jsExecutionDto.isAlreadySuccess()
-                        ? JsExecutionErrorTypeEnum.ERROR : JsExecutionErrorTypeEnum.FATAL);
+                    jsResultDto.setError(
+                            jsExecutionDto.isAlreadySuccess()
+                                    ? JsExecutionErrorTypeEnum.ERROR
+                                    : JsExecutionErrorTypeEnum.FATAL);
                 }
             }
         } catch (Exception exception) {
@@ -135,11 +129,14 @@ public class JsExecutionAsyncTask implements Callable<JsResultDto> {
             // Do not set logs during an interruption, as it is caused by a canceling
             // of the Js execution, the return Js result will not be processed by the JsResultAsyncTask
             if (rootCause instanceof InterruptedIOException) {
-                log.info("The execution of the widget instance {} has been interrupted",
-                    jsExecutionDto.getProjectWidgetId());
+                log.info(
+                        "The execution of the widget instance {} has been interrupted",
+                        jsExecutionDto.getProjectWidgetId());
             } else {
-                log.error("An error has occurred during the JavaScript execution of the widget instance {}",
-                    jsExecutionDto.getProjectWidgetId(), exception);
+                log.error(
+                        "An error has occurred during the JavaScript execution of the widget instance {}",
+                        jsExecutionDto.getProjectWidgetId(),
+                        exception);
 
                 if (isFatalError(exception, rootCause)) {
                     jsResultDto.setError(JsExecutionErrorTypeEnum.FATAL);
@@ -149,8 +146,8 @@ public class JsExecutionAsyncTask implements Callable<JsResultDto> {
 
                 // If RemoteException/RequestException get custom message, else get root cause
                 String logs = ExceptionUtils.getRootCause(exception).getMessage() != null
-                    ? ExceptionUtils.getRootCause(exception).getMessage()
-                    : ExceptionUtils.getRootCause(exception).toString();
+                        ? ExceptionUtils.getRootCause(exception).getMessage()
+                        : ExceptionUtils.getRootCause(exception).toString();
                 jsResultDto.setLog(logs);
             }
         } finally {
@@ -173,8 +170,8 @@ public class JsExecutionAsyncTask implements Callable<JsResultDto> {
                     if (!widgetVariableResponse.isRequired()) {
                         widgetProperties.put(widgetVariableResponse.getName(), null);
                     } else {
-                        widgetProperties.put(widgetVariableResponse.getName(),
-                            widgetVariableResponse.getDefaultValue());
+                        widgetProperties.put(
+                                widgetVariableResponse.getName(), widgetVariableResponse.getDefaultValue());
                     }
                 }
             }
@@ -184,14 +181,14 @@ public class JsExecutionAsyncTask implements Callable<JsResultDto> {
     /**
      * Check if the returned error is fatal.
      *
-     * @param e         The exception thrown
+     * @param e The exception thrown
      * @param rootCause The root cause of the exception
      * @return true if the error is fatal, false otherwise
      */
     protected boolean isFatalError(Exception e, Throwable rootCause) {
         return !(rootCause instanceof RemoteException
-            || StringUtils.containsIgnoreCase(ExceptionUtils.getMessage(e), "timeout")
-            || rootCause instanceof UnknownHostException
-            || jsExecutionDto.isAlreadySuccess());
+                || StringUtils.containsIgnoreCase(ExceptionUtils.getMessage(e), "timeout")
+                || rootCause instanceof UnknownHostException
+                || jsExecutionDto.isAlreadySuccess());
     }
 }

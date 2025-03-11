@@ -16,7 +16,6 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
 package com.michelin.suricate.widget.tester.util;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -47,15 +46,15 @@ class WidgetUtilsTest {
 
     @Test
     void shouldParseLibraryFolderEmpty() {
-        List<LibraryDto> actual = WidgetUtils.parseLibraryFolder("src/test/resources",
-            new File("src/test/resources/repository"));
+        List<LibraryDto> actual =
+                WidgetUtils.parseLibraryFolder("src/test/resources", new File("src/test/resources/repository"));
         assertNull(actual);
     }
 
     @Test
     void shouldParseLibraryFolder() {
-        List<LibraryDto> actual = WidgetUtils.parseLibraryFolder("src/test/resources/repository",
-            new File("src/test/resources/repository/libraries"));
+        List<LibraryDto> actual = WidgetUtils.parseLibraryFolder(
+                "src/test/resources/repository", new File("src/test/resources/repository/libraries"));
         assertEquals(1, actual.size());
         assertEquals("test.js", actual.get(0).getTechnicalName());
     }
@@ -67,14 +66,15 @@ class WidgetUtilsTest {
 
     @Test
     void shouldGetCategoryWithNoName() throws IOException {
-        assertNull(WidgetUtils.getCategory("src/test/resources/specific-repository",
-            new File("src/test/resources/specific-repository/content/no-name")));
+        assertNull(WidgetUtils.getCategory(
+                "src/test/resources/specific-repository",
+                new File("src/test/resources/specific-repository/content/no-name")));
     }
 
     @Test
     void shouldGetCategoryWithNoWidgets() throws IOException {
-        CategoryDto actual =
-            WidgetUtils.getCategory("src/test/resources/specific-repository",
+        CategoryDto actual = WidgetUtils.getCategory(
+                "src/test/resources/specific-repository",
                 new File("src/test/resources/specific-repository/content/no-widgets"));
 
         assertNull(actual.getId());
@@ -85,8 +85,8 @@ class WidgetUtilsTest {
 
     @Test
     void shouldGetCategory() throws IOException {
-        CategoryDto actual = WidgetUtils.getCategory("src/test/resources/repository/content",
-            new File("src/test/resources/repository/content/github"));
+        CategoryDto actual = WidgetUtils.getCategory(
+                "src/test/resources/repository/content", new File("src/test/resources/repository/content/github"));
 
         assertNull(actual.getId());
         assertEquals("GitHub", actual.getName());
@@ -101,28 +101,31 @@ class WidgetUtilsTest {
 
     @Test
     void shouldGetWidgetNoDelay() throws IOException {
-        assertNull(WidgetUtils.getWidget("src/test/resources/specific-repository",
-            new File("src/test/resources/specific-repository/content/specific-widgets/widgets/no-delay")));
+        assertNull(WidgetUtils.getWidget(
+                "src/test/resources/specific-repository",
+                new File("src/test/resources/specific-repository/content/specific-widgets/widgets/no-delay")));
     }
 
     @Test
     void shouldGetWidgetDelayButNoScript() throws IOException {
-        assertNull(WidgetUtils.getWidget("src/test/resources/specific-repository",
-            new File("src/test/resources/specific-repository/content/"
-                + "specific-widgets/widgets/delay-but-no-script")));
+        assertNull(WidgetUtils.getWidget(
+                "src/test/resources/specific-repository",
+                new File("src/test/resources/specific-repository/content/"
+                        + "specific-widgets/widgets/delay-but-no-script")));
     }
 
     @Test
     void shouldGetWidgetNoTechnicalName() throws IOException {
-        assertNull(WidgetUtils.getWidget("src/test/resources/specific-repository",
-            new File("src/test/resources/specific-repository/content/"
-                + "specific-widgets/widgets/no-technical-name")));
+        assertNull(WidgetUtils.getWidget(
+                "src/test/resources/specific-repository",
+                new File("src/test/resources/specific-repository/content/"
+                        + "specific-widgets/widgets/no-technical-name")));
     }
 
     @Test
     void shouldGetWidgetGitHubCountIssues() throws IOException {
-        WidgetDto actual =
-            WidgetUtils.getWidget("src/test/resources/repository",
+        WidgetDto actual = WidgetUtils.getWidget(
+                "src/test/resources/repository",
                 new File("src/test/resources/repository/content/github/widgets/count-issues"));
 
         assertNull(actual.getId());
@@ -139,8 +142,8 @@ class WidgetUtilsTest {
 
     @Test
     void shouldGetWidgetClockWithNoParams() throws IOException {
-        WidgetDto actual = WidgetUtils.getWidget("src/test/resources/repository",
-            new File("src/test/resources/repository/content/other/widgets/clock"));
+        WidgetDto actual = WidgetUtils.getWidget(
+                "src/test/resources/repository", new File("src/test/resources/repository/content/other/widgets/clock"));
 
         assertNull(actual.getId());
         assertEquals("Clock", actual.getName());

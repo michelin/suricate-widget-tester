@@ -16,7 +16,6 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
 package com.michelin.suricate.widget.tester.model.dto.category;
 
 import com.michelin.suricate.widget.tester.model.dto.AbstractDto;
@@ -26,14 +25,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-/**
- * Category directory DTO.
- */
+/** Category directory DTO. */
 @Data
 @Builder
 @EqualsAndHashCode(callSuper = false)
 public class CategoryDirectoryDto extends AbstractDto {
     private String name;
+
     @Builder.Default
     private Set<String> widgets = new LinkedHashSet<>();
 }

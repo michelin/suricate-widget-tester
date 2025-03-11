@@ -16,7 +16,6 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
 package com.michelin.suricate.widget.tester.controller.handler;
 
 import com.michelin.suricate.widget.tester.model.dto.error.ApiErrorDto;
@@ -28,9 +27,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-/**
- * Rest controller advice used to manage exceptions.
- */
+/** Rest controller advice used to manage exceptions. */
 @Slf4j
 @RestControllerAdvice
 public class GlobalDefaultExceptionHandler {
@@ -45,9 +42,7 @@ public class GlobalDefaultExceptionHandler {
     public ResponseEntity<ApiErrorDto> handleApiException(ApiException exception) {
         log.debug("An exception has occurred in the API controllers part", exception);
 
-        return ResponseEntity
-            .status(exception.getError().getStatus())
-            .body(exception.getError());
+        return ResponseEntity.status(exception.getError().getStatus()).body(exception.getError());
     }
 
     /**
@@ -60,9 +55,8 @@ public class GlobalDefaultExceptionHandler {
     public ResponseEntity<ApiErrorDto> handleApiException(NoSuchFileException exception) {
         log.debug("An exception has occurred in the API controllers part", exception);
 
-        return ResponseEntity
-            .status(ApiErrorEnum.FILE_ERROR.getStatus())
-            .body(new ApiErrorDto(String.format("The file %s does not exist", exception.getMessage()),
-                ApiErrorEnum.FILE_ERROR));
+        return ResponseEntity.status(ApiErrorEnum.FILE_ERROR.getStatus())
+                .body(new ApiErrorDto(
+                        String.format("The file %s does not exist", exception.getMessage()), ApiErrorEnum.FILE_ERROR));
     }
 }
