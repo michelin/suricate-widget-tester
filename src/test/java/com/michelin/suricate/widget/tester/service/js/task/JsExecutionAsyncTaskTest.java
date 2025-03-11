@@ -16,7 +16,6 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
 package com.michelin.suricate.widget.tester.service.js.task;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -42,11 +41,13 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 class JsExecutionAsyncTaskTest {
     @ParameterizedTest
-    @CsvSource({"badScript,ReferenceError: badScript is not defined",
+    @CsvSource({
+        "badScript,ReferenceError: badScript is not defined",
         "function test() {},No run function defined",
         "function run() {},The JSON response is not valid - null",
         "function run () { var file = Java.type('java.io.File'); file.listRoots(); return '{}'},"
-            + "TypeError: Access to host class java.io.File is not allowed or does not exist."})
+                + "TypeError: Access to host class java.io.File is not allowed or does not exist."
+    })
     void shouldFail(String script, String expectedLogs) {
         JsExecutionDto jsExecutionDto = new JsExecutionDto();
         jsExecutionDto.setProjectId(1L);
@@ -63,9 +64,11 @@ class JsExecutionAsyncTaskTest {
     }
 
     @ParameterizedTest
-    @CsvSource({"function run() {},The JSON response is not valid - null",
+    @CsvSource({
+        "function run() {},The JSON response is not valid - null",
         "function run () { Packages.throwError(); return '{}'},Error",
-        "function run () { Packages.throwTimeout(); return '{}'},Timeout"})
+        "function run () { Packages.throwTimeout(); return '{}'},Timeout"
+    })
     void shouldFailWithErrorBecauseBadReturn(String script, String expectedLogs) {
         JsExecutionDto jsExecutionDto = new JsExecutionDto();
         jsExecutionDto.setProjectId(1L);
@@ -125,8 +128,7 @@ class JsExecutionAsyncTaskTest {
         jsExecutionDto.setProjectWidgetId(1L);
         jsExecutionDto.setDelay(0L);
         jsExecutionDto.setPreviousData(null);
-        jsExecutionDto.setScript(
-            "function run () { print('title='+SURI_TITLE); "
+        jsExecutionDto.setScript("function run () { print('title='+SURI_TITLE); "
                 + "print('notRequiredTitle='+NOT_REQUIRED_SURI_TITLE); return '{}' }");
 
         JsExecutionAsyncTask task = new JsExecutionAsyncTask(jsExecutionDto, widgetParameters);
@@ -191,20 +193,16 @@ class JsExecutionAsyncTaskTest {
         assertFalse(task.isFatalError(new Exception("timeoutException"), new Exception("")));
         assertFalse(task.isFatalError(new Exception("timeoutException"), new FatalException("")));
         assertFalse(task.isFatalError(new Exception("timeout:"), new IllegalArgumentException("")));
-        assertFalse(
-            task.isFatalError(new Exception("Error on server"), new RemoteException("Error on server")));
-        assertFalse(
-            task.isFatalError(new Exception("Error on server"), new UnknownHostException("Error on server")));
+        assertFalse(task.isFatalError(new Exception("Error on server"), new RemoteException("Error on server")));
+        assertFalse(task.isFatalError(new Exception("Error on server"), new UnknownHostException("Error on server")));
 
         jsExecutionDto.setAlreadySuccess(true);
 
         assertFalse(task.isFatalError(new Exception(""), new Exception("")));
         assertFalse(task.isFatalError(new Exception("timeoutException"), new Exception("")));
         assertFalse(task.isFatalError(new Exception("timeoutException"), new FatalException("")));
-        assertFalse(
-            task.isFatalError(new Exception("Error on server"), new RemoteException("Error on server")));
+        assertFalse(task.isFatalError(new Exception("Error on server"), new RemoteException("Error on server")));
         assertFalse(task.isFatalError(new Exception("Error on server"), new Exception("Error on server")));
-        assertFalse(
-            task.isFatalError(new ConnectException("Connection error"), new IllegalArgumentException()));
+        assertFalse(task.isFatalError(new ConnectException("Connection error"), new IllegalArgumentException()));
     }
 }

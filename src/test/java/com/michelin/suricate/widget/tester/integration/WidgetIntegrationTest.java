@@ -16,7 +16,6 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
 package com.michelin.suricate.widget.tester.integration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -54,31 +53,34 @@ class WidgetIntegrationTest {
 
     @Test
     void shouldGetWidgetParams() {
-        ResponseEntity<List<WidgetParamDto>> response = restTemplate.exchange("http://localhost:" + port
-                + "/api/v1/widgets/parameters?category=github&widget=count-issues",
-            GET, HttpEntity.EMPTY, new ParameterizedTypeReference<>() {
-            });
+        ResponseEntity<List<WidgetParamDto>> response = restTemplate.exchange(
+                "http://localhost:" + port + "/api/v1/widgets/parameters?category=github&widget=count-issues",
+                GET,
+                HttpEntity.EMPTY,
+                new ParameterizedTypeReference<>() {});
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
         assertEquals(4, response.getBody().size());
-        assertIterableEquals(List.of("SURI_GITHUB_ORG", "SURI_GITHUB_PROJECT", "SURI_ISSUES_STATE",
-                "WIDGET_CONFIG_GITHUB_TOKEN"),
-            response.getBody().stream().map(WidgetParamDto::getName).toList());
+        assertIterableEquals(
+                List.of("SURI_GITHUB_ORG", "SURI_GITHUB_PROJECT", "SURI_ISSUES_STATE", "WIDGET_CONFIG_GITHUB_TOKEN"),
+                response.getBody().stream().map(WidgetParamDto::getName).toList());
     }
 
     @Test
     void shouldNotGetWidgetParamsWhenCategoryDoesNotExist() {
-        ResponseEntity<ApiErrorDto> response = restTemplate.exchange("http://localhost:" + port
-                + "/api/v1/widgets/parameters?category=unknown&widget=count-issues",
-            GET, HttpEntity.EMPTY, ApiErrorDto.class);
+        ResponseEntity<ApiErrorDto> response = restTemplate.exchange(
+                "http://localhost:" + port + "/api/v1/widgets/parameters?category=unknown&widget=count-issues",
+                GET,
+                HttpEntity.EMPTY,
+                ApiErrorDto.class);
 
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
         assertNotNull(response.getBody());
 
         String expectedFileName = "src"
-            + File.separator + "test" + File.separator + "resources" + File.separator + "repository"
-            + File.separator + "content" + File.separator + "unknown";
+                + File.separator + "test" + File.separator + "resources" + File.separator + "repository"
+                + File.separator + "content" + File.separator + "unknown";
 
         assertTrue(response.getBody().getMessage().contains("The file"));
         assertTrue(response.getBody().getMessage().contains(expectedFileName));

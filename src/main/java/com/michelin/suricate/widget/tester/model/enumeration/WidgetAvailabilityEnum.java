@@ -16,15 +16,11 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
 package com.michelin.suricate.widget.tester.model.enumeration;
 
-/**
- * Widget availability.
- */
+/** Widget availability. */
 public enum WidgetAvailabilityEnum {
     ACTIVATED,
     DISABLED,
     VALIDATION_PENDING
 }
-

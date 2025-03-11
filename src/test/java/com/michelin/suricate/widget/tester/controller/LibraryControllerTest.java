@@ -16,7 +16,6 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
 package com.michelin.suricate.widget.tester.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -50,15 +49,14 @@ class LibraryControllerTest {
 
     @Test
     void shouldGetLibrary() {
-        when(applicationProperties.getWidgets())
-            .thenReturn(new ApplicationProperties.Widgets());
+        when(applicationProperties.getWidgets()).thenReturn(new ApplicationProperties.Widgets());
 
         try (MockedStatic<WidgetUtils> mocked = mockStatic(WidgetUtils.class)) {
             mocked.when(() -> WidgetUtils.parseLibraryFolder(any(), any()))
-                .thenReturn(List.of(LibraryDto.builder()
-                    .technicalName("libraryName")
-                    .asset(new byte[10])
-                    .build()));
+                    .thenReturn(List.of(LibraryDto.builder()
+                            .technicalName("libraryName")
+                            .asset(new byte[10])
+                            .build()));
 
             ResponseEntity<byte[]> actual = libraryController.getLibrary("libraryName");
 
@@ -70,18 +68,17 @@ class LibraryControllerTest {
 
     @Test
     void shouldThrowObjectNotFoundException() {
-        when(applicationProperties.getWidgets())
-            .thenReturn(new ApplicationProperties.Widgets());
+        when(applicationProperties.getWidgets()).thenReturn(new ApplicationProperties.Widgets());
 
         try (MockedStatic<WidgetUtils> mocked = mockStatic(WidgetUtils.class)) {
             mocked.when(() -> WidgetUtils.parseLibraryFolder(any(), any()))
-                .thenReturn(List.of(LibraryDto.builder()
-                    .technicalName("libraryName")
-                    .asset(new byte[10])
-                    .build()));
+                    .thenReturn(List.of(LibraryDto.builder()
+                            .technicalName("libraryName")
+                            .asset(new byte[10])
+                            .build()));
 
-            ObjectNotFoundException exception = assertThrows(ObjectNotFoundException.class,
-                () -> libraryController.getLibrary("unknownLibraryName"));
+            ObjectNotFoundException exception = assertThrows(
+                    ObjectNotFoundException.class, () -> libraryController.getLibrary("unknownLibraryName"));
 
             assertEquals("LibraryDto 'unknownLibraryName' not found", exception.getMessage());
         }

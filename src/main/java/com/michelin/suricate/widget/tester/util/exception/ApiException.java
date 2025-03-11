@@ -16,16 +16,13 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
 package com.michelin.suricate.widget.tester.util.exception;
 
 import com.michelin.suricate.widget.tester.model.dto.error.ApiErrorDto;
 import com.michelin.suricate.widget.tester.model.enumeration.ApiErrorEnum;
 import org.apache.commons.lang3.StringUtils;
 
-/**
- * Api exception.
- */
+/** Api exception. */
 public class ApiException extends RuntimeException {
     private final ApiErrorEnum error;
 
@@ -33,7 +30,7 @@ public class ApiException extends RuntimeException {
      * Constructor.
      *
      * @param message custom message
-     * @param error   the API error object to store into the exception
+     * @param error the API error object to store into the exception
      */
     public ApiException(String message, ApiErrorEnum error) {
         super(StringUtils.isBlank(message) ? error.getMessage() : message);

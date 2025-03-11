@@ -16,7 +16,6 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
 package com.michelin.suricate.widget.tester.model.dto.widget;
 
 import com.michelin.suricate.widget.tester.model.enumeration.DataTypeEnum;
@@ -28,9 +27,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-/**
- * Widget parameters DTO.
- */
+/** Widget parameters DTO. */
 @Getter
 @Setter
 @NoArgsConstructor

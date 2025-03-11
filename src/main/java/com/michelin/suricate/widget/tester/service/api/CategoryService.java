@@ -16,7 +16,6 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
 package com.michelin.suricate.widget.tester.service.api;
 
 import com.michelin.suricate.widget.tester.model.dto.category.CategoryDirectoryDto;
@@ -32,9 +31,7 @@ import java.util.stream.Stream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-/**
- * Category service.
- */
+/** Category service. */
 @Service
 public class CategoryService {
     @Autowired
@@ -51,22 +48,24 @@ public class CategoryService {
 
         File widgetsDir = new File(applicationProperties.getWidgets().getRepository() + "/content");
         try (Stream<Path> categories = Files.list(Paths.get(widgetsDir.getCanonicalPath()))) {
-            List<File> categoriesFile = categories.map(Path::toFile)
-                .filter(File::isDirectory)
-                .sorted()
-                .toList();
+            List<File> categoriesFile = categories
+                    .map(Path::toFile)
+                    .filter(File::isDirectory)
+                    .sorted()
+                    .toList();
 
             for (File category : categoriesFile) {
-                CategoryDirectoryDto categoryDirectoryDto = CategoryDirectoryDto.builder()
-                    .name(category.getName())
-                    .build();
+                CategoryDirectoryDto categoryDirectoryDto =
+                        CategoryDirectoryDto.builder().name(category.getName()).build();
 
                 try (Stream<Path> list = Files.list(Paths.get(category.getCanonicalPath() + "/widgets"))) {
-                    categoryDirectoryDto.getWidgets().addAll(list.map(Path::toFile)
-                        .filter(File::isDirectory)
-                        .sorted()
-                        .map(File::getName)
-                        .toList());
+                    categoryDirectoryDto
+                            .getWidgets()
+                            .addAll(list.map(Path::toFile)
+                                    .filter(File::isDirectory)
+                                    .sorted()
+                                    .map(File::getName)
+                                    .toList());
                 }
                 categoryDirectoryDtos.add(categoryDirectoryDto);
             }

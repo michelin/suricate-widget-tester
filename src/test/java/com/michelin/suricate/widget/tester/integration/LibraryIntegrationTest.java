@@ -16,7 +16,6 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
 package com.michelin.suricate.widget.tester.integration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -48,9 +47,11 @@ class LibraryIntegrationTest {
 
     @Test
     void shouldThrowNotFoundExceptionWhenLibraryNotFound() {
-        ResponseEntity<ApiErrorDto> response = restTemplate.exchange("http://localhost:" + port
-                + "/api/v1/libraries/doesNotExist/content",
-            GET, HttpEntity.EMPTY, ApiErrorDto.class);
+        ResponseEntity<ApiErrorDto> response = restTemplate.exchange(
+                "http://localhost:" + port + "/api/v1/libraries/doesNotExist/content",
+                GET,
+                HttpEntity.EMPTY,
+                ApiErrorDto.class);
 
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
         assertNotNull(response.getBody());
@@ -59,9 +60,8 @@ class LibraryIntegrationTest {
 
     @Test
     void shouldGetLibrary() {
-        ResponseEntity<byte[]> response = restTemplate.exchange("http://localhost:" + port
-                + "/api/v1/libraries/test.js/content",
-            GET, HttpEntity.EMPTY, byte[].class);
+        ResponseEntity<byte[]> response = restTemplate.exchange(
+                "http://localhost:" + port + "/api/v1/libraries/test.js/content", GET, HttpEntity.EMPTY, byte[].class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());

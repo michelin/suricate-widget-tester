@@ -16,7 +16,6 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
 package com.michelin.suricate.widget.tester.integration;
 
 import static org.junit.jupiter.api.Assertions.assertIterableEquals;
@@ -51,20 +50,20 @@ class CategoryIntegrationTest {
 
     @Test
     void shouldGetCategoryDirectories() {
-        ResponseEntity<List<CategoryDirectoryDto>> response = restTemplate.exchange("http://localhost:" + port
-                + "/api/v1/categories/directories",
-            GET, HttpEntity.EMPTY, new ParameterizedTypeReference<>() {
-            });
+        ResponseEntity<List<CategoryDirectoryDto>> response = restTemplate.exchange(
+                "http://localhost:" + port + "/api/v1/categories/directories",
+                GET,
+                HttpEntity.EMPTY,
+                new ParameterizedTypeReference<>() {});
 
         assertNotNull(response.getBody());
-        assertIterableEquals(List.of("github", "gitlab", "other"), response.getBody().stream()
-            .map(CategoryDirectoryDto::getName)
-            .toList());
+        assertIterableEquals(
+                List.of("github", "gitlab", "other"),
+                response.getBody().stream().map(CategoryDirectoryDto::getName).toList());
 
-        Optional<CategoryDirectoryDto> github = response.getBody()
-            .stream()
-            .filter(category -> category.getName().equals("github"))
-            .findFirst();
+        Optional<CategoryDirectoryDto> github = response.getBody().stream()
+                .filter(category -> category.getName().equals("github"))
+                .findFirst();
 
         assertTrue(github.isPresent());
         assertIterableEquals(List.of("count-issues"), github.get().getWidgets());

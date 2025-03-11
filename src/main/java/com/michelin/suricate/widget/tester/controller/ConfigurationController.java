@@ -16,7 +16,6 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
 package com.michelin.suricate.widget.tester.controller;
 
 import com.michelin.suricate.widget.tester.model.dto.config.ConfigurationDto;
@@ -28,9 +27,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * Library controller.
- */
+/** Library controller. */
 @RestController
 @RequestMapping("/api")
 public class ConfigurationController {
@@ -44,11 +41,10 @@ public class ConfigurationController {
      */
     @GetMapping(value = "/v1/configurations/repository")
     public ResponseEntity<ConfigurationDto> getRepository() {
-        return ResponseEntity
-            .ok()
-            .contentType(MediaType.APPLICATION_JSON)
-            .body(ConfigurationDto.builder()
-                .repository(applicationProperties.getWidgets().getRepository())
-                .build());
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(ConfigurationDto.builder()
+                        .repository(applicationProperties.getWidgets().getRepository())
+                        .build());
     }
 }

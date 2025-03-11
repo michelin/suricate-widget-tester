@@ -16,7 +16,6 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
 package com.michelin.suricate.widget.tester.service.api;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -50,9 +49,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-/**
- * Widget service.
- */
+/** Widget service. */
 @Slf4j
 @Service
 public class WidgetService {
@@ -66,11 +63,10 @@ public class WidgetService {
     private ApplicationProperties applicationProperties;
 
     /**
-     * Get the widget according to the given widget path.
-     * Load the category parameters as widget parameters
+     * Get the widget according to the given widget path. Load the category parameters as widget parameters
      *
      * @param category The category
-     * @param widget   The widget
+     * @param widget The widget
      * @return The widget
      */
     public WidgetDto getWidget(String category, String widget) throws IOException {
@@ -104,10 +100,10 @@ public class WidgetService {
         StringBuilder propertiesBuilder = new StringBuilder();
 
         widgetExecutionRequestDto.getParameters().forEach(parameter -> propertiesBuilder
-            .append(parameter.getName())
-            .append("=")
-            .append(parameter.getValue().replace("\n", "\\n"))
-            .append("\n"));
+                .append(parameter.getName())
+                .append("=")
+                .append(parameter.getValue().replace("\n", "\\n"))
+                .append("\n"));
 
         ProjectWidgetResponseDto projectWidgetResponseDto = new ProjectWidgetResponseDto();
         projectWidgetResponseDto.setId(1L);
@@ -121,19 +117,17 @@ public class WidgetService {
         String data = "{}";
 
         JsExecutionDto jsExecutionDto = new JsExecutionDto(
-            propertiesBuilder.toString(),
-            widget.getBackendJs(),
-            widgetExecutionRequestDto.getPreviousData(),
-            1L,
-            1L,
-            widget.getDelay(), new Date()
-        );
+                propertiesBuilder.toString(),
+                widget.getBackendJs(),
+                widgetExecutionRequestDto.getPreviousData(),
+                1L,
+                1L,
+                widget.getDelay(),
+                new Date());
 
         if (jsExecutionService.isJsExecutable(jsExecutionDto)) {
-            JsExecutionAsyncTask jsExecutionAsyncTask = new JsExecutionAsyncTask(
-                jsExecutionDto,
-                WidgetUtils.getWidgetParametersForJsExecution(widget)
-            );
+            JsExecutionAsyncTask jsExecutionAsyncTask =
+                    new JsExecutionAsyncTask(jsExecutionDto, WidgetUtils.getWidgetParametersForJsExecution(widget));
 
             JsResultDto jsResultDto = jsExecutionAsyncTask.call();
 
@@ -150,18 +144,16 @@ public class WidgetService {
 
         // Success
         projectWidgetResponseDto.setInstantiateHtml(
-            instantiateProjectWidgetHtml(widget, data, propertiesBuilder.toString())
-        );
+                instantiateProjectWidgetHtml(widget, data, propertiesBuilder.toString()));
 
         return projectWidgetResponseDto;
     }
 
     /**
-     * Instantiate the HTML of a widget with the data resulting from
-     * the Js execution.
+     * Instantiate the HTML of a widget with the data resulting from the Js execution.
      *
-     * @param widget        The widget
-     * @param data          The computed data
+     * @param widget The widget
+     * @param data The computed data
      * @param backendConfig The widget configuration
      * @return The instantiated HTML
      */
@@ -172,8 +164,7 @@ public class WidgetService {
         String instantiateHtml = widget.getHtmlContent();
         if (StringUtils.isNotEmpty(data)) {
             try {
-                map = objectMapper.readValue(data, new TypeReference<>() {
-                });
+                map = objectMapper.readValue(data, new TypeReference<>() {});
 
                 // Add backend config
                 map.putAll(PropertiesUtils.convertStringWidgetPropertiesToMap(backendConfig));
@@ -191,10 +182,8 @@ public class WidgetService {
 
             StringWriter stringWriter = new StringWriter();
             try {
-                Mustache mustache = mustacheFactory.compile(
-                    new StringReader(instantiateHtml),
-                    widget.getTechnicalName()
-                );
+                Mustache mustache =
+                        mustacheFactory.compile(new StringReader(instantiateHtml), widget.getTechnicalName());
                 mustache.execute(stringWriter, map);
             } catch (MustacheException me) {
                 log.error("Error with mustache template for widget {}", widget.getTechnicalName(), me);

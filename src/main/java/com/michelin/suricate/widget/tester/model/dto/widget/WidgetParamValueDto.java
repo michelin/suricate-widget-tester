@@ -16,7 +16,6 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
 package com.michelin.suricate.widget.tester.model.dto.widget;
 
 import lombok.EqualsAndHashCode;
@@ -25,9 +24,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-/**
- * Widget param value DTO.
- */
+/** Widget param value DTO. */
 @Getter
 @Setter
 @NoArgsConstructor

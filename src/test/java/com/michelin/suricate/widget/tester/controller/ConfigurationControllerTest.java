@@ -16,7 +16,6 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
 package com.michelin.suricate.widget.tester.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -43,8 +42,7 @@ class ConfigurationControllerTest {
 
     @Test
     void shouldGetRepository() {
-        when(applicationProperties.getWidgets())
-            .thenReturn(new ApplicationProperties.Widgets());
+        when(applicationProperties.getWidgets()).thenReturn(new ApplicationProperties.Widgets());
 
         ResponseEntity<ConfigurationDto> actual = configurationController.getRepository();
 

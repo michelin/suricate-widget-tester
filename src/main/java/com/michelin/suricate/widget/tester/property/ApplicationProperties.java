@@ -16,7 +16,6 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
 package com.michelin.suricate.widget.tester.property;
 
 import lombok.Getter;
@@ -25,9 +24,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
 
-/**
- * Application properties.
- */
+/** Application properties. */
 @Getter
 @Setter
 @Configuration
@@ -36,9 +33,7 @@ public class ApplicationProperties {
     private CorsConfiguration cors;
     private Widgets widgets;
 
-    /**
-     * Widgets properties.
-     */
+    /** Widgets properties. */
     @Getter
     @Setter
     public static class Widgets {

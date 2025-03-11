@@ -16,7 +16,6 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
 package com.michelin.suricate.widget.tester.util;
 
 import java.io.IOException;
@@ -29,9 +28,7 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
-/**
- * Properties utils.
- */
+/** Properties utils. */
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class PropertiesUtils {
@@ -70,8 +67,10 @@ public final class PropertiesUtils {
                 properties = new Properties();
                 properties.load(reader);
             } catch (IOException e) {
-                log.error("An error has occurred converting widget parameters values from string to Properties: {}",
-                    widgetProperties, e);
+                log.error(
+                        "An error has occurred converting widget parameters values from string to Properties: {}",
+                        widgetProperties,
+                        e);
             }
         }
 

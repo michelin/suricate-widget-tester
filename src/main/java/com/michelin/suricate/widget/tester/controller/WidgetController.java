@@ -16,7 +16,6 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
 package com.michelin.suricate.widget.tester.controller;
 
 import com.michelin.suricate.widget.tester.model.dto.api.ProjectWidgetResponseDto;
@@ -38,9 +37,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * Widget controller.
- */
+/** Widget controller. */
 @RestController
 @RequestMapping("/api")
 public class WidgetController {
@@ -51,19 +48,16 @@ public class WidgetController {
      * Get the widget parameters according to a given path.
      *
      * @param category The category
-     * @param widget   The widget
+     * @param widget The widget
      * @return The widget parameters
      * @throws IOException Exception thrown if an error occurred while reading the widget file
      */
     @GetMapping(value = "/v1/widgets/parameters")
-    public ResponseEntity<List<WidgetParamDto>> getWidgetParameters(@RequestParam String category,
-                                                                    @RequestParam String widget) throws IOException {
+    public ResponseEntity<List<WidgetParamDto>> getWidgetParameters(
+            @RequestParam String category, @RequestParam String widget) throws IOException {
         WidgetDto widgetDto = widgetService.getWidget(category, widget);
 
-        return ResponseEntity
-            .ok()
-            .contentType(MediaType.APPLICATION_JSON)
-            .body(widgetDto.getWidgetParams());
+        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(widgetDto.getWidgetParams());
     }
 
     /**
@@ -75,16 +69,13 @@ public class WidgetController {
      */
     @PostMapping(value = "/v1/widgets/run")
     public ResponseEntity<ProjectWidgetResponseDto> runWidget(
-        @RequestBody WidgetExecutionRequestDto widgetExecutionRequestDto) throws IOException {
+            @RequestBody WidgetExecutionRequestDto widgetExecutionRequestDto) throws IOException {
         ProjectWidgetResponseDto projectWidgetResponseDto = widgetService.runWidget(widgetExecutionRequestDto);
 
         if (projectWidgetResponseDto.getLog() != null) {
             throw new ApiException(projectWidgetResponseDto.getLog(), ApiErrorEnum.INTERNAL_SERVER_ERROR);
         }
 
-        return ResponseEntity
-            .ok()
-            .contentType(MediaType.APPLICATION_JSON)
-            .body(projectWidgetResponseDto);
+        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(projectWidgetResponseDto);
     }
 }
