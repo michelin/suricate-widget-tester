@@ -27,7 +27,7 @@ To contribute to Suricate Widget Tester:
 - Clone the project to your machine
 - Create a branch from the `master` branch
 - Make your changes and commit them to your branch
-- FPush your changes to your fork
+- Push your changes to your fork
 - Open a merge request to the `master` branch of the Suricate Widget Tester repository so that we can review your changes
 
 ## Style Guide
