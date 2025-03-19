@@ -39,6 +39,7 @@
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <sonar.organization>michelin</sonar.organization>
         <sonar.projectKey>michelin_suricate-widget-tester</sonar.projectKey>
+        <sonar.qualitygate.wait>true</sonar.qualitygate.wait>
         <spotless-maven-plugin.version>2.44.3</spotless-maven-plugin.version>
     </properties>
 
