@@ -1,9 +1,15 @@
-name: Push Master
+name: Build
 
 on:
   push:
     branches:
       - 'master'
+  pull_request:
+    branches:
+      - 'master'
+      - 'hotfix/v*.*.*'
+  schedule:
+    - cron: '0 5 * * 1'
 
 jobs:
   back-end:
@@ -48,14 +54,31 @@ jobs:
         with:
           report_paths: 'target/surefire-reports/TEST-*.xml'
 
-      - name: Upload
+      - name: Grype source code
+        id: grype_source_code
+        uses: anchore/scan-action@v6
+        with:
+          path: .
+          fail-build: true
+          severity-cutoff: high
+          only-fixed: true
+
+      - name: Upload Grype source code report
+        if: always() && steps.grype_source_code.outputs.sarif != ''
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: ${{ steps.grype_source_code.outputs.sarif }}
+          category: 'source-code'
+
+      - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: jar
           path: ${{ github.workspace }}/target/suricate-widget-tester.jar
 
       - name: Sonar
-        run: mvn verify sonar:sonar -DcentralAnalyzerEnabled=false
+        if: github.event.pull_request.head.repo.fork == false
+        run: mvn verify sonar:sonar
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
