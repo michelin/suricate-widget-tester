@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.4.1</version>
+        <version>3.4.4</version>
     </parent>
 
     <groupId>com.michelin.suricate</groupId>
@@ -43,7 +43,6 @@
     </properties>
 
     <dependencies>
-
         <dependency>
             <groupId>com.fasterxml.jackson.dataformat</groupId>
             <artifactId>jackson-dataformat-yaml</artifactId>
@@ -275,7 +274,7 @@
                                     <goal>install-node-and-npm</goal>
                                 </goals>
                                 <configuration>
-                                    <nodeVersion>v22.13.0</nodeVersion>
+                                    <nodeVersion>v22.14.0</nodeVersion>
                                 </configuration>
                             </execution>
 
