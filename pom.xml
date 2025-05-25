@@ -274,7 +274,7 @@
                                     <goal>install-node-and-npm</goal>
                                 </goals>
                                 <configuration>
-                                    <nodeVersion>v22.14.0</nodeVersion>
+                                    <nodeVersion>v22.16.0</nodeVersion>
                                 </configuration>
                             </execution>
 
