@@ -1,3 +1,6 @@
 application:
   widgets:
     repository: 'src/test/resources/repository'
+spring:
+  main:
+    banner-mode: 'off'

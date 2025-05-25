@@ -30,11 +30,10 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
+import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 /** Web configuration. */
 @Configuration
@@ -52,10 +51,7 @@ public class WebConfig implements WebMvcConfigurer {
      * @throws Exception When an error occurred
      */
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http, HandlerMappingIntrospector introspector)
-            throws Exception {
-        MvcRequestMatcher.Builder mvcMatcherBuilder = new MvcRequestMatcher.Builder(introspector);
-
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http.cors(corsConfigurer -> corsConfigurer.configurationSource(corsConfiguration()))
                 .sessionManagement(sessionManagementConfigurer ->
                         sessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -65,10 +61,12 @@ public class WebConfig implements WebMvcConfigurer {
                 .authorizeHttpRequests(authorizeRequestsConfigurer -> authorizeRequestsConfigurer
                         .requestMatchers(CorsUtils::isPreFlightRequest)
                         .permitAll()
-                        .requestMatchers(mvcMatcherBuilder.pattern("/api/**"))
+                        .requestMatchers(
+                                PathPatternRequestMatcher.withDefaults().matcher("/api/**"))
                         .permitAll()
                         // Front-End
-                        .requestMatchers(mvcMatcherBuilder.pattern(HttpMethod.GET, "/**"))
+                        .requestMatchers(
+                                PathPatternRequestMatcher.withDefaults().matcher(HttpMethod.GET, "/**"))
                         .permitAll())
                 .build();
     }
