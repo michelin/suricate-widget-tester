@@ -51,8 +51,7 @@ public class WebConfig implements WebMvcConfigurer {
      * @throws Exception When an error occurred
      */
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http)
-            throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http.cors(corsConfigurer -> corsConfigurer.configurationSource(corsConfiguration()))
                 .sessionManagement(sessionManagementConfigurer ->
                         sessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -62,10 +61,12 @@ public class WebConfig implements WebMvcConfigurer {
                 .authorizeHttpRequests(authorizeRequestsConfigurer -> authorizeRequestsConfigurer
                         .requestMatchers(CorsUtils::isPreFlightRequest)
                         .permitAll()
-                        .requestMatchers(PathPatternRequestMatcher.withDefaults().matcher("/api/**"))
+                        .requestMatchers(
+                                PathPatternRequestMatcher.withDefaults().matcher("/api/**"))
                         .permitAll()
                         // Front-End
-                        .requestMatchers(PathPatternRequestMatcher.withDefaults().matcher(HttpMethod.GET,"/**"))
+                        .requestMatchers(
+                                PathPatternRequestMatcher.withDefaults().matcher(HttpMethod.GET, "/**"))
                         .permitAll())
                 .build();
     }
