@@ -1,13 +1,13 @@
 application:
   cors:
-    allowedHeaders: 'Content-Type, Accept, Authorization, X-Requested-With'
-    allowedMethods: 'GET,POST,OPTIONS,DELETE,PUT'
-    allowedOrigins: '*'
+    allowedHeaders: "Content-Type, Accept, Authorization, X-Requested-With"
+    allowedMethods: "GET,POST,OPTIONS,DELETE,PUT"
+    allowedOrigins: "*"
     maxAge: 3600
   widgets:
-    repository: '/tmp'
+    repository: "/tmp"
 server:
   port: 8085
 spring:
   autoconfigure:
-    exclude: 'org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration'
+    exclude: "org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration"
