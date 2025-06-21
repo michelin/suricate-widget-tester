@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 
 import { SpinnerComponent } from '../../../../shared/components/spinner/spinner.component';
 import { WidgetHtmlDirective } from '../../../../shared/directives/widget-html.directive';
@@ -14,6 +14,8 @@ import { LibraryService } from '../../../services/library/library.service';
   imports: [NgClass, SpinnerComponent, WidgetHtmlDirective, SafeHtmlPipe]
 })
 export class DashboardScreenWidgetComponent implements OnInit {
+  private readonly libraryService = inject(LibraryService);
+
   /**
    * The projectWidget to display
    */
@@ -24,11 +26,6 @@ export class DashboardScreenWidgetComponent implements OnInit {
    * Is the widget loading or not
    */
   public loading = true;
-
-  /**
-   * Constructor
-   */
-  constructor(private readonly libraryService: LibraryService) {}
 
   /**
    * Init method

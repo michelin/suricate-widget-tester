@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnChanges, Renderer2, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, Input, OnChanges, Renderer2, SimpleChanges, ViewChild } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import {
   KtdGridComponent,
@@ -27,6 +27,9 @@ declare global {
   imports: [MatIcon, KtdGridComponent, KtdGridItemComponent, DashboardScreenWidgetComponent, KtdGridItemPlaceholder]
 })
 export class DashboardScreenComponent implements OnChanges {
+  private readonly renderer = inject(Renderer2);
+  private readonly libraryService = inject(LibraryService);
+
   /**
    * Reference on the span containing all the required JS libraries
    */
@@ -54,17 +57,6 @@ export class DashboardScreenComponent implements OnChanges {
    * All the grids of the dashboard
    */
   public currentGrid: KtdGridLayout = [];
-
-  /**
-   * Constructor
-   *
-   * @param renderer The renderer Angular entity
-   * @param libraryService Front-End service used to manage the libraries
-   */
-  constructor(
-    private readonly renderer: Renderer2,
-    private readonly libraryService: LibraryService
-  ) {}
 
   /**
    * Changes method

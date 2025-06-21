@@ -1,5 +1,5 @@
 import { NgOptimizedImage } from '@angular/common';
-import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, inject, OnInit, Output, ViewChild } from '@angular/core';
 import {
   FormsModule,
   NgForm,
@@ -50,6 +50,11 @@ import { FileUtils } from '../../services/utils/file.utils';
   ]
 })
 export class WidgetConfigurationComponent implements OnInit {
+  private readonly formBuilder = inject(UntypedFormBuilder);
+  private readonly httpWidgetService = inject(HttpWidgetService);
+  private readonly httpConfigurationService = inject(HttpConfigurationService);
+  private readonly httpCategoryService = inject(HttpCategoryService);
+
   /**
    * The widget form
    */
@@ -112,21 +117,6 @@ export class WidgetConfigurationComponent implements OnInit {
    * The selected widget
    */
   public selectedWidget: string;
-
-  /**
-   * Constructor
-   *
-   * @param formBuilder The form builder service
-   * @param httpWidgetService The http widget service
-   * @param httpConfigurationService The http configuration service
-   * @param httpCategoryService The http category service
-   */
-  constructor(
-    private readonly formBuilder: UntypedFormBuilder,
-    private readonly httpWidgetService: HttpWidgetService,
-    private readonly httpConfigurationService: HttpConfigurationService,
-    private readonly httpCategoryService: HttpCategoryService
-  ) {}
 
   /**
    * On init
