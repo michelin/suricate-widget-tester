@@ -1,7 +1,7 @@
 /**
  * Transform a string into a SafeHtml
  */
-import { Pipe, PipeTransform } from '@angular/core';
+import { inject, Pipe, PipeTransform } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Pipe({
@@ -9,11 +9,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
   standalone: true
 })
 export class SafeHtmlPipe implements PipeTransform {
-  /**
-   * The constructor
-   * @param domSanitizer The dom sanitizer service
-   */
-  constructor(private readonly domSanitizer: DomSanitizer) {}
+  private readonly domSanitizer = inject(DomSanitizer);
 
   /**
    * The transform function

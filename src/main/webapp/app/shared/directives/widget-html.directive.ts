@@ -1,4 +1,4 @@
-import { Directive, ElementRef, OnInit } from '@angular/core';
+import { Directive, ElementRef, inject, OnInit } from '@angular/core';
 
 /**
  * Directive for Widget's JS scripts
@@ -8,12 +8,7 @@ import { Directive, ElementRef, OnInit } from '@angular/core';
   standalone: true
 })
 export class WidgetHtmlDirective implements OnInit {
-  /**
-   * Constructor
-   *
-   * @param elementRef The reference to the element where the directive is set
-   */
-  constructor(private readonly elementRef: ElementRef) {}
+  private readonly elementRef = inject(ElementRef);
 
   /**
    * Init method
