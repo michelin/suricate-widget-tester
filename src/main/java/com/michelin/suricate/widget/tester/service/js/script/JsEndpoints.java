@@ -92,7 +92,9 @@ public final class JsEndpoints {
                             + response.request().method() + " "
                             + response.request().url() + " (code " + response.code()
                             + "). Error body details: "
-                            + (response.body() != null && StringUtils.isNotBlank(response.body().string())
+                            + (response.body() != null
+                                            && StringUtils.isNotBlank(
+                                                    response.body().string())
                                     ? Objects.requireNonNull(response.body()).string()
                                     : "Empty body"));
                 }
