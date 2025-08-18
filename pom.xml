@@ -288,7 +288,7 @@
                                     <goal>install-node-and-npm</goal>
                                 </goals>
                                 <configuration>
-                                    <nodeVersion>v24.2.0</nodeVersion>
+                                    <nodeVersion>v24.4.1</nodeVersion>
                                 </configuration>
                             </execution>
 
