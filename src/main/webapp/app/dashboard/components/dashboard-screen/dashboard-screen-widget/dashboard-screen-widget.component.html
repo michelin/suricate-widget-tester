@@ -1,20 +1,22 @@
-<div
-  class="widget"
-  [ngClass]="projectWidget?.technicalName + ' widget-1'">
-  @if (loading) {
-    <suricate-spinner color="accent"></suricate-spinner>
-  }
+<div class="widget" [ngClass]="projectWidget?.technicalName + ' widget-1'">
+	@if (loading) {
+		<suricate-spinner color="accent"></suricate-spinner>
+	}
 
-  @if (!loading) {
-    <!--------------------------------------------------->
-    <!--                 WIDGET CSS                    -->
-    <!--------------------------------------------------->
-    <span [innerHTML]="'<style>' + projectWidget?.cssContent + '</style>' | safeHtml"> </span>
-    <!--------------------------------------------------->
-    <!--                 WIDGET HTML                   -->
-    <!--------------------------------------------------->
-    <div class="grid-stack-item-content">
-      <div class="widget-html-content" widgetHtmlDirective [innerHTML]="projectWidget?.instantiateHtml! | safeHtml"></div>
-    </div>
-  }
+	@if (!loading) {
+		<!--------------------------------------------------->
+		<!--                 WIDGET CSS                    -->
+		<!--------------------------------------------------->
+		<span [innerHTML]="'<style>' + projectWidget?.cssContent + '</style>' | safeHtml"> </span>
+		<!--------------------------------------------------->
+		<!--                 WIDGET HTML                   -->
+		<!--------------------------------------------------->
+		<div class="grid-stack-item-content">
+			<div
+				class="widget-html-content"
+				widgetHtmlDirective
+				[innerHTML]="projectWidget?.instantiateHtml! | safeHtml"
+			></div>
+		</div>
+	}
 </div>

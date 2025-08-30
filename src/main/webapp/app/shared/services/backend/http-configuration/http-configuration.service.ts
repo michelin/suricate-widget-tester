@@ -6,22 +6,22 @@ import { Configuration } from '../../../models/config/configuration';
 import { AbstractHttpService } from '../abstract-http/abstract-http.service';
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root'
 })
 export class HttpConfigurationService {
-  private readonly httpClient = inject(HttpClient);
+	private readonly httpClient = inject(HttpClient);
 
-  /**
-   * Widgets API endpoint
-   */
-  public static readonly configurationsApiEndpoint = `${AbstractHttpService.baseApiEndpoint}/v1`;
+	/**
+	 * Widgets API endpoint
+	 */
+	public static readonly configurationsApiEndpoint = `${AbstractHttpService.baseApiEndpoint}/v1`;
 
-  /**
-   * Get the configured widget repository
-   */
-  public getRepository(): Observable<Configuration> {
-    const url = `${HttpConfigurationService.configurationsApiEndpoint}/configurations/repository`;
+	/**
+	 * Get the configured widget repository
+	 */
+	public getRepository(): Observable<Configuration> {
+		const url = `${HttpConfigurationService.configurationsApiEndpoint}/configurations/repository`;
 
-    return this.httpClient.get<Configuration>(url);
-  }
+		return this.httpClient.get<Configuration>(url);
+	}
 }

@@ -1,3 +1,3 @@
 export interface Configuration {
-  repository: string;
+	repository: string;
 }

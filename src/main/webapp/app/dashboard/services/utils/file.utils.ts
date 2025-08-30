@@ -22,40 +22,40 @@ import { Observable, Observer } from 'rxjs';
  * Utils class for images
  */
 export class FileUtils {
-  /**
-   * Convert a file into base 64
-   *
-   * @param file The file to convert
-   */
-  public static convertFileToBase64(file: File): Observable<string | ArrayBuffer> {
-    return new Observable((observer: Observer<string | ArrayBuffer>) => {
-      const fileReader = new FileReader();
+	/**
+	 * Convert a file into base 64
+	 *
+	 * @param file The file to convert
+	 */
+	public static convertFileToBase64(file: File): Observable<string | ArrayBuffer> {
+		return new Observable((observer: Observer<string | ArrayBuffer>) => {
+			const fileReader = new FileReader();
 
-      fileReader.onerror = (err: ProgressEvent<FileReader>) => observer.error(err);
-      fileReader.onabort = (err: ProgressEvent<FileReader>) => observer.error(err);
-      fileReader.onload = () => {
-        if (fileReader.result) {
-          observer.next(fileReader.result);
-        }
-      };
-      fileReader.onloadend = () => observer.complete();
+			fileReader.onerror = (err: ProgressEvent<FileReader>) => observer.error(err);
+			fileReader.onabort = (err: ProgressEvent<FileReader>) => observer.error(err);
+			fileReader.onload = () => {
+				if (fileReader.result) {
+					observer.next(fileReader.result);
+				}
+			};
+			fileReader.onloadend = () => observer.complete();
 
-      fileReader.readAsDataURL(file);
+			fileReader.readAsDataURL(file);
 
-      return () => {
-        fileReader.abort();
-      };
-    });
-  }
+			return () => {
+				fileReader.abort();
+			};
+		});
+	}
 
-  /**
-   * Test if the base 64 url is an image
-   * @param base64Url The base 64 url to test
-   */
-  public static isBase64UrlIsAnImage(base64Url: string) {
-    const base64ImagePattern = '^data:image/(gif|jpe?g|png);base64,.+$';
-    const regexp = new RegExp(base64ImagePattern);
+	/**
+	 * Test if the base 64 url is an image
+	 * @param base64Url The base 64 url to test
+	 */
+	public static isBase64UrlIsAnImage(base64Url: string) {
+		const base64ImagePattern = '^data:image/(gif|jpe?g|png);base64,.+$';
+		const regexp = new RegExp(base64ImagePattern);
 
-    return regexp.test(base64Url);
-  }
+		return regexp.test(base64Url);
+	}
 }

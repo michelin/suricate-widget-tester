@@ -6,23 +6,23 @@ import { WidgetConfigurationComponent } from './dashboard/components/widget-conf
 import { WidgetExecutionResult } from './shared/models/widget-execution/widget-execution-result/widget-execution-result';
 
 @Component({
-  selector: 'suricate-widget-tester-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
-  imports: [WidgetConfigurationComponent, DashboardScreenComponent, MatDivider]
+	selector: 'suricate-widget-tester-root',
+	templateUrl: './app.component.html',
+	styleUrls: ['./app.component.scss'],
+	imports: [WidgetConfigurationComponent, DashboardScreenComponent, MatDivider]
 })
 export class AppComponent {
-  /**
-   * The widget execution result
-   */
-  public widgetExecutionResult: WidgetExecutionResult;
+	/**
+	 * The widget execution result
+	 */
+	public widgetExecutionResult: WidgetExecutionResult;
 
-  /**
-   * Set the widget execution result from the child component
-   *
-   * @param widgetExecutionResult The widget execution result
-   */
-  public setWidgetExecutionResult(widgetExecutionResult: WidgetExecutionResult) {
-    this.widgetExecutionResult = widgetExecutionResult;
-  }
+	/**
+	 * Set the widget execution result from the child component
+	 *
+	 * @param widgetExecutionResult The widget execution result
+	 */
+	public setWidgetExecutionResult(widgetExecutionResult: WidgetExecutionResult) {
+		this.widgetExecutionResult = widgetExecutionResult;
+	}
 }

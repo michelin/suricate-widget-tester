@@ -20,8 +20,8 @@ import { DataTypeEnum } from '../../../enums/data-type.enum';
 import { WidgetParameterValue } from '../../../models/widget-parameter/widget-parameter-value';
 
 export interface FormField {
-  name: string;
-  type: DataTypeEnum;
-  required: boolean;
-  possibleValues: WidgetParameterValue[];
+	name: string;
+	type: DataTypeEnum;
+	required: boolean;
+	possibleValues: WidgetParameterValue[];
 }

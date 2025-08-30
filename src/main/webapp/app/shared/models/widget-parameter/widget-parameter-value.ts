@@ -1,4 +1,4 @@
 export interface WidgetParameterValue {
-  jsKey: string;
-  value: string;
+	jsKey: string;
+	value: string;
 }
