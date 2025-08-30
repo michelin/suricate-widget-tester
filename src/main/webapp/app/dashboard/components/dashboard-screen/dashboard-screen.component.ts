@@ -1,10 +1,10 @@
 import { Component, ElementRef, inject, Input, OnChanges, Renderer2, SimpleChanges, ViewChild } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import {
-  KtdGridComponent,
-  KtdGridItemComponent,
-  KtdGridItemPlaceholder,
-  KtdGridLayout
+	KtdGridComponent,
+	KtdGridItemComponent,
+	KtdGridItemPlaceholder,
+	KtdGridLayout
 } from '@katoid/angular-grid-layout';
 
 import { GridOptions } from '../../../shared/models/grid/grid-options';
@@ -15,163 +15,163 @@ import { LibraryService } from '../../services/library/library.service';
 import { DashboardScreenWidgetComponent } from './dashboard-screen-widget/dashboard-screen-widget.component';
 
 declare global {
-  interface Window {
-    page_loaded: boolean;
-  }
+	interface Window {
+		page_loaded: boolean;
+	}
 }
 
 @Component({
-  selector: 'suricate-dashboard-screen',
-  templateUrl: './dashboard-screen.component.html',
-  styleUrls: ['./dashboard-screen.component.scss'],
-  imports: [MatIcon, KtdGridComponent, KtdGridItemComponent, DashboardScreenWidgetComponent, KtdGridItemPlaceholder]
+	selector: 'suricate-dashboard-screen',
+	templateUrl: './dashboard-screen.component.html',
+	styleUrls: ['./dashboard-screen.component.scss'],
+	imports: [MatIcon, KtdGridComponent, KtdGridItemComponent, DashboardScreenWidgetComponent, KtdGridItemPlaceholder]
 })
 export class DashboardScreenComponent implements OnChanges {
-  private readonly renderer = inject(Renderer2);
-  private readonly libraryService = inject(LibraryService);
+	private readonly renderer = inject(Renderer2);
+	private readonly libraryService = inject(LibraryService);
 
-  /**
-   * Reference on the span containing all the required JS libraries
-   */
-  @ViewChild('externalJsLibraries')
-  public externalJsLibrariesSpan!: ElementRef<HTMLSpanElement>;
+	/**
+	 * Reference on the span containing all the required JS libraries
+	 */
+	@ViewChild('externalJsLibraries')
+	public externalJsLibrariesSpan!: ElementRef<HTMLSpanElement>;
 
-  /**
-   * The widget execution result
-   */
-  @Input()
-  public widgetExecutionResult: WidgetExecutionResult;
+	/**
+	 * The widget execution result
+	 */
+	@Input()
+	public widgetExecutionResult: WidgetExecutionResult;
 
-  /**
-   * The path of the widget folder
-   */
-  @Input()
-  public widgetPath: string;
+	/**
+	 * The path of the widget folder
+	 */
+	@Input()
+	public widgetPath: string;
 
-  /**
-   * The grid options
-   */
-  public gridOptions: GridOptions;
+	/**
+	 * The grid options
+	 */
+	public gridOptions: GridOptions;
 
-  /**
-   * All the grids of the dashboard
-   */
-  public currentGrid: KtdGridLayout = [];
+	/**
+	 * All the grids of the dashboard
+	 */
+	public currentGrid: KtdGridLayout = [];
 
-  /**
-   * Changes method
-   *
-   * @param changes The changes event
-   */
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['widgetExecutionResult']) {
-      if (!changes['widgetExecutionResult'].previousValue) {
-        // Inject this variable in the window scope because some widgets use it to init the js
-        window.page_loaded = true;
-      }
+	/**
+	 * Changes method
+	 *
+	 * @param changes The changes event
+	 */
+	ngOnChanges(changes: SimpleChanges): void {
+		if (changes['widgetExecutionResult']) {
+			if (!changes['widgetExecutionResult'].previousValue) {
+				// Inject this variable in the window scope because some widgets use it to init the js
+				window.page_loaded = true;
+			}
 
-      this.initGridStackOptions();
-    }
+			this.initGridStackOptions();
+		}
 
-    this.initGrid();
-    this.addExternalJSLibrariesToTheDOM();
-  }
+		this.initGrid();
+		this.addExternalJSLibrariesToTheDOM();
+	}
 
-  /**
-   * Create the list of grid items used to display widgets on the grids
-   */
-  private initGrid(): void {
-    this.currentGrid = [];
-    if (this.widgetExecutionResult?.projectWidget) {
-      this.currentGrid = this.getGridLayoutFromProjectWidgets();
-    }
-  }
+	/**
+	 * Create the list of grid items used to display widgets on the grids
+	 */
+	private initGrid(): void {
+		this.currentGrid = [];
+		if (this.widgetExecutionResult?.projectWidget) {
+			this.currentGrid = this.getGridLayoutFromProjectWidgets();
+		}
+	}
 
-  /**
-   * Init the options for Grid Stack plugin
-   */
-  private initGridStackOptions(): void {
-    this.gridOptions = {
-      cols: 5,
-      rowHeight: 360,
-      gap: 5,
-      draggable: true,
-      resizable: true,
-      compactType: undefined
-    };
-  }
+	/**
+	 * Init the options for Grid Stack plugin
+	 */
+	private initGridStackOptions(): void {
+		this.gridOptions = {
+			cols: 5,
+			rowHeight: 360,
+			gap: 5,
+			draggable: true,
+			resizable: true,
+			compactType: undefined
+		};
+	}
 
-  /**
-   * Get the list of GridItemConfigs from project widget
-   */
-  private getGridLayoutFromProjectWidgets(): KtdGridLayout {
-    const layout: KtdGridLayout = [];
+	/**
+	 * Get the list of GridItemConfigs from project widget
+	 */
+	private getGridLayoutFromProjectWidgets(): KtdGridLayout {
+		const layout: KtdGridLayout = [];
 
-    layout.push({
-      id: String(this.widgetExecutionResult.projectWidget.id),
-      x: 0,
-      y: 0,
-      w: 1,
-      h: 1
-    });
+		layout.push({
+			id: String(this.widgetExecutionResult.projectWidget.id),
+			x: 0,
+			y: 0,
+			w: 1,
+			h: 1
+		});
 
-    return layout;
-  }
+		return layout;
+	}
 
-  /**
-   * For each JS libraries linked with the project, create a script element with the URL of the library
-   * and a callback which notify subscribers when the library is loaded.
-   */
-  public addExternalJSLibrariesToTheDOM(): void {
-    if (this.widgetExecutionResult?.projectWidget) {
-      if (this.widgetExecutionResult.projectWidget.librariesNames) {
-        this.libraryService.numberOfExternalLibrariesToLoad =
-          this.widgetExecutionResult.projectWidget.librariesNames.length;
+	/**
+	 * For each JS libraries linked with the project, create a script element with the URL of the library
+	 * and a callback which notify subscribers when the library is loaded.
+	 */
+	public addExternalJSLibrariesToTheDOM(): void {
+		if (this.widgetExecutionResult?.projectWidget) {
+			if (this.widgetExecutionResult.projectWidget.librariesNames) {
+				this.libraryService.numberOfExternalLibrariesToLoad =
+					this.widgetExecutionResult.projectWidget.librariesNames.length;
 
-        this.widgetExecutionResult.projectWidget.librariesNames.forEach((libraryName) => {
-          const script: HTMLScriptElement = document.createElement('script');
-          script.type = 'text/javascript';
-          script.src = HttpLibraryService.getContentUrl(libraryName);
-          script.onload = () => this.libraryService.markScriptAsLoaded(libraryName);
-          script.async = false;
+				this.widgetExecutionResult.projectWidget.librariesNames.forEach((libraryName) => {
+					const script: HTMLScriptElement = document.createElement('script');
+					script.type = 'text/javascript';
+					script.src = HttpLibraryService.getContentUrl(libraryName);
+					script.onload = () => this.libraryService.markScriptAsLoaded(libraryName);
+					script.async = false;
 
-          this.renderer.appendChild(this.externalJsLibrariesSpan.nativeElement, script);
-        });
-      }
+					this.renderer.appendChild(this.externalJsLibrariesSpan.nativeElement, script);
+				});
+			}
 
-      // No library to load
-      else {
-        this.libraryService.emitAreJSScriptsLoaded(true);
-      }
-    }
-  }
+			// No library to load
+			else {
+				this.libraryService.emitAreJSScriptsLoaded(true);
+			}
+		}
+	}
 
-  /**
-   * When the layout is updated
-   * @param layout The new layout
-   */
-  public onLayoutUpdated(layout: KtdGridLayout) {
-    if (this.isGridItemsHasMoved(layout)) {
-      this.currentGrid = layout;
-    }
-  }
+	/**
+	 * When the layout is updated
+	 * @param layout The new layout
+	 */
+	public onLayoutUpdated(layout: KtdGridLayout) {
+		if (this.isGridItemsHasMoved(layout)) {
+			this.currentGrid = layout;
+		}
+	}
 
-  /**
-   * Checks if the grid elements have been moved
-   */
-  private isGridItemsHasMoved(layout: KtdGridLayout): boolean {
-    let itemHaveBeenMoved = false;
+	/**
+	 * Checks if the grid elements have been moved
+	 */
+	private isGridItemsHasMoved(layout: KtdGridLayout): boolean {
+		let itemHaveBeenMoved = false;
 
-    this.currentGrid.forEach((currentGridItem) => {
-      const gridItemFound = layout.find((newGridItem) => {
-        return currentGridItem.id === newGridItem.id;
-      });
+		this.currentGrid.forEach((currentGridItem) => {
+			const gridItemFound = layout.find((newGridItem) => {
+				return currentGridItem.id === newGridItem.id;
+			});
 
-      if (gridItemFound && GridItemUtils.isItemHaveBeenMoved(currentGridItem, gridItemFound)) {
-        itemHaveBeenMoved = true;
-      }
-    });
+			if (gridItemFound && GridItemUtils.isItemHaveBeenMoved(currentGridItem, gridItemFound)) {
+				itemHaveBeenMoved = true;
+			}
+		});
 
-    return itemHaveBeenMoved;
-  }
+		return itemHaveBeenMoved;
+	}
 }

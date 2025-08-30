@@ -1,120 +1,137 @@
 <div class="title-container">
-  <img ngSrc="../../../../../assets/images/logo.png" width="59" height="59" alt="Suricate"/>
-  <h1 class="title">Suricate Widget Tester</h1>
+	<img ngSrc="../../../../../assets/images/logo.png" width="59" height="59" alt="Suricate" />
+	<h1 class="title">Suricate Widget Tester</h1>
 </div>
 
 <form [formGroup]="runWidgetForm" (ngSubmit)="runWidget()" #widgetForm="ngForm">
-  <div class="widget-configuration">
-    <h2>Widget repository</h2>
-    <p>From <i>{{ repository }}</i></p>
+	<div class="widget-configuration">
+		<h2>Widget repository</h2>
+		<p>
+			From <i>{{ repository }}</i>
+		</p>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Widget</mat-label>
-      <mat-select (selectionChange)="getWidgetParameters($event)" formControlName="path" required>
-        @for (categoryDirectory of categoryDirectories; track categoryDirectory) {
-          <mat-optgroup [label]="categoryDirectory.name" class="bold capitalize">
-            @for (widget of categoryDirectory.widgets; track widget) {
-              <mat-option [value]="categoryDirectory.name + '/' + widget" class="capitalize">{{ widget }}</mat-option>
-            }
-          </mat-optgroup>
-        }
-      </mat-select>
+		<mat-form-field appearance="fill">
+			<mat-label>Widget</mat-label>
+			<mat-select (selectionChange)="getWidgetParameters($event)" formControlName="path" required>
+				@for (categoryDirectory of categoryDirectories; track categoryDirectory) {
+					<mat-optgroup [label]="categoryDirectory.name" class="bold capitalize">
+						@for (widget of categoryDirectory.widgets; track widget) {
+							<mat-option [value]="categoryDirectory.name + '/' + widget" class="capitalize">{{ widget }}</mat-option>
+						}
+					</mat-optgroup>
+				}
+			</mat-select>
 
-      @if (checkError('path', 'required')) {
-        <mat-error>The widget is required</mat-error>
-      }
-    </mat-form-field>
+			@if (checkError('path', 'required')) {
+				<mat-error>The widget is required</mat-error>
+			}
+		</mat-form-field>
 
-    <h2>Previous execution data</h2>
+		<h2>Previous execution data</h2>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Previous execution data</mat-label>
-      <input matInput formControlName="previousData" />
-    </mat-form-field>
+		<mat-form-field appearance="fill">
+			<mat-label>Previous execution data</mat-label>
+			<input matInput formControlName="previousData" />
+		</mat-form-field>
 
-    <div class="run-widget-button-div">
-      <button mat-flat-button color="primary">Run widget</button>
-    </div>
-  </div>
+		<div class="run-widget-button-div">
+			<button mat-flat-button color="primary">Run widget</button>
+		</div>
+	</div>
 
-  <div class="widget-parameters">
-    <div>
-      <h2>Widget parameters</h2>
-      <button mat-flat-button color="primary" type="button" (click)="getWidgetParameters()">Reload</button>
-    </div>
+	<div class="widget-parameters">
+		<div>
+			<h2>Widget parameters</h2>
+			<button mat-flat-button color="primary" type="button" (click)="getWidgetParameters()">Reload</button>
+		</div>
 
-    @if (widgetParamsFormField.length === 0 && !onWidgetPathInputErrorMessage) {
-      <p>No parameters to display</p>
-    }
-    @if (onWidgetPathInputErrorMessage) {
-      <p class="widget-path-error-message">{{ onWidgetPathInputErrorMessage }}</p>
-    }
+		@if (widgetParamsFormField.length === 0 && !onWidgetPathInputErrorMessage) {
+			<p>No parameters to display</p>
+		}
+		@if (onWidgetPathInputErrorMessage) {
+			<p class="widget-path-error-message">{{ onWidgetPathInputErrorMessage }}</p>
+		}
 
-    @for (widgetParameter of widgetParamsFormField; track widgetParameter) {
-      <div class="widget-parameters-container">
-        <div>
-          <mat-form-field appearance="fill">
-            <mat-label>Name</mat-label>
-            <input matInput [formControlName]="widgetParameter.name + '-name'" />
-          </mat-form-field>
-        </div>
-        <div>
-          @if ([dataType.NUMBER, dataType.TEXT, dataType.TEXTAREA, dataType.PASSWORD, dataType.COMBO, dataType.MULTIPLE].includes(widgetParameter.type)) {
-            <mat-form-field appearance="fill">
-              <mat-label>Value</mat-label>
-              @if ([dataType.NUMBER, dataType.TEXT, dataType.PASSWORD].includes(widgetParameter.type)) {
-                <input matInput [formControlName]="widgetParameter.name + '-value'"
-                  [required]="widgetParameter.required" [type]="widgetParameter.type.toLowerCase()"/>
-              }
-              @if (widgetParameter.type === dataType.TEXTAREA) {
-                <textarea matInput [formControlName]="widgetParameter.name + '-value'"
-                  [required]="widgetParameter.required"
-                ></textarea>
-              }
-              @if ([dataType.COMBO, dataType.MULTIPLE].includes(widgetParameter.type)) {
-                <mat-select
-                  [formControlName]="widgetParameter.name + '-value'"
-                  [multiple]="widgetParameter.type === dataType.MULTIPLE"
-                  [required]="widgetParameter.required">
-                  @if (!widgetParameter.required && widgetParameter.type === dataType.COMBO) {
-                    <mat-option [value]="">None</mat-option>
-                  }
-                  @for (possibleValue of widgetParameter.possibleValues; track possibleValue) {
-                    <mat-option [value]="possibleValue.jsKey">
-                      {{ possibleValue.value }}
-                    </mat-option>
-                  }
-                </mat-select>
-              }
-            </mat-form-field>
-          }
-          @if (widgetParameter.type === dataType.BOOLEAN) {
-            <mat-checkbox [formControlName]="widgetParameter.name + '-value'"
-              [required]="widgetParameter.required">
-            </mat-checkbox>
-          }
-          @if (widgetParameter.type === dataType.FILE) {
-            <div class="file-upload-wrapper">
-              <button mat-flat-button type="button" color="primary" (click)="file.click()">
-                <mat-icon>cloud_upload</mat-icon>
-                <span>Upload</span>
-              </button>
-              @if (isFileExisting(widgetParameter) && isBase64UrlIsAnImage(widgetParameter)) {
-                <img [src]="getBase64Url(widgetParameter)" alt="Uploaded file" />
-              }
-              @if (isFileExisting(widgetParameter) && !isBase64UrlIsAnImage(widgetParameter)) {
-                <div>
-                  {{ getFileName(widgetParameter) }}
-                </div>
-              }
-              <input #file type="file" (change)="onFileChange($event, widgetParameter)" />
-            </div>
-          }
-          @if (checkError(widgetParameter.name + '-value', 'required')) {
-            <mat-error class="input-error">This field is required</mat-error>
-          }
-        </div>
-      </div>
-    }
-  </div>
+		@for (widgetParameter of widgetParamsFormField; track widgetParameter) {
+			<div class="widget-parameters-container">
+				<div>
+					<mat-form-field appearance="fill">
+						<mat-label>Name</mat-label>
+						<input matInput [formControlName]="widgetParameter.name + '-name'" />
+					</mat-form-field>
+				</div>
+				<div>
+					@if (
+						[
+							dataType.NUMBER,
+							dataType.TEXT,
+							dataType.TEXTAREA,
+							dataType.PASSWORD,
+							dataType.COMBO,
+							dataType.MULTIPLE
+						].includes(widgetParameter.type)
+					) {
+						<mat-form-field appearance="fill">
+							<mat-label>Value</mat-label>
+							@if ([dataType.NUMBER, dataType.TEXT, dataType.PASSWORD].includes(widgetParameter.type)) {
+								<input
+									matInput
+									[formControlName]="widgetParameter.name + '-value'"
+									[required]="widgetParameter.required"
+									[type]="widgetParameter.type.toLowerCase()"
+								/>
+							}
+							@if (widgetParameter.type === dataType.TEXTAREA) {
+								<textarea
+									matInput
+									[formControlName]="widgetParameter.name + '-value'"
+									[required]="widgetParameter.required"
+								></textarea>
+							}
+							@if ([dataType.COMBO, dataType.MULTIPLE].includes(widgetParameter.type)) {
+								<mat-select
+									[formControlName]="widgetParameter.name + '-value'"
+									[multiple]="widgetParameter.type === dataType.MULTIPLE"
+									[required]="widgetParameter.required"
+								>
+									@if (!widgetParameter.required && widgetParameter.type === dataType.COMBO) {
+										<mat-option [value]="">None</mat-option>
+									}
+									@for (possibleValue of widgetParameter.possibleValues; track possibleValue) {
+										<mat-option [value]="possibleValue.jsKey">
+											{{ possibleValue.value }}
+										</mat-option>
+									}
+								</mat-select>
+							}
+						</mat-form-field>
+					}
+					@if (widgetParameter.type === dataType.BOOLEAN) {
+						<mat-checkbox [formControlName]="widgetParameter.name + '-value'" [required]="widgetParameter.required">
+						</mat-checkbox>
+					}
+					@if (widgetParameter.type === dataType.FILE) {
+						<div class="file-upload-wrapper">
+							<button mat-flat-button type="button" color="primary" (click)="file.click()">
+								<mat-icon>cloud_upload</mat-icon>
+								<span>Upload</span>
+							</button>
+							@if (isFileExisting(widgetParameter) && isBase64UrlIsAnImage(widgetParameter)) {
+								<img [src]="getBase64Url(widgetParameter)" alt="Uploaded file" />
+							}
+							@if (isFileExisting(widgetParameter) && !isBase64UrlIsAnImage(widgetParameter)) {
+								<div>
+									{{ getFileName(widgetParameter) }}
+								</div>
+							}
+							<input #file type="file" (change)="onFileChange($event, widgetParameter)" />
+						</div>
+					}
+					@if (checkError(widgetParameter.name + '-value', 'required')) {
+						<mat-error class="input-error">This field is required</mat-error>
+					}
+				</div>
+			</div>
+		}
+	</div>
 </form>

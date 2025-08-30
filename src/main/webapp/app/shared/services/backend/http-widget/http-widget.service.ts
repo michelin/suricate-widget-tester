@@ -8,34 +8,34 @@ import { WidgetParameter } from '../../../models/widget-parameter/widget-paramet
 import { AbstractHttpService } from '../abstract-http/abstract-http.service';
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root'
 })
 export class HttpWidgetService {
-  private readonly httpClient = inject(HttpClient);
+	private readonly httpClient = inject(HttpClient);
 
-  /**
-   * Widgets API endpoint
-   */
-  public static readonly widgetsApiEndpoint = `${AbstractHttpService.baseApiEndpoint}/v1`;
+	/**
+	 * Widgets API endpoint
+	 */
+	public static readonly widgetsApiEndpoint = `${AbstractHttpService.baseApiEndpoint}/v1`;
 
-  /**
-   * Get the widget parameters
-   *
-   * @param category The category
-   * @param widget The widget
-   */
-  public getWidgetParameters(category: string, widget: string): Observable<WidgetParameter[]> {
-    const url = `${HttpWidgetService.widgetsApiEndpoint}/widgets/parameters?category=${category}&widget=${widget}`;
+	/**
+	 * Get the widget parameters
+	 *
+	 * @param category The category
+	 * @param widget The widget
+	 */
+	public getWidgetParameters(category: string, widget: string): Observable<WidgetParameter[]> {
+		const url = `${HttpWidgetService.widgetsApiEndpoint}/widgets/parameters?category=${category}&widget=${widget}`;
 
-    return this.httpClient.get<WidgetParameter[]>(url);
-  }
+		return this.httpClient.get<WidgetParameter[]>(url);
+	}
 
-  /**
-   * Run the widget according to the given parameters
-   */
-  public runWidget(widgetExecutionRequest: WidgetExecutionRequest): Observable<ProjectWidget> {
-    const url = `${HttpWidgetService.widgetsApiEndpoint}/widgets/run`;
+	/**
+	 * Run the widget according to the given parameters
+	 */
+	public runWidget(widgetExecutionRequest: WidgetExecutionRequest): Observable<ProjectWidget> {
+		const url = `${HttpWidgetService.widgetsApiEndpoint}/widgets/run`;
 
-    return this.httpClient.post<ProjectWidget>(url, widgetExecutionRequest);
-  }
+		return this.httpClient.post<ProjectWidget>(url, widgetExecutionRequest);
+	}
 }

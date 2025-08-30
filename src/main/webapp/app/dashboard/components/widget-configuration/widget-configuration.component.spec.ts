@@ -6,21 +6,21 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { WidgetConfigurationComponent } from './widget-configuration.component';
 
 describe('WidgetConfigurationComponent', () => {
-  let component: WidgetConfigurationComponent;
-  let fixture: ComponentFixture<WidgetConfigurationComponent>;
+	let component: WidgetConfigurationComponent;
+	let fixture: ComponentFixture<WidgetConfigurationComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [WidgetConfigurationComponent],
-      providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting(), provideAnimationsAsync()]
-    }).compileComponents();
+	beforeEach(async () => {
+		await TestBed.configureTestingModule({
+			imports: [WidgetConfigurationComponent],
+			providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting(), provideAnimationsAsync()]
+		}).compileComponents();
 
-    fixture = TestBed.createComponent(WidgetConfigurationComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+		fixture = TestBed.createComponent(WidgetConfigurationComponent);
+		component = fixture.componentInstance;
+		fixture.detectChanges();
+	});
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+	it('should create', () => {
+		expect(component).toBeTruthy();
+	});
 });

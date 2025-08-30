@@ -21,16 +21,16 @@ import { TestBed } from '@angular/core/testing';
 import { HttpLibraryService } from './http-library.service';
 
 describe('HttpLibraryService', () => {
-  let service: HttpLibraryService;
+	let service: HttpLibraryService;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [HttpLibraryService]
-    });
-    service = TestBed.inject(HttpLibraryService);
-  });
+	beforeEach(() => {
+		TestBed.configureTestingModule({
+			providers: [HttpLibraryService]
+		});
+		service = TestBed.inject(HttpLibraryService);
+	});
 
-  it('should create', () => {
-    expect(service).toBeTruthy();
-  });
+	it('should create', () => {
+		expect(service).toBeTruthy();
+	});
 });

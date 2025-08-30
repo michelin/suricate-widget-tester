@@ -1,4 +1,4 @@
 export interface CategoryDirectory {
-  name: string;
-  widgets: string[];
+	name: string;
+	widgets: string[];
 }

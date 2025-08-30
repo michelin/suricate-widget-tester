@@ -7,9 +7,9 @@ import { AppComponent } from './app/app.component';
 import { environment } from './environments/environment';
 
 if (environment.production) {
-  enableProdMode();
+	enableProdMode();
 }
 
 bootstrapApplication(AppComponent, {
-  providers: [provideHttpClient(withInterceptorsFromDi()), provideAnimationsAsync()]
+	providers: [provideHttpClient(withInterceptorsFromDi()), provideAnimationsAsync()]
 }).catch((err) => console.error(err));

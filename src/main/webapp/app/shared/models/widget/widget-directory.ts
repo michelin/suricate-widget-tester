@@ -1,4 +1,4 @@
 export interface WidgetDirectory {
-  name: string;
-  category: string;
+	name: string;
+	category: string;
 }

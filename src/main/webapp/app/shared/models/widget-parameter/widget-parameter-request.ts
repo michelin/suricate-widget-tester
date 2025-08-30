@@ -1,4 +1,4 @@
 export interface WidgetParameterRequest {
-  name: string;
-  value: string;
+	name: string;
+	value: string;
 }

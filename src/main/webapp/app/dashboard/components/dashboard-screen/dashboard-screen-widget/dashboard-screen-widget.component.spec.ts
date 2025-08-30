@@ -4,31 +4,31 @@ import { ProjectWidget } from '../../../../shared/models/project-widget/project-
 import { DashboardScreenWidgetComponent } from './dashboard-screen-widget.component';
 
 describe('DashboardScreenWidgetComponent', () => {
-  let component: DashboardScreenWidgetComponent;
-  let fixture: ComponentFixture<DashboardScreenWidgetComponent>;
+	let component: DashboardScreenWidgetComponent;
+	let fixture: ComponentFixture<DashboardScreenWidgetComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [DashboardScreenWidgetComponent]
-    }).compileComponents();
+	beforeEach(async () => {
+		await TestBed.configureTestingModule({
+			imports: [DashboardScreenWidgetComponent]
+		}).compileComponents();
 
-    fixture = TestBed.createComponent(DashboardScreenWidgetComponent);
-    component = fixture.componentInstance;
-    component.projectWidget = buildMockedProjectWidget();
+		fixture = TestBed.createComponent(DashboardScreenWidgetComponent);
+		component = fixture.componentInstance;
+		component.projectWidget = buildMockedProjectWidget();
 
-    fixture.detectChanges();
-  });
+		fixture.detectChanges();
+	});
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+	it('should create', () => {
+		expect(component).toBeTruthy();
+	});
 
-  function buildMockedProjectWidget(): ProjectWidget {
-    return {
-      id: 1,
-      instantiateHtml: '',
-      technicalName: '',
-      cssContent: ''
-    };
-  }
+	function buildMockedProjectWidget(): ProjectWidget {
+		return {
+			id: 1,
+			instantiateHtml: '',
+			technicalName: '',
+			cssContent: ''
+		};
+	}
 });

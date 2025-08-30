@@ -25,17 +25,17 @@ import { AbstractHttpService } from '../abstract-http/abstract-http.service';
  */
 @Injectable({ providedIn: 'root' })
 export class HttpLibraryService {
-  /**
-   * Global assets endpoint
-   */
-  private static readonly librariesApiEndpoint = `${AbstractHttpService.baseApiEndpoint}/v1/libraries`;
+	/**
+	 * Global assets endpoint
+	 */
+	private static readonly librariesApiEndpoint = `${AbstractHttpService.baseApiEndpoint}/v1/libraries`;
 
-  /**
-   * Get the library content url
-   *
-   * @param libraryName The library name
-   */
-  public static getContentUrl(libraryName: string): string {
-    return libraryName ? `${HttpLibraryService.librariesApiEndpoint}/${libraryName}/content` : ``;
-  }
+	/**
+	 * Get the library content url
+	 *
+	 * @param libraryName The library name
+	 */
+	public static getContentUrl(libraryName: string): string {
+		return libraryName ? `${HttpLibraryService.librariesApiEndpoint}/${libraryName}/content` : ``;
+	}
 }
