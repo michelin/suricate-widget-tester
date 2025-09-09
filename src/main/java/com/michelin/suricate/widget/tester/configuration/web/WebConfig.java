@@ -19,10 +19,10 @@
 package com.michelin.suricate.widget.tester.configuration.web;
 
 import com.michelin.suricate.widget.tester.property.ApplicationProperties;
+import com.michelin.suricate.widget.tester.security.ClientRoutingFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -30,7 +30,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -52,22 +52,25 @@ public class WebConfig implements WebMvcConfigurer {
      */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http.cors(corsConfigurer -> corsConfigurer.configurationSource(corsConfiguration()))
+        return http.csrf(AbstractHttpConfigurer::disable)
+                .cors(corsConfigurer -> corsConfigurer.configurationSource(corsConfiguration()))
                 .sessionManagement(sessionManagementConfigurer ->
                         sessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .csrf(AbstractHttpConfigurer::disable)
                 .headers(headersConfigurer ->
                         headersConfigurer.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
+                .addFilterAfter(new ClientRoutingFilter(), BasicAuthenticationFilter.class)
                 .authorizeHttpRequests(authorizeRequestsConfigurer -> authorizeRequestsConfigurer
                         .requestMatchers(CorsUtils::isPreFlightRequest)
                         .permitAll()
-                        .requestMatchers(
-                                PathPatternRequestMatcher.withDefaults().matcher("/api/**"))
+                        // Back-End
+                        .requestMatchers("/api/**")
                         .permitAll()
                         // Front-End
-                        .requestMatchers(
-                                PathPatternRequestMatcher.withDefaults().matcher(HttpMethod.GET, "/**"))
-                        .permitAll())
+                        .requestMatchers("/index.html", "/*.js", "/*.css", "/assets/**", "/media/**")
+                        .permitAll()
+                        // Default
+                        .anyRequest()
+                        .denyAll())
                 .build();
     }
 

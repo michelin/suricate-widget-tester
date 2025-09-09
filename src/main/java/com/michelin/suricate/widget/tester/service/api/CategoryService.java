@@ -47,6 +47,10 @@ public class CategoryService {
         List<CategoryDirectoryDto> categoryDirectoryDtos = new ArrayList<>();
 
         File widgetsDir = new File(applicationProperties.getWidgets().getRepository() + "/content");
+        if (!widgetsDir.exists()) {
+            return List.of();
+        }
+
         try (Stream<Path> categories = Files.list(Paths.get(widgetsDir.getCanonicalPath()))) {
             List<File> categoriesFile = categories
                     .map(Path::toFile)
