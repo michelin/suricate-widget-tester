@@ -5,3 +5,4 @@ target
 node_modules
 .eslintcache
 dist
+package-lock.json
