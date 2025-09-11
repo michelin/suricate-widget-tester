@@ -66,7 +66,15 @@ class ClientRoutingFilterTest {
 
     @ParameterizedTest
     @ValueSource(
-            strings = {"test", "/index.html", "/main.js", "/styles.css", "/images/logo.png", "/favicon.ico", "/api/dashboards"})
+            strings = {
+                "test",
+                "/index.html",
+                "/main.js",
+                "/styles.css",
+                "/images/logo.png",
+                "/favicon.ico",
+                "/api/dashboards"
+            })
     void shouldContinueFilterChain(String uri) throws ServletException, IOException {
         when(request.getContextPath()).thenReturn("");
         when(request.getRequestURI()).thenReturn(uri);
