@@ -14,8 +14,7 @@ describe('DashboardScreenWidget', () => {
 
 		fixture = TestBed.createComponent(DashboardScreenWidget);
 		component = fixture.componentInstance;
-		component.projectWidget = buildMockedProjectWidget();
-
+		fixture.componentRef.setInput('projectWidget', buildMockedProjectWidget());
 		fixture.detectChanges();
 	});
 

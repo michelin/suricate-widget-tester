@@ -26,6 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import com.michelin.suricate.widget.tester.model.dto.js.JsExecutionDto;
 import com.michelin.suricate.widget.tester.model.dto.js.JsResultDto;
 import com.michelin.suricate.widget.tester.model.dto.js.WidgetVariableResponse;
+import com.michelin.suricate.widget.tester.model.enumeration.DataTypeEnum;
 import com.michelin.suricate.widget.tester.model.enumeration.JsExecutionErrorTypeEnum;
 import com.michelin.suricate.widget.tester.util.exception.js.FatalException;
 import com.michelin.suricate.widget.tester.util.exception.js.RemoteException;

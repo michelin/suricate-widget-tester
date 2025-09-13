@@ -1,14 +1,14 @@
 <div class="widget-result-div">
 	<h2>Widget sandbox</h2>
 
-	@if (!widgetExecutionResult) {
+	@if (!widgetExecutionResult()) {
 		<p>No widget to display</p>
 	}
 
-	@if (widgetExecutionResult && widgetExecutionResult.widgetExecutionErrorMessage) {
+	@if (widgetExecutionResult() && widgetExecutionResult().widgetExecutionErrorMessage) {
 		<div class="widget-execution-error">
 			<mat-icon>warning</mat-icon>
-			<p>{{ widgetExecutionResult.widgetExecutionErrorMessage! }}</p>
+			<p>{{ widgetExecutionResult().widgetExecutionErrorMessage! }}</p>
 		</div>
 	}
 
