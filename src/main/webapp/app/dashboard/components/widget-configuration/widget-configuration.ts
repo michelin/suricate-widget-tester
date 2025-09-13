@@ -1,5 +1,5 @@
 import { NgOptimizedImage } from '@angular/common';
-import { Component, EventEmitter, inject, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, inject, OnInit, output, ViewChild } from '@angular/core';
 import {
 	FormsModule,
 	NgForm,
@@ -64,19 +64,13 @@ export class WidgetConfiguration implements OnInit {
 	/**
 	 * Emit the error message of a widget
 	 */
-	@Output()
-	public widgetExecutionResultEmitEvent = new EventEmitter<WidgetExecutionResult>();
+	public widgetExecutionResultEmitEvent = output<WidgetExecutionResult>();
 
 	/**
 	 * The files that have been uploaded
 	 * The key is the form field name
 	 */
 	public files: Record<string, { fileName: string; base64Url: string }> = {};
-
-	/**
-	 * If it's not an image we set the filename
-	 */
-	public filename: string;
 
 	/**
 	 * Form group

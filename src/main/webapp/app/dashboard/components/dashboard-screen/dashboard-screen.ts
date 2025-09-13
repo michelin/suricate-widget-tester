@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, Input, OnChanges, Renderer2, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, input, OnChanges, Renderer2, SimpleChanges, ViewChild } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import {
 	KtdGridComponent,
@@ -39,14 +39,12 @@ export class DashboardScreen implements OnChanges {
 	/**
 	 * The widget execution result
 	 */
-	@Input()
-	public widgetExecutionResult: WidgetExecutionResult;
+	public widgetExecutionResult = input<WidgetExecutionResult>();
 
 	/**
 	 * The path of the widget folder
 	 */
-	@Input()
-	public widgetPath: string;
+	public widgetPath = input<string>();
 
 	/**
 	 * The grid options
@@ -82,7 +80,7 @@ export class DashboardScreen implements OnChanges {
 	 */
 	private initGrid(): void {
 		this.currentGrid = [];
-		if (this.widgetExecutionResult?.projectWidget) {
+		if (this.widgetExecutionResult()?.projectWidget) {
 			this.currentGrid = this.getGridLayoutFromProjectWidgets();
 		}
 	}
@@ -108,7 +106,7 @@ export class DashboardScreen implements OnChanges {
 		const layout: KtdGridLayout = [];
 
 		layout.push({
-			id: String(this.widgetExecutionResult.projectWidget.id),
+			id: String(this.widgetExecutionResult().projectWidget.id),
 			x: 0,
 			y: 0,
 			w: 1,
@@ -123,12 +121,12 @@ export class DashboardScreen implements OnChanges {
 	 * and a callback which notify subscribers when the library is loaded.
 	 */
 	public addExternalJSLibrariesToTheDOM(): void {
-		if (this.widgetExecutionResult?.projectWidget) {
-			if (this.widgetExecutionResult.projectWidget.librariesNames) {
+		if (this.widgetExecutionResult()?.projectWidget) {
+			if (this.widgetExecutionResult().projectWidget.librariesNames) {
 				this.libraryService.numberOfExternalLibrariesToLoad =
-					this.widgetExecutionResult.projectWidget.librariesNames.length;
+					this.widgetExecutionResult().projectWidget.librariesNames.length;
 
-				this.widgetExecutionResult.projectWidget.librariesNames.forEach((libraryName) => {
+				this.widgetExecutionResult().projectWidget.librariesNames.forEach((libraryName) => {
 					const script: HTMLScriptElement = document.createElement('script');
 					script.type = 'text/javascript';
 					script.src = HttpLibraryService.getContentUrl(libraryName);

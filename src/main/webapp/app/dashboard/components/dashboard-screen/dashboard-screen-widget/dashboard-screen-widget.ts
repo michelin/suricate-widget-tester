@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, inject, input, OnInit } from '@angular/core';
 
 import { Spinner } from '../../../../shared/components/spinner/spinner';
 import { WidgetHtmlDirective } from '../../../../shared/directives/widget-html-directive';
@@ -19,8 +19,7 @@ export class DashboardScreenWidget implements OnInit {
 	/**
 	 * The projectWidget to display
 	 */
-	@Input()
-	public projectWidget: ProjectWidget;
+	public projectWidget = input<ProjectWidget>();
 
 	/**
 	 * Is the widget loading or not

@@ -30,13 +30,13 @@
 					[draggable]="gridOptions.draggable"
 					[resizable]="gridOptions.resizable"
 				>
-					<suricate-dashboard-screen-widget [projectWidget]="widgetExecutionResult.projectWidget">
+					<suricate-dashboard-screen-widget [projectWidget]="widgetExecutionResult().projectWidget">
 					</suricate-dashboard-screen-widget>
 					<!-- Background when moving the widget -->
 					<ng-template ktdGridItemPlaceholder>
 						<suricate-dashboard-screen-widget
 							class="grid-placeholder"
-							[projectWidget]="widgetExecutionResult.projectWidget"
+							[projectWidget]="widgetExecutionResult().projectWidget"
 						>
 						</suricate-dashboard-screen-widget>
 					</ng-template>
