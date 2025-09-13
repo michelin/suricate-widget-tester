@@ -5,6 +5,12 @@
   "projects": {
     "widget-tester-frontend": {
       "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "prefix": "suricate",
+          "style": "scss"
+        }
+      },
       "root": "src/main/webapp",
       "sourceRoot": "src/main/webapp",
       "architect": {
@@ -17,6 +23,7 @@
             "polyfills": [
               "zone.js"
             ],
+            "inlineStyleLanguage": "scss",
             "assets": [
               "src/main/webapp/assets"
             ],
@@ -86,6 +93,7 @@
               "zone.js/testing"
             ],
             "tsConfig": "src/main/webapp/tsconfig.spec.json",
+            "inlineStyleLanguage": "scss",
             "assets": [
               "src/main/webapp/assets"
             ],
@@ -114,48 +122,5 @@
         }
       }
     }
-  },
-  "schematics": {
-    "@schematics/angular:component": {
-      "prefix": "suricate",
-      "style": "scss",
-      "type": "component"
-    },
-    "@schematics/angular:application": {
-      "strict": true
-    },
-    "@angular-eslint/schematics:application": {
-      "setParserOptionsProject": true
-    },
-    "@angular-eslint/schematics:library": {
-      "setParserOptionsProject": true
-    },
-    "@schematics/angular:directive": {
-      "type": "directive"
-    },
-    "@schematics/angular:service": {
-      "type": "service"
-    },
-    "@schematics/angular:guard": {
-      "typeSeparator": "."
-    },
-    "@schematics/angular:interceptor": {
-      "typeSeparator": "."
-    },
-    "@schematics/angular:module": {
-      "typeSeparator": "."
-    },
-    "@schematics/angular:pipe": {
-      "typeSeparator": "."
-    },
-    "@schematics/angular:resolver": {
-      "typeSeparator": "."
-    }
-  },
-  "cli": {
-    "schematicCollections": [
-      "@angular-eslint/schematics"
-    ],
-    "analytics": false
   }
 }

@@ -16,23 +16,26 @@
  *
  */
 
-import { Component, Input } from '@angular/core';
-import { ThemePalette } from '@angular/material/core';
-import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { Injectable } from '@angular/core';
+
+import { AbstractHttpService } from '../abstract-http/abstract-http-service';
 
 /**
- * Components used to display the spinner
+ * Manage the asset http calls
  */
-@Component({
-	selector: 'suricate-spinner',
-	templateUrl: './spinner.component.html',
-	styleUrls: ['./spinner.component.scss'],
-	imports: [MatProgressSpinner]
-})
-export class SpinnerComponent {
+@Injectable({ providedIn: 'root' })
+export class HttpLibraryService {
 	/**
-	 * The color to use with the spinner
+	 * Global assets endpoint
 	 */
-	@Input()
-	public color: ThemePalette;
+	private static readonly librariesApiEndpoint = `${AbstractHttpService.baseApiEndpoint}/v1/libraries`;
+
+	/**
+	 * Get the library content url
+	 *
+	 * @param libraryName The library name
+	 */
+	public static getContentUrl(libraryName: string): string {
+		return libraryName ? `${HttpLibraryService.librariesApiEndpoint}/${libraryName}/content` : ``;
+	}
 }

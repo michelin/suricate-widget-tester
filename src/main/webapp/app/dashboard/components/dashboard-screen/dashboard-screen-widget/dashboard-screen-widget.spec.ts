@@ -1,21 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProjectWidget } from '../../../../shared/models/project-widget/project-widget';
-import { DashboardScreenWidgetComponent } from './dashboard-screen-widget.component';
+import { DashboardScreenWidget } from './dashboard-screen-widget';
 
-describe('DashboardScreenWidgetComponent', () => {
-	let component: DashboardScreenWidgetComponent;
-	let fixture: ComponentFixture<DashboardScreenWidgetComponent>;
+describe('DashboardScreenWidget', () => {
+	let component: DashboardScreenWidget;
+	let fixture: ComponentFixture<DashboardScreenWidget>;
 
 	beforeEach(async () => {
 		await TestBed.configureTestingModule({
-			imports: [DashboardScreenWidgetComponent]
+			imports: [DashboardScreenWidget]
 		}).compileComponents();
 
-		fixture = TestBed.createComponent(DashboardScreenWidgetComponent);
+		fixture = TestBed.createComponent(DashboardScreenWidget);
 		component = fixture.componentInstance;
-		component.projectWidget = buildMockedProjectWidget();
-
+		fixture.componentRef.setInput('projectWidget', buildMockedProjectWidget());
 		fixture.detectChanges();
 	});
 

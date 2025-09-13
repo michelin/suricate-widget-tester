@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, Input, OnChanges, Renderer2, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, input, OnChanges, Renderer2, SimpleChanges, ViewChild } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import {
 	KtdGridComponent,
@@ -9,10 +9,10 @@ import {
 
 import { GridOptions } from '../../../shared/models/grid/grid-options';
 import { WidgetExecutionResult } from '../../../shared/models/widget-execution/widget-execution-result/widget-execution-result';
-import { HttpLibraryService } from '../../../shared/services/backend/http-library/http-library.service';
+import { HttpLibraryService } from '../../../shared/services/backend/http-library/http-library-service';
+import { LibraryService } from '../../../shared/services/frontend/library/library-service';
 import { GridItemUtils } from '../../../shared/utils/grid-item.utils';
-import { LibraryService } from '../../services/library/library.service';
-import { DashboardScreenWidgetComponent } from './dashboard-screen-widget/dashboard-screen-widget.component';
+import { DashboardScreenWidget } from './dashboard-screen-widget/dashboard-screen-widget';
 
 declare global {
 	interface Window {
@@ -22,11 +22,11 @@ declare global {
 
 @Component({
 	selector: 'suricate-dashboard-screen',
-	templateUrl: './dashboard-screen.component.html',
-	styleUrls: ['./dashboard-screen.component.scss'],
-	imports: [MatIcon, KtdGridComponent, KtdGridItemComponent, DashboardScreenWidgetComponent, KtdGridItemPlaceholder]
+	templateUrl: './dashboard-screen.html',
+	styleUrls: ['./dashboard-screen.scss'],
+	imports: [MatIcon, KtdGridComponent, KtdGridItemComponent, DashboardScreenWidget, KtdGridItemPlaceholder]
 })
-export class DashboardScreenComponent implements OnChanges {
+export class DashboardScreen implements OnChanges {
 	private readonly renderer = inject(Renderer2);
 	private readonly libraryService = inject(LibraryService);
 
@@ -39,14 +39,12 @@ export class DashboardScreenComponent implements OnChanges {
 	/**
 	 * The widget execution result
 	 */
-	@Input()
-	public widgetExecutionResult: WidgetExecutionResult;
+	public widgetExecutionResult = input<WidgetExecutionResult>();
 
 	/**
 	 * The path of the widget folder
 	 */
-	@Input()
-	public widgetPath: string;
+	public widgetPath = input<string>();
 
 	/**
 	 * The grid options
@@ -82,7 +80,7 @@ export class DashboardScreenComponent implements OnChanges {
 	 */
 	private initGrid(): void {
 		this.currentGrid = [];
-		if (this.widgetExecutionResult?.projectWidget) {
+		if (this.widgetExecutionResult()?.projectWidget) {
 			this.currentGrid = this.getGridLayoutFromProjectWidgets();
 		}
 	}
@@ -108,7 +106,7 @@ export class DashboardScreenComponent implements OnChanges {
 		const layout: KtdGridLayout = [];
 
 		layout.push({
-			id: String(this.widgetExecutionResult.projectWidget.id),
+			id: String(this.widgetExecutionResult().projectWidget.id),
 			x: 0,
 			y: 0,
 			w: 1,
@@ -123,12 +121,12 @@ export class DashboardScreenComponent implements OnChanges {
 	 * and a callback which notify subscribers when the library is loaded.
 	 */
 	public addExternalJSLibrariesToTheDOM(): void {
-		if (this.widgetExecutionResult?.projectWidget) {
-			if (this.widgetExecutionResult.projectWidget.librariesNames) {
+		if (this.widgetExecutionResult()?.projectWidget) {
+			if (this.widgetExecutionResult().projectWidget.librariesNames) {
 				this.libraryService.numberOfExternalLibrariesToLoad =
-					this.widgetExecutionResult.projectWidget.librariesNames.length;
+					this.widgetExecutionResult().projectWidget.librariesNames.length;
 
-				this.widgetExecutionResult.projectWidget.librariesNames.forEach((libraryName) => {
+				this.widgetExecutionResult().projectWidget.librariesNames.forEach((libraryName) => {
 					const script: HTMLScriptElement = document.createElement('script');
 					script.type = 'text/javascript';
 					script.src = HttpLibraryService.getContentUrl(libraryName);

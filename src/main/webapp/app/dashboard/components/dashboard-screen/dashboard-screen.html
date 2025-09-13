@@ -1,14 +1,14 @@
 <div class="widget-result-div">
 	<h2>Widget sandbox</h2>
 
-	@if (!widgetExecutionResult) {
+	@if (!widgetExecutionResult()) {
 		<p>No widget to display</p>
 	}
 
-	@if (widgetExecutionResult && widgetExecutionResult.widgetExecutionErrorMessage) {
+	@if (widgetExecutionResult() && widgetExecutionResult().widgetExecutionErrorMessage) {
 		<div class="widget-execution-error">
 			<mat-icon>warning</mat-icon>
-			<p>{{ widgetExecutionResult.widgetExecutionErrorMessage! }}</p>
+			<p>{{ widgetExecutionResult().widgetExecutionErrorMessage! }}</p>
 		</div>
 	}
 
@@ -23,20 +23,20 @@
 			(layoutUpdated)="onLayoutUpdated($event)"
 		>
 			<span #externalJsLibraries></span>
-			@for (gridItem of currentGrid; track gridItem) {
+			@for (gridItem of currentGrid; track gridItem.id) {
 				<ktd-grid-item
 					class="mat-elevation-z4"
 					[id]="gridItem.id"
 					[draggable]="gridOptions.draggable"
 					[resizable]="gridOptions.resizable"
 				>
-					<suricate-dashboard-screen-widget [projectWidget]="widgetExecutionResult.projectWidget">
+					<suricate-dashboard-screen-widget [projectWidget]="widgetExecutionResult().projectWidget">
 					</suricate-dashboard-screen-widget>
 					<!-- Background when moving the widget -->
 					<ng-template ktdGridItemPlaceholder>
 						<suricate-dashboard-screen-widget
 							class="grid-placeholder"
-							[projectWidget]="widgetExecutionResult.projectWidget"
+							[projectWidget]="widgetExecutionResult().projectWidget"
 						>
 						</suricate-dashboard-screen-widget>
 					</ng-template>

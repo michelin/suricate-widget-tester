@@ -1,4 +1,4 @@
-<div class="widget" [ngClass]="projectWidget?.technicalName + ' widget-1'">
+<div class="widget" [ngClass]="projectWidget()?.technicalName + ' widget-1'">
 	@if (loading) {
 		<suricate-spinner color="accent"></suricate-spinner>
 	}
@@ -7,7 +7,7 @@
 		<!--------------------------------------------------->
 		<!--                 WIDGET CSS                    -->
 		<!--------------------------------------------------->
-		<span [innerHTML]="'<style>' + projectWidget?.cssContent + '</style>' | safeHtml"> </span>
+		<span [innerHTML]="'<style>' + projectWidget()?.cssContent + '</style>' | safeHtml"> </span>
 		<!--------------------------------------------------->
 		<!--                 WIDGET HTML                   -->
 		<!--------------------------------------------------->
@@ -15,7 +15,7 @@
 			<div
 				class="widget-html-content"
 				widgetHtmlDirective
-				[innerHTML]="projectWidget?.instantiateHtml! | safeHtml"
+				[innerHTML]="projectWidget()?.instantiateHtml! | safeHtml"
 			></div>
 		</div>
 	}

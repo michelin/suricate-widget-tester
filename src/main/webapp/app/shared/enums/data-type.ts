@@ -16,21 +16,13 @@
  *
  */
 
-import { TestBed } from '@angular/core/testing';
-
-import { HttpLibraryService } from './http-library.service';
-
-describe('HttpLibraryService', () => {
-	let service: HttpLibraryService;
-
-	beforeEach(() => {
-		TestBed.configureTestingModule({
-			providers: [HttpLibraryService]
-		});
-		service = TestBed.inject(HttpLibraryService);
-	});
-
-	it('should create', () => {
-		expect(service).toBeTruthy();
-	});
-});
+export enum DataType {
+	NUMBER = 'NUMBER',
+	TEXT = 'TEXT',
+	PASSWORD = 'PASSWORD',
+	TEXTAREA = 'TEXTAREA',
+	COMBO = 'COMBO',
+	MULTIPLE = 'MULTIPLE',
+	BOOLEAN = 'BOOLEAN',
+	FILE = 'FILE'
+}

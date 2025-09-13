@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { ProjectWidget } from '../../../models/project-widget/project-widget';
 import { WidgetExecutionRequest } from '../../../models/widget-execution/widget-execution-request/widget-execution-request';
 import { WidgetParameter } from '../../../models/widget-parameter/widget-parameter';
-import { AbstractHttpService } from '../abstract-http/abstract-http.service';
+import { AbstractHttpService } from '../abstract-http/abstract-http-service';
 
 @Injectable({
 	providedIn: 'root'

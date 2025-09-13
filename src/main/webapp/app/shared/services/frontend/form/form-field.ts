@@ -16,12 +16,12 @@
  *
  */
 
-import { DataTypeEnum } from '../../../enums/data-type.enum';
+import { DataType } from '../../../enums/data-type';
 import { WidgetParameterValue } from '../../../models/widget-parameter/widget-parameter-value';
 
 export interface FormField {
 	name: string;
-	type: DataTypeEnum;
+	type: DataType;
 	required: boolean;
 	possibleValues: WidgetParameterValue[];
 }
