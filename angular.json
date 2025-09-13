@@ -5,6 +5,12 @@
   "projects": {
     "widget-tester-frontend": {
       "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "prefix": "suricate",
+          "style": "scss"
+        }
+      },
       "root": "src/main/webapp",
       "sourceRoot": "src/main/webapp",
       "architect": {
@@ -17,6 +23,7 @@
             "polyfills": [
               "zone.js"
             ],
+            "inlineStyleLanguage": "scss",
             "assets": [
               "src/main/webapp/assets"
             ],
@@ -86,6 +93,7 @@
               "zone.js/testing"
             ],
             "tsConfig": "src/main/webapp/tsconfig.spec.json",
+            "inlineStyleLanguage": "scss",
             "assets": [
               "src/main/webapp/assets"
             ],
@@ -113,13 +121,6 @@
           }
         }
       }
-    }
-  },
-  "schematics": {
-    "@schematics/angular:component": {
-      "prefix": "suricate",
-      "style": "scss",
-      "type": "component"
     }
   }
 }
