@@ -27,7 +27,7 @@ import com.michelin.suricate.widget.tester.model.dto.api.ProjectWidgetResponseDt
 import com.michelin.suricate.widget.tester.model.dto.api.WidgetExecutionRequestDto;
 import com.michelin.suricate.widget.tester.model.dto.widget.WidgetDto;
 import com.michelin.suricate.widget.tester.model.dto.widget.WidgetParamDto;
-import com.michelin.suricate.widget.tester.service.api.HttpWidgetService;
+import com.michelin.suricate.widget.tester.service.api.WidgetService;
 import com.michelin.suricate.widget.tester.util.exception.ApiException;
 import java.io.IOException;
 import java.util.List;
@@ -42,7 +42,7 @@ import org.springframework.http.ResponseEntity;
 @ExtendWith(MockitoExtension.class)
 class WidgetControllerTest {
     @Mock
-    private HttpWidgetService widgetService;
+    private WidgetService widgetService;
 
     @InjectMocks
     private WidgetController widgetController;
