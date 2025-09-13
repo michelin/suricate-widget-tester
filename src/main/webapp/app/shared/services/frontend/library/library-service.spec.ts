@@ -14,25 +14,19 @@
  * limitations under the License.
  */
 
-import { ElementRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
-import { WidgetHtmlDirective } from './widget-html.directive';
+import { LibraryService } from './library-service';
 
-describe('WidgetJsScriptsDirective', () => {
-	let directive: WidgetHtmlDirective;
+describe('LibraryService', () => {
+	let service: LibraryService;
 
 	beforeEach(() => {
-		TestBed.configureTestingModule({
-			providers: [WidgetHtmlDirective, { provide: ElementRef, useClass: MockElementRef }]
-		});
-
-		directive = TestBed.inject(WidgetHtmlDirective);
+		TestBed.configureTestingModule({});
+		service = TestBed.inject(LibraryService);
 	});
 
 	it('should create', () => {
-		expect(directive).toBeTruthy();
+		expect(service).toBeTruthy();
 	});
 });
-
-class MockElementRef extends ElementRef {}

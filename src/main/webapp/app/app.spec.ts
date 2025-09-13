@@ -1,21 +1,20 @@
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
-import { AppComponent } from './app.component';
+import { App } from './app';
 
-describe('AppComponent', () => {
-	let component: AppComponent;
-	let fixture: ComponentFixture<AppComponent>;
+describe('App', () => {
+	let component: App;
+	let fixture: ComponentFixture<App>;
 
 	beforeEach(async () => {
 		await TestBed.configureTestingModule({
-			imports: [AppComponent],
-			providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting(), provideAnimationsAsync()]
+			imports: [App],
+			providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
 		}).compileComponents();
 
-		fixture = TestBed.createComponent(AppComponent);
+		fixture = TestBed.createComponent(App);
 		component = fixture.componentInstance;
 		fixture.detectChanges();
 	});

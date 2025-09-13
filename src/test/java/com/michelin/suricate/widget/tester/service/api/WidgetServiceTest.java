@@ -61,7 +61,7 @@ class WidgetServiceTest {
     private ApplicationProperties applicationProperties;
 
     @InjectMocks
-    private WidgetService widgetService;
+    private HttpWidgetService widgetService;
 
     @NotNull private static WidgetExecutionRequestDto getWidgetExecutionRequestDto() {
         WidgetParametersRequestDto widgetParametersRequestDto = new WidgetParametersRequestDto();

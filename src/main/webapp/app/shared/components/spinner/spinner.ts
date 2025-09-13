@@ -15,25 +15,24 @@
  *  * limitations under the License.
  *
  */
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SpinnerComponent } from './spinner.component';
+import { Component, Input } from '@angular/core';
+import { ThemePalette } from '@angular/material/core';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
-describe('SpinnerComponent', () => {
-	let component: SpinnerComponent;
-	let fixture: ComponentFixture<SpinnerComponent>;
-
-	beforeEach(async () => {
-		await TestBed.configureTestingModule({
-			imports: [SpinnerComponent]
-		}).compileComponents();
-
-		fixture = TestBed.createComponent(SpinnerComponent);
-		component = fixture.componentInstance;
-		fixture.detectChanges();
-	});
-
-	it('should create', () => {
-		expect(component).toBeTruthy();
-	});
-});
+/**
+ * Components used to display the spinner
+ */
+@Component({
+	selector: 'suricate-spinner',
+	templateUrl: './spinner.html',
+	styleUrls: ['./spinner.scss'],
+	imports: [MatProgressSpinner]
+})
+export class Spinner {
+	/**
+	 * The color to use with the spinner
+	 */
+	@Input()
+	public color: ThemePalette;
+}

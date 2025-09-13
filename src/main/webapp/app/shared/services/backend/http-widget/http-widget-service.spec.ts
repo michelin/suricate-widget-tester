@@ -2,7 +2,7 @@ import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { HttpWidgetService } from './http-widget.service';
+import { HttpWidgetService } from './http-widget-service';
 
 describe('HttpWidgetService', () => {
 	let service: HttpWidgetService;

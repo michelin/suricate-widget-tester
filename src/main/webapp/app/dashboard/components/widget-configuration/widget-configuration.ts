@@ -16,23 +16,23 @@ import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 
-import { DataTypeEnum } from '../../../shared/enums/data-type.enum';
+import { DataType } from '../../../shared/enums/data-type';
 import { CategoryDirectory } from '../../../shared/models/category/category';
 import { Configuration } from '../../../shared/models/config/configuration';
 import { ProjectWidget } from '../../../shared/models/project-widget/project-widget';
 import { WidgetExecutionRequest } from '../../../shared/models/widget-execution/widget-execution-request/widget-execution-request';
 import { WidgetExecutionResult } from '../../../shared/models/widget-execution/widget-execution-result/widget-execution-result';
 import { WidgetParameter } from '../../../shared/models/widget-parameter/widget-parameter';
-import { HttpCategoryService } from '../../../shared/services/backend/http-category/http-category.service';
-import { HttpConfigurationService } from '../../../shared/services/backend/http-configuration/http-configuration.service';
-import { HttpWidgetService } from '../../../shared/services/backend/http-widget/http-widget.service';
+import { HttpCategoryService } from '../../../shared/services/backend/http-category/http-category-service';
+import { HttpConfigurationService } from '../../../shared/services/backend/http-configuration/http-configuration-service';
+import { HttpWidgetService } from '../../../shared/services/backend/http-widget/http-widget-service';
 import { FormField } from '../../../shared/services/frontend/form/form-field';
-import { FileUtils } from '../../services/utils/file.utils';
+import { FileUtils } from '../../../shared/utils/file.utils';
 
 @Component({
 	selector: 'suricate-widget-configuration',
-	templateUrl: './widget-configuration.component.html',
-	styleUrls: ['./widget-configuration.component.scss'],
+	templateUrl: './widget-configuration.html',
+	styleUrls: ['./widget-configuration.scss'],
 	imports: [
 		NgOptimizedImage,
 		FormsModule,
@@ -49,7 +49,7 @@ import { FileUtils } from '../../services/utils/file.utils';
 		MatIcon
 	]
 })
-export class WidgetConfigurationComponent implements OnInit {
+export class WidgetConfiguration implements OnInit {
 	private readonly formBuilder = inject(UntypedFormBuilder);
 	private readonly httpWidgetService = inject(HttpWidgetService);
 	private readonly httpConfigurationService = inject(HttpConfigurationService);
@@ -106,7 +106,7 @@ export class WidgetConfigurationComponent implements OnInit {
 	/**
 	 * The data type enum
 	 */
-	public dataType = DataTypeEnum;
+	public dataType = DataType;
 
 	/**
 	 * The selected category
@@ -151,8 +151,8 @@ export class WidgetConfigurationComponent implements OnInit {
 			this.selectedWidget = event.value.split('/')[1];
 		}
 
-		this.httpWidgetService.getWidgetParameters(this.selectedCategory, this.selectedWidget).subscribe(
-			(widgetParameters: WidgetParameter[]) => {
+		this.httpWidgetService.getWidgetParameters(this.selectedCategory, this.selectedWidget).subscribe({
+			next: (widgetParameters: WidgetParameter[]) => {
 				if (widgetParameters && widgetParameters.length > 0) {
 					const oldPath = this.runWidgetForm.controls['path'].value;
 					const oldPreviousData = this.runWidgetForm.controls['previousData'].value;
@@ -193,11 +193,11 @@ export class WidgetConfigurationComponent implements OnInit {
 					});
 				}
 			},
-			(error) => {
+			error: (error) => {
 				this.resetScreen();
 				this.onWidgetPathInputErrorMessage = error.error.message;
 			}
-		);
+		});
 	}
 
 	/**
@@ -229,22 +229,22 @@ export class WidgetConfigurationComponent implements OnInit {
 				}
 			});
 
-			this.httpWidgetService.runWidget(widgetExecutionRequest).subscribe(
-				(projectWidget: ProjectWidget) => {
+			this.httpWidgetService.runWidget(widgetExecutionRequest).subscribe({
+				next: (projectWidget: ProjectWidget) => {
 					const widgetExecutionResult: WidgetExecutionResult = {
 						projectWidget: projectWidget
 					};
 
 					this.widgetExecutionResultEmitEvent.emit(widgetExecutionResult);
 				},
-				(error) => {
+				error: (error) => {
 					const widgetExecutionResult: WidgetExecutionResult = {
 						widgetExecutionErrorMessage: error.error.message
 					};
 
 					this.widgetExecutionResultEmitEvent.emit(widgetExecutionResult);
 				}
-			);
+			});
 		}
 	}
 

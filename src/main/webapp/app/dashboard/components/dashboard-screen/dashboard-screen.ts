@@ -9,10 +9,10 @@ import {
 
 import { GridOptions } from '../../../shared/models/grid/grid-options';
 import { WidgetExecutionResult } from '../../../shared/models/widget-execution/widget-execution-result/widget-execution-result';
-import { HttpLibraryService } from '../../../shared/services/backend/http-library/http-library.service';
+import { LibraryService } from '../../../shared/services/frontend/library/library-service';
 import { GridItemUtils } from '../../../shared/utils/grid-item.utils';
-import { LibraryService } from '../../services/library/library.service';
-import { DashboardScreenWidgetComponent } from './dashboard-screen-widget/dashboard-screen-widget.component';
+import { DashboardScreenWidget } from './dashboard-screen-widget/dashboard-screen-widget';
+import { HttpLibraryService } from '../../../shared/services/backend/http-library/http-library-service';
 
 declare global {
 	interface Window {
@@ -22,11 +22,11 @@ declare global {
 
 @Component({
 	selector: 'suricate-dashboard-screen',
-	templateUrl: './dashboard-screen.component.html',
-	styleUrls: ['./dashboard-screen.component.scss'],
-	imports: [MatIcon, KtdGridComponent, KtdGridItemComponent, DashboardScreenWidgetComponent, KtdGridItemPlaceholder]
+	templateUrl: './dashboard-screen.html',
+	styleUrls: ['./dashboard-screen.scss'],
+	imports: [MatIcon, KtdGridComponent, KtdGridItemComponent, DashboardScreenWidget, KtdGridItemPlaceholder]
 })
-export class DashboardScreenComponent implements OnChanges {
+export class DashboardScreen implements OnChanges {
 	private readonly renderer = inject(Renderer2);
 	private readonly libraryService = inject(LibraryService);
 

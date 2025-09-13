@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { CategoryDirectory } from '../../../models/category/category';
-import { AbstractHttpService } from '../abstract-http/abstract-http.service';
+import { AbstractHttpService } from '../abstract-http/abstract-http-service';
 
 @Injectable({
 	providedIn: 'root'

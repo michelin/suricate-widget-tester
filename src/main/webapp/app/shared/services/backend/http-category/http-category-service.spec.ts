@@ -2,16 +2,16 @@ import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { HttpConfigurationService } from './http-configuration.service';
+import { HttpCategoryService } from './http-category-service';
 
-describe('HttpConfigurationService', () => {
-	let service: HttpConfigurationService;
+describe('HttpCategoryService', () => {
+	let service: HttpCategoryService;
 
 	beforeEach(() => {
 		TestBed.configureTestingModule({
 			providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
 		});
-		service = TestBed.inject(HttpConfigurationService);
+		service = TestBed.inject(HttpCategoryService);
 	});
 
 	it('should be created', () => {

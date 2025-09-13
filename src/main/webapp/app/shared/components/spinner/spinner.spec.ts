@@ -15,27 +15,25 @@
  *  * limitations under the License.
  *
  */
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Injectable } from '@angular/core';
+import { Spinner } from './spinner';
 
-import { AbstractHttpService } from '../abstract-http/abstract-http.service';
+describe('Spinner', () => {
+	let component: Spinner;
+	let fixture: ComponentFixture<Spinner>;
 
-/**
- * Manage the asset http calls
- */
-@Injectable({ providedIn: 'root' })
-export class HttpLibraryService {
-	/**
-	 * Global assets endpoint
-	 */
-	private static readonly librariesApiEndpoint = `${AbstractHttpService.baseApiEndpoint}/v1/libraries`;
+	beforeEach(async () => {
+		await TestBed.configureTestingModule({
+			imports: [Spinner]
+		}).compileComponents();
 
-	/**
-	 * Get the library content url
-	 *
-	 * @param libraryName The library name
-	 */
-	public static getContentUrl(libraryName: string): string {
-		return libraryName ? `${HttpLibraryService.librariesApiEndpoint}/${libraryName}/content` : ``;
-	}
-}
+		fixture = TestBed.createComponent(Spinner);
+		component = fixture.componentInstance;
+		fixture.detectChanges();
+	});
+
+	it('should create', () => {
+		expect(component).toBeTruthy();
+	});
+});

@@ -1,17 +1,17 @@
 import { Component } from '@angular/core';
 import { MatDivider } from '@angular/material/divider';
 
-import { DashboardScreenComponent } from './dashboard/components/dashboard-screen/dashboard-screen.component';
-import { WidgetConfigurationComponent } from './dashboard/components/widget-configuration/widget-configuration.component';
+import { DashboardScreen } from './dashboard/components/dashboard-screen/dashboard-screen';
+import { WidgetConfiguration } from './dashboard/components/widget-configuration/widget-configuration';
 import { WidgetExecutionResult } from './shared/models/widget-execution/widget-execution-result/widget-execution-result';
 
 @Component({
 	selector: 'suricate-widget-tester-root',
-	templateUrl: './app.component.html',
-	styleUrls: ['./app.component.scss'],
-	imports: [WidgetConfigurationComponent, DashboardScreenComponent, MatDivider]
+	templateUrl: './app.html',
+	styleUrls: ['./app.scss'],
+	imports: [WidgetConfiguration, DashboardScreen, MatDivider]
 })
-export class AppComponent {
+export class App {
 	/**
 	 * The widget execution result
 	 */
