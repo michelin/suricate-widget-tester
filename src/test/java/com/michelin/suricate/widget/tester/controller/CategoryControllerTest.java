@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 import static org.mockito.Mockito.when;
 
 import com.michelin.suricate.widget.tester.model.dto.category.CategoryDirectoryDto;
-import com.michelin.suricate.widget.tester.service.api.HttpCategoryService;
+import com.michelin.suricate.widget.tester.service.api.CategoryService;
 import java.io.IOException;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -35,7 +35,7 @@ import org.springframework.http.ResponseEntity;
 @ExtendWith(MockitoExtension.class)
 class CategoryControllerTest {
     @Mock
-    private HttpCategoryService categoryService;
+    private CategoryService categoryService;
 
     @InjectMocks
     private CategoryController categoryController;
