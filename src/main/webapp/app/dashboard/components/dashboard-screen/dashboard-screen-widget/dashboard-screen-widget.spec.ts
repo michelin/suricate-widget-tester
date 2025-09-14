@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ProjectWidget } from '../../../../shared/models/project-widget/project-widget';
+import { ProjectWidget } from '../../../../shared/models/backend/project-widget/project-widget';
 import { DashboardScreenWidget } from './dashboard-screen-widget';
 
 describe('DashboardScreenWidget', () => {
