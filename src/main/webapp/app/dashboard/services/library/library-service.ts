@@ -22,7 +22,9 @@ export class LibraryService {
 	public allExternalLibrariesLoaded = new BehaviorSubject<boolean>(false);
 
 	/**
-	 * Initialize the service
+	 * Initialize the service.
+	 *
+	 * @param numberOfExternalLibrariesToLoad The number of JS libraries to load for the current project
 	 */
 	public init(numberOfExternalLibrariesToLoad: number) {
 		this.loadedExternalLibraries = [];
