@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, input, OnChanges, Renderer2, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, effect, ElementRef, inject, input, Renderer2, ViewChild } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import {
 	KtdGridComponent,
@@ -26,7 +26,7 @@ declare global {
 	styleUrls: ['./dashboard-screen.scss'],
 	imports: [MatIcon, KtdGridComponent, KtdGridItemComponent, DashboardScreenWidget, KtdGridItemPlaceholder]
 })
-export class DashboardScreen implements OnChanges {
+export class DashboardScreen {
 	private readonly renderer = inject(Renderer2);
 	private readonly libraryService = inject(LibraryService);
 
@@ -57,22 +57,20 @@ export class DashboardScreen implements OnChanges {
 	public currentGrid: KtdGridLayout = [];
 
 	/**
-	 * Changes method
-	 *
-	 * @param changes The changes event
+	 * Constructor.
 	 */
-	ngOnChanges(changes: SimpleChanges): void {
-		if (changes['widgetExecutionResult']) {
-			if (!changes['widgetExecutionResult'].previousValue) {
-				// Inject this variable in the window scope because some widgets use it to init the js
+	constructor() {
+		effect(() => {
+			this.widgetExecutionResult();
+
+			if (!window.page_loaded) {
 				window.page_loaded = true;
 			}
 
 			this.initGridStackOptions();
-		}
-
-		this.initGrid();
-		this.addExternalJSLibrariesToTheDOM();
+			this.initGrid();
+			this.addExternalJSLibrariesToTheDOM();
+		});
 	}
 
 	/**
@@ -130,7 +128,10 @@ export class DashboardScreen implements OnChanges {
 					const script: HTMLScriptElement = document.createElement('script');
 					script.type = 'text/javascript';
 					script.src = HttpLibraryService.getContentUrl(libraryName);
-					script.onload = () => this.libraryService.markScriptAsLoaded(libraryName);
+					script.onload = () =>
+						setTimeout(() => {
+							this.libraryService.markScriptAsLoaded(libraryName);
+						}, 100); // Small delay to ensure the script is fully executed before rendering the widgets
 					script.async = false;
 
 					this.renderer.appendChild(this.externalJsLibrariesSpan.nativeElement, script);
