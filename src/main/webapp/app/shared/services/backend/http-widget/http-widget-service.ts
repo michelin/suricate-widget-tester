@@ -2,9 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { ProjectWidget } from '../../../models/project-widget/project-widget';
-import { WidgetExecutionRequest } from '../../../models/widget-execution/widget-execution-request/widget-execution-request';
-import { WidgetParameter } from '../../../models/widget-parameter/widget-parameter';
+import { ProjectWidget } from '../../../models/backend/project-widget/project-widget';
+import { WidgetExecutionRequest } from '../../../models/backend/widget-execution/widget-execution-request/widget-execution-request';
+import { WidgetParameter } from '../../../models/backend/widget-parameter/widget-parameter';
 import { AbstractHttpService } from '../abstract-http/abstract-http-service';
 
 @Injectable({

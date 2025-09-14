@@ -3,7 +3,7 @@ import { MatDivider } from '@angular/material/divider';
 
 import { DashboardScreen } from './dashboard/components/dashboard-screen/dashboard-screen';
 import { WidgetConfiguration } from './dashboard/components/widget-configuration/widget-configuration';
-import { WidgetExecutionResult } from './shared/models/widget-execution/widget-execution-result/widget-execution-result';
+import { WidgetExecutionResult } from './shared/models/backend/widget-execution/widget-execution-result/widget-execution-result';
 
 @Component({
 	selector: 'suricate-widget-tester-root',

@@ -17,7 +17,7 @@
  */
 
 import { DataType } from '../../../enums/data-type';
-import { WidgetParameterValue } from '../../../models/widget-parameter/widget-parameter-value';
+import { WidgetParameterValue } from '../../backend/widget-parameter/widget-parameter-value';
 
 export interface FormField {
 	name: string;

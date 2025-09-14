@@ -1,4 +1,4 @@
-import { DataType } from '../../enums/data-type';
+import { DataType } from '../../../enums/data-type';
 import { WidgetParameterValue } from './widget-parameter-value';
 
 export interface WidgetParameter {

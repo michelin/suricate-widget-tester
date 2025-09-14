@@ -3,9 +3,9 @@ import { Component, inject, input, OnInit } from '@angular/core';
 
 import { Spinner } from '../../../../shared/components/spinner/spinner';
 import { WidgetHtmlDirective } from '../../../../shared/directives/widget-html-directive';
-import { ProjectWidget } from '../../../../shared/models/project-widget/project-widget';
+import { ProjectWidget } from '../../../../shared/models/backend/project-widget/project-widget';
 import { SafeHtmlPipe } from '../../../../shared/pipes/safe-html/safe-html-pipe';
-import { LibraryService } from '../../../../shared/services/frontend/library/library-service';
+import { LibraryService } from '../../../services/library/library-service';
 
 @Component({
 	selector: 'suricate-dashboard-screen-widget',

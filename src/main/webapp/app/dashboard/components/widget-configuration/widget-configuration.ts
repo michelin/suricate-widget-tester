@@ -17,16 +17,16 @@ import { MatInput } from '@angular/material/input';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 
 import { DataType } from '../../../shared/enums/data-type';
-import { CategoryDirectory } from '../../../shared/models/category/category';
-import { Configuration } from '../../../shared/models/config/configuration';
-import { ProjectWidget } from '../../../shared/models/project-widget/project-widget';
-import { WidgetExecutionRequest } from '../../../shared/models/widget-execution/widget-execution-request/widget-execution-request';
-import { WidgetExecutionResult } from '../../../shared/models/widget-execution/widget-execution-result/widget-execution-result';
-import { WidgetParameter } from '../../../shared/models/widget-parameter/widget-parameter';
+import { CategoryDirectory } from '../../../shared/models/backend/category/category';
+import { Configuration } from '../../../shared/models/backend/config/configuration';
+import { ProjectWidget } from '../../../shared/models/backend/project-widget/project-widget';
+import { WidgetExecutionRequest } from '../../../shared/models/backend/widget-execution/widget-execution-request/widget-execution-request';
+import { WidgetExecutionResult } from '../../../shared/models/backend/widget-execution/widget-execution-result/widget-execution-result';
+import { WidgetParameter } from '../../../shared/models/backend/widget-parameter/widget-parameter';
+import { FormField } from '../../../shared/models/frontend/form/form-field';
 import { HttpCategoryService } from '../../../shared/services/backend/http-category/http-category-service';
 import { HttpConfigurationService } from '../../../shared/services/backend/http-configuration/http-configuration-service';
 import { HttpWidgetService } from '../../../shared/services/backend/http-widget/http-widget-service';
-import { FormField } from '../../../shared/services/frontend/form/form-field';
 import { FileUtils } from '../../../shared/utils/file.utils';
 
 @Component({

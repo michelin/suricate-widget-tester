@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { Configuration } from '../../../models/config/configuration';
+import { Configuration } from '../../../models/backend/config/configuration';
 import { AbstractHttpService } from '../abstract-http/abstract-http-service';
 
 @Injectable({

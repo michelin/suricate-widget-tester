@@ -7,11 +7,11 @@ import {
 	KtdGridLayout
 } from '@katoid/angular-grid-layout';
 
-import { GridOptions } from '../../../shared/models/grid/grid-options';
-import { WidgetExecutionResult } from '../../../shared/models/widget-execution/widget-execution-result/widget-execution-result';
+import { GridOptions } from '../../../shared/models/backend/grid/grid-options';
+import { WidgetExecutionResult } from '../../../shared/models/backend/widget-execution/widget-execution-result/widget-execution-result';
 import { HttpLibraryService } from '../../../shared/services/backend/http-library/http-library-service';
-import { LibraryService } from '../../../shared/services/frontend/library/library-service';
 import { GridItemUtils } from '../../../shared/utils/grid-item.utils';
+import { LibraryService } from '../../services/library/library-service';
 import { DashboardScreenWidget } from './dashboard-screen-widget/dashboard-screen-widget';
 
 declare global {

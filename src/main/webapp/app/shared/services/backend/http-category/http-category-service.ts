@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { CategoryDirectory } from '../../../models/category/category';
+import { CategoryDirectory } from '../../../models/backend/category/category';
 import { AbstractHttpService } from '../abstract-http/abstract-http-service';
 
 @Injectable({
