@@ -122,12 +122,9 @@ export class DashboardScreen {
 	 * Always clear the previously loaded libraries before adding new ones to handle widget execution result changes.
 	 */
 	public addExternalJSLibrariesToTheDOM(): void {
-		this.libraryService.clearLoadedLibraries();
-
 		if (this.widgetExecutionResult()?.projectWidget) {
 			if (this.widgetExecutionResult().projectWidget.librariesNames) {
-				this.libraryService.numberOfExternalLibrariesToLoad =
-					this.widgetExecutionResult().projectWidget.librariesNames.length;
+				this.libraryService.init(this.widgetExecutionResult().projectWidget.librariesNames.length);
 
 				this.widgetExecutionResult().projectWidget.librariesNames.forEach((libraryName) => {
 					const script: HTMLScriptElement = document.createElement('script');

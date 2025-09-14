@@ -22,11 +22,11 @@ export class LibraryService {
 	public allExternalLibrariesLoaded = new BehaviorSubject<boolean>(false);
 
 	/**
-	 * Clear the list of loaded JS libraries.
+	 * Initialize the service
 	 */
-	public clearLoadedLibraries(): void {
+	public init(numberOfExternalLibrariesToLoad: number) {
 		this.loadedExternalLibraries = [];
-		this.numberOfExternalLibrariesToLoad = 0;
+		this.numberOfExternalLibrariesToLoad = numberOfExternalLibrariesToLoad;
 		this.allExternalLibrariesLoaded.next(false);
 	}
 
