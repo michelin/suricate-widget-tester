@@ -22,7 +22,16 @@ export class LibraryService {
 	public allExternalLibrariesLoaded = new BehaviorSubject<boolean>(false);
 
 	/**
-	 * Emit a new event according to the given value
+	 * Clear the list of loaded JS libraries.
+	 */
+	public clearLoadedLibraries(): void {
+		this.loadedExternalLibraries = [];
+		this.numberOfExternalLibrariesToLoad = 0;
+		this.allExternalLibrariesLoaded.next(false);
+	}
+
+	/**
+	 * Emit a new event according to the given value.
 	 *
 	 * @param value The new value to emit
 	 */

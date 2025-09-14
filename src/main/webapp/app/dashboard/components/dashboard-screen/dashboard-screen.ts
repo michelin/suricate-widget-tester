@@ -4,7 +4,8 @@ import {
 	KtdGridComponent,
 	KtdGridItemComponent,
 	KtdGridItemPlaceholder,
-	KtdGridLayout
+	KtdGridLayout,
+	KtdGridLayoutItem
 } from '@katoid/angular-grid-layout';
 
 import { GridOptions } from '../../../shared/models/backend/grid/grid-options';
@@ -60,6 +61,7 @@ export class DashboardScreen {
 	 * Constructor.
 	 */
 	constructor() {
+		// Inject this variable in the window scope because some widgets use it to init the js
 		effect(() => {
 			this.widgetExecutionResult();
 
@@ -117,8 +119,11 @@ export class DashboardScreen {
 	/**
 	 * For each JS libraries linked with the project, create a script element with the URL of the library
 	 * and a callback which notify subscribers when the library is loaded.
+	 * Always clear the previously loaded libraries before adding new ones to handle widget execution result changes.
 	 */
 	public addExternalJSLibrariesToTheDOM(): void {
+		this.libraryService.clearLoadedLibraries();
+
 		if (this.widgetExecutionResult()?.projectWidget) {
 			if (this.widgetExecutionResult().projectWidget.librariesNames) {
 				this.libraryService.numberOfExternalLibrariesToLoad =
@@ -128,18 +133,12 @@ export class DashboardScreen {
 					const script: HTMLScriptElement = document.createElement('script');
 					script.type = 'text/javascript';
 					script.src = HttpLibraryService.getContentUrl(libraryName);
-					script.onload = () =>
-						setTimeout(() => {
-							this.libraryService.markScriptAsLoaded(libraryName);
-						}, 100); // Small delay to ensure the script is fully executed before rendering the widgets
+					script.onload = () => this.libraryService.markScriptAsLoaded(libraryName);
 					script.async = false;
 
 					this.renderer.appendChild(this.externalJsLibrariesSpan.nativeElement, script);
 				});
-			}
-
-			// No library to load
-			else {
+			} else {
 				this.libraryService.emitAreJSScriptsLoaded(true);
 			}
 		}
@@ -172,5 +171,15 @@ export class DashboardScreen {
 		});
 
 		return itemHaveBeenMoved;
+	}
+
+	/**
+	 * Get unique expression for tracking grid items.
+	 * Track all properties of the grid item to ensure it will be re-rendered if any property change.
+	 *
+	 * @param gridItem The grid item
+	 */
+	public getGridItemTrackExpression(gridItem: KtdGridLayoutItem): string {
+		return gridItem.id + '-' + gridItem.x + '-' + gridItem.y + '-' + gridItem.w + '-' + gridItem.h;
 	}
 }
