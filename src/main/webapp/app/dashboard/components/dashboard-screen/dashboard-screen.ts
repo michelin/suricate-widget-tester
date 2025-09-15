@@ -1,10 +1,11 @@
-import { Component, ElementRef, inject, input, OnChanges, Renderer2, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, effect, ElementRef, inject, input, Renderer2, ViewChild } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import {
 	KtdGridComponent,
 	KtdGridItemComponent,
 	KtdGridItemPlaceholder,
-	KtdGridLayout
+	KtdGridLayout,
+	KtdGridLayoutItem
 } from '@katoid/angular-grid-layout';
 
 import { GridOptions } from '../../../shared/models/backend/grid/grid-options';
@@ -26,7 +27,7 @@ declare global {
 	styleUrls: ['./dashboard-screen.scss'],
 	imports: [MatIcon, KtdGridComponent, KtdGridItemComponent, DashboardScreenWidget, KtdGridItemPlaceholder]
 })
-export class DashboardScreen implements OnChanges {
+export class DashboardScreen {
 	private readonly renderer = inject(Renderer2);
 	private readonly libraryService = inject(LibraryService);
 
@@ -57,22 +58,21 @@ export class DashboardScreen implements OnChanges {
 	public currentGrid: KtdGridLayout = [];
 
 	/**
-	 * Changes method
-	 *
-	 * @param changes The changes event
+	 * Constructor.
 	 */
-	ngOnChanges(changes: SimpleChanges): void {
-		if (changes['widgetExecutionResult']) {
-			if (!changes['widgetExecutionResult'].previousValue) {
-				// Inject this variable in the window scope because some widgets use it to init the js
+	constructor() {
+		// Inject this variable in the window scope because some widgets use it to init the js
+		effect(() => {
+			this.widgetExecutionResult();
+
+			if (!window.page_loaded) {
 				window.page_loaded = true;
 			}
 
 			this.initGridStackOptions();
-		}
-
-		this.initGrid();
-		this.addExternalJSLibrariesToTheDOM();
+			this.initGrid();
+			this.addExternalJSLibrariesToTheDOM();
+		});
 	}
 
 	/**
@@ -119,12 +119,12 @@ export class DashboardScreen implements OnChanges {
 	/**
 	 * For each JS libraries linked with the project, create a script element with the URL of the library
 	 * and a callback which notify subscribers when the library is loaded.
+	 * Always clear the previously loaded libraries before adding new ones to handle widget execution result changes.
 	 */
 	public addExternalJSLibrariesToTheDOM(): void {
 		if (this.widgetExecutionResult()?.projectWidget) {
 			if (this.widgetExecutionResult().projectWidget.librariesNames) {
-				this.libraryService.numberOfExternalLibrariesToLoad =
-					this.widgetExecutionResult().projectWidget.librariesNames.length;
+				this.libraryService.init(this.widgetExecutionResult().projectWidget.librariesNames.length);
 
 				this.widgetExecutionResult().projectWidget.librariesNames.forEach((libraryName) => {
 					const script: HTMLScriptElement = document.createElement('script');
@@ -135,10 +135,7 @@ export class DashboardScreen implements OnChanges {
 
 					this.renderer.appendChild(this.externalJsLibrariesSpan.nativeElement, script);
 				});
-			}
-
-			// No library to load
-			else {
+			} else {
 				this.libraryService.emitAreJSScriptsLoaded(true);
 			}
 		}
@@ -171,5 +168,15 @@ export class DashboardScreen implements OnChanges {
 		});
 
 		return itemHaveBeenMoved;
+	}
+
+	/**
+	 * Get unique expression for tracking grid items.
+	 * Track all properties of the grid item to ensure it will be re-rendered if any property change.
+	 *
+	 * @param gridItem The grid item
+	 */
+	public getGridItemTrackExpression(gridItem: KtdGridLayoutItem): string {
+		return gridItem.id + '-' + gridItem.x + '-' + gridItem.y + '-' + gridItem.w + '-' + gridItem.h;
 	}
 }
