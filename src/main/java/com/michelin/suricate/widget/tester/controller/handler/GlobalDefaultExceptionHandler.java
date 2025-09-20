@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @Slf4j
 @RestControllerAdvice
 public class GlobalDefaultExceptionHandler {
+    private static final String LOG_MESSAGE = "An exception has occurred in the API controllers part";
 
     /**
      * Manage the API exception.
@@ -40,7 +41,7 @@ public class GlobalDefaultExceptionHandler {
      */
     @ExceptionHandler(ApiException.class)
     public ResponseEntity<ApiErrorDto> handleApiException(ApiException exception) {
-        log.debug("An exception has occurred in the API controllers part", exception);
+        log.error(LOG_MESSAGE, exception);
 
         return ResponseEntity.status(exception.getError().getStatus()).body(exception.getError());
     }
@@ -53,10 +54,24 @@ public class GlobalDefaultExceptionHandler {
      */
     @ExceptionHandler(NoSuchFileException.class)
     public ResponseEntity<ApiErrorDto> handleApiException(NoSuchFileException exception) {
-        log.debug("An exception has occurred in the API controllers part", exception);
+        log.error(LOG_MESSAGE, exception);
 
         return ResponseEntity.status(ApiErrorEnum.FILE_ERROR.getStatus())
                 .body(new ApiErrorDto(
                         String.format("The file %s does not exist", exception.getMessage()), ApiErrorEnum.FILE_ERROR));
+    }
+
+    /**
+     * Manage the default exception.
+     *
+     * @param exception the exception
+     * @return The related response entity
+     */
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ApiErrorDto> handleException(Exception exception) {
+        log.error(LOG_MESSAGE, exception);
+
+        return ResponseEntity.status(ApiErrorEnum.INTERNAL_SERVER_ERROR.getStatus())
+                .body(new ApiErrorDto(ApiErrorEnum.INTERNAL_SERVER_ERROR));
     }
 }
