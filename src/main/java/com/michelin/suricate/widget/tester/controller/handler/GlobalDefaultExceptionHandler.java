@@ -53,7 +53,7 @@ public class GlobalDefaultExceptionHandler {
      * @return The exception as Response Entity
      */
     @ExceptionHandler(NoSuchFileException.class)
-    public ResponseEntity<ApiErrorDto> handleApiException(NoSuchFileException exception) {
+    public ResponseEntity<ApiErrorDto> handleNoSuchFileException(NoSuchFileException exception) {
         log.error(LOG_MESSAGE, exception);
 
         return ResponseEntity.status(ApiErrorEnum.FILE_ERROR.getStatus())
