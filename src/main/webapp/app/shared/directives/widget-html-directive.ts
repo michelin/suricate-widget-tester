@@ -4,8 +4,7 @@ import { Directive, ElementRef, inject, OnInit } from '@angular/core';
  * Directive for Widget's JS scripts
  */
 @Directive({
-	selector: '[widgetHtmlDirective]',
-	standalone: true
+	selector: '[widgetHtmlDirective]'
 })
 export class WidgetHtmlDirective implements OnInit {
 	private readonly elementRef = inject(ElementRef);

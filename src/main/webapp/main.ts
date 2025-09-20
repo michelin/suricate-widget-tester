@@ -1,14 +1,6 @@
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { enableProdMode } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 
 import { App } from './app/app';
-import { environment } from './environments/environment';
+import { appConfig } from './app/app.config';
 
-if (environment.production) {
-	enableProdMode();
-}
-
-bootstrapApplication(App, {
-	providers: [provideHttpClient(withInterceptorsFromDi())]
-}).catch((err) => console.error(err));
+bootstrapApplication(App, appConfig).catch((err) => console.error(err));
