@@ -30,7 +30,7 @@
         <jacoco-maven-plugin.version>0.8.13</jacoco-maven-plugin.version>
         <jasypt-spring-boot-starter.version>3.0.5</jasypt-spring-boot-starter.version>
         <java.version>21</java.version>
-        <lombok.version>1.18.40</lombok.version>
+        <lombok.version>1.18.42</lombok.version>
         <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
         <mockito.version>5.2.0</mockito.version>
         <mustache.version>0.9.14</mustache.version>
