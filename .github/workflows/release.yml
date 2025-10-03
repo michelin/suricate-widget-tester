@@ -36,7 +36,7 @@ jobs:
         uses: mikepenz/release-changelog-builder-action@v5
         id: build_changelog
         with:
-          configuration: 'changelog-builder.json'
+          configuration: changelog-builder.json
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -45,7 +45,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           body: ${{ steps.build_changelog.outputs.changelog }}
-          artifacts: 'target/suricate-widget-tester.jar'
+          artifacts: target/suricate-widget-tester.jar
           draft: true
           prerelease: true
           allowUpdates: true
