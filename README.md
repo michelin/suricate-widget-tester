@@ -29,7 +29,7 @@ Build and validate your Suricate widgets in a sandboxed setup before integrating
 
 ## Download
 
-You can download the Suricate Widget Tester as a JAR from the [GitHub releases page](https://github.com/michelin/suricate-widget-tester/releases) (requires Java 21).
+You can download the Suricate Widget Tester as a JAR from the [GitHub releases page](https://github.com/michelin/suricate-widget-tester/releases) (requires Java 25).
 
 ## Install
 
